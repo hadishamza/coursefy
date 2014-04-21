@@ -1,0 +1,1706 @@
+{
+  "collection1": [
+    {
+      "period": "",
+      "code": "",
+      "name": "Kursens benämning",
+      "credits": "",
+      "level": "Nivå/ Djup"
+    },
+    {
+      "period": "11",
+      "code": "1DT051obl",
+      "name": {
+        "text": "Introduktion till informationsteknologi",
+        "href": "http://www.uu.se/node701?kKod=1DT051"
+      },
+      "credits": "10",
+      "level": "G1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Course name",
+      "credits": "",
+      "level": "Level"
+    },
+    {
+      "period": "",
+      "code": "1MA010",
+      "name": {
+        "text": "Baskurs i matematik",
+        "href": "http://www.uu.se/node701?kKod=1MA010"
+      },
+      "credits": "5",
+      "level": "G1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Information Technology",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "12",
+      "code": "1DL201",
+      "name": {
+        "text": "Programkonstruktion och datastrukturer, del 1",
+        "href": "http://www.uu.se/node701?kKod=1DL201"
+      },
+      "credits": "(10)",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Basic Course in Mathematic",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1MA004",
+      "name": {
+        "text": "Algebra I",
+        "href": "http://www.uu.se/node701?kKod=1MA004"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "13",
+      "code": "1DL201",
+      "name": "Programkonstruktion och datastrukturer, del 2",
+      "credits": "(10) 20",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1MA013",
+      "name": {
+        "text": "Envariabelanalys",
+        "href": "http://www.uu.se/node701?kKod=1MA013"
+      },
+      "credits": "(5)",
+      "level": "G1F"
+    },
+    {
+      "period": "14",
+      "code": "1DT093",
+      "name": {
+        "text": "Datorarkitektur",
+        "href": "http://www.uu.se/node701?kKod=1DT093"
+      },
+      "credits": "10",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Program Design and Data Structures",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Algebra I",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1MA013",
+      "name": {
+        "text": "Envariabelanalys",
+        "href": "http://www.uu.se/node701?kKod=1MA013"
+      },
+      "credits": "(5) 10",
+      "level": "G1F"
+    },
+    {
+      "period": "21",
+      "code": "1DL221",
+      "name": {
+        "text": "Imperativ och objektorienterad programmeringsmetodik, del 1",
+        "href": "http://www.uu.se/node701?kKod=1DL221"
+      },
+      "credits": "(10)",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Program Design and Data Structures",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "22",
+      "code": "1MA013",
+      "name": {
+        "text": "Envariabelanalys",
+        "href": "http://www.uu.se/utbildning/utbildningar/selma/kursplan/?kpid=14377&lasar=11/12"
+      },
+      "credits": "(5)",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1MA009",
+      "name": {
+        "text": "Automatateori",
+        "href": "http://www.uu.se/node701?kKod=1MA009"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Single Variable Calculus",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Kursens benämning",
+      "credits": "",
+      "level": "Nivå/ Djup"
+    },
+    {
+      "period": "23",
+      "code": "1MA013",
+      "name": "Envariabelanalys, forts.",
+      "credits": "(5) 10",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Course name",
+      "credits": "",
+      "level": "Level"
+    },
+    {
+      "period": "",
+      "code": "1DL221",
+      "name": "Imperativ och objektorienterad programmeringsmetodik, del 2",
+      "credits": "(10) 20",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Computer Architecture",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "24",
+      "code": "1MS005",
+      "name": {
+        "text": "Sannolikhet och statistik",
+        "href": "http://www.uu.se/node701?kKod=1MS005"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1MA024",
+      "name": {
+        "text": "Linjär algebra II",
+        "href": "http://www.uu.se/node701?kKod=1MA024"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1DT089",
+      "name": {
+        "text": "Operativsystem och multicoreprogrammering, del 1",
+        "href": "http://www.uu.se/node701?kKod=1DT089"
+      },
+      "credits": "5",
+      "level": "G2F"
+    },
+    {
+      "period": "31",
+      "code": "1DT052",
+      "name": {
+        "text": "Datakommunikation I",
+        "href": "http://www.uu.se/node701?kKod=1DT052"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1DT089",
+      "name": {
+        "text": "Operativsystem och multicoreprogrammering, del 2",
+        "href": "http://www.uu.se/node701?kKod=1DT089"
+      },
+      "credits": "(10) 15",
+      "level": "G2F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Imperative and Object-oriented Methods of Programming",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "32",
+      "code": "1TE682",
+      "name": {
+        "text": "Signaler och inbyggda system, del 1",
+        "href": "http://www.uu.se/node701?kKod=1TE682"
+      },
+      "credits": "(5)",
+      "level": "G2F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Automata Theory",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1TD394",
+      "name": {
+        "text": "Beräkningsvetenskap DV",
+        "href": "http://www.uu.se/utbildning/utbildningar/selma/kursplan/?kpid=23190&lasar=11/12"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1MA034",
+      "name": {
+        "text": "Transformmetoder",
+        "href": "http://www.uu.se/node701?kKod=1MA034"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "33",
+      "code": "1TE682",
+      "name": {
+        "text": "Signaler och inbyggda system",
+        "href": "http://www.uu.se/node701?kKod=1TE682"
+      },
+      "credits": "(5)10",
+      "level": "G2F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Single Variable Calculus",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1MA012",
+      "name": {
+        "text": "Diskret matematik",
+        "href": "http://www.uu.se/utbildning/utbildningar/selma/kursplan/?kpid=22851&lasar=11/12"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Imperative and Object-oriented Methods of Programming",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "2FE025",
+      "name": {
+        "text": "Företagsekonomi, baskurs A/B",
+        "href": "http://www.uu.se/node701?kKod=2FE025"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "34",
+      "code": "1DT350",
+      "name": {
+        "text": "Självständigt arbete i informationsteknologiOBL",
+        "href": "http://www.uu.se/node701?kKod=1DT350"
+      },
+      "credits": "15",
+      "level": "G2E"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Kursens benämning",
+      "credits": "",
+      "level": "Nivå/ Djup"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Single Variable Calculus",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1MD016",
+      "name": {
+        "text": "Människa-datorinteraktion",
+        "href": "http://www.uu.se/node701?kKod=1MD016"
+      },
+      "credits": "5",
+      "level": "G1N"
+    },
+    {
+      "period": "",
+      "code": "1DL300",
+      "name": {
+        "text": "Databasteknik I",
+        "href": "http://www.uu.se/node701?kKod=1DL300"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Linear Algebra II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "41",
+      "code": "41",
+      "name": "1DL250",
+      "credits": "1DL250",
+      "level": {
+        "text": "Programvaruteknik",
+        "href": "http://www.uu.se/node701?kKod=1DL250"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Operating Systems and Multicore Programming",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1DT002",
+      "name": {
+        "text": "Uppsatsmetodik OBL",
+        "href": "http://www.uu.se/node701?kKod=1DT002"
+      },
+      "credits": "5",
+      "level": "G2F"
+    },
+    {
+      "period": "",
+      "code": "1RT155",
+      "name": {
+        "text": "Modellelering av dynamiska systemB",
+        "href": "http://www.uu.se/node701?kKod=1RT155"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1DT092",
+      "name": {
+        "text": "Internationell mjukvaruutveckling, projekt",
+        "href": "http://www.uu.se/node701?kKod=1DT092"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Probability and Statistics",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "41-42",
+      "code": "41-42",
+      "name": "1DT012",
+      "credits": "1DT012",
+      "level": {
+        "text": "IT i samhället",
+        "href": "http://www.uu.se/node701?kKod=1DT012"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Process Oriented Programming",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Computer Networks",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "42",
+      "code": "42",
+      "name": "1DL321",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Scientific Computing DV",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1DT004",
+      "credits": "1DT004",
+      "level": {
+        "text": "Realtidssystem",
+        "href": "http://www.uu.se/node701?kKod=1DT004"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Transform Methods",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1TD389",
+      "credits": "1TD389",
+      "level": {
+        "text": "Vetenskaplig visualisering",
+        "href": "http://www.uu.se/node701?kKod=1TD389"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1TD395",
+      "credits": "1TD395",
+      "level": {
+        "text": "Beräkningsvetenskap II",
+        "href": "http://www.uu.se/node701?kKod=1TD395"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Distributed systems with project",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1MD013",
+      "credits": "1MD013",
+      "level": {
+        "text": "Kognitiv psykologi",
+        "href": "http://www.uu.se/node701?kKod=1MD013"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Kurskod",
+      "credits": "",
+      "level": "Kursens benämning"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Discrete Mathematics",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Business studies, Basic Course A/B",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1DT061",
+      "credits": "1DT061",
+      "level": {
+        "text": "Datavetenskapens didaktik",
+        "href": "http://www.uu.se/node701?kKod=1DT061"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1DL440",
+      "credits": "1DL440",
+      "level": {
+        "text": "Villkorsprogrammering",
+        "href": "http://www.uu.se/node701?kKod=1DL440"
+      }
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Distributed systems with project",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1DT024",
+      "credits": "1DT024",
+      "level": {
+        "text": "Avancerad datorarkitektur",
+        "href": "http://www.uu.se/node701?kKod=1DT024"
+      }
+    },
+    {
+      "period": "",
+      "code": "1DL420",
+      "name": {
+        "text": "Kompilatorteknik projekt",
+        "href": "http://www.uu.se/node701?kKod=1DL420"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Human Computer Interaction",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1TE663",
+      "name": {
+        "text": "Programmering av enkapseldatorer",
+        "href": "http://www.uu.se/node701?kKod=1TE663"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "44",
+      "code": "1DL460",
+      "name": {
+        "text": "Informationsutvinning II",
+        "href": "http://www.uu.se/node701?kKod=1DL460"
+      },
+      "credits": "5",
+      "level": "A1F"
+    },
+    {
+      "period": "",
+      "code": "1MA021",
+      "name": {
+        "text": "Komplex analys, allmän kurs",
+        "href": "http://www.uu.se/node701?kKod=1MA021"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Database Design",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1DT074",
+      "name": {
+        "text": "Datakommunikation II",
+        "href": "http://www.uu.se/node701?kKod=1DT074"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1DT072",
+      "name": {
+        "text": "Säkra datorsystem I",
+        "href": "http://www.uu.se/node701?kKod=1DT072"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Independent Project in Computer and Information Engineering",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1MA017",
+      "name": {
+        "text": "Flervariabelanalys, allmän kurs",
+        "href": "http://www.uu.se/node701?kKod=1MA017"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1TD480",
+      "name": {
+        "text": "Programmering av parallelldatorer",
+        "href": "http://www.uu.se/node701?kKod=1TD480"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Technical writing and presentation techniques",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1TD396",
+      "name": {
+        "text": "Datoriserad bildanalys I",
+        "href": "http://www.uu.se/node701?kKod=1TD396"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Modelling of Dynamic Systems",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1MD002",
+      "name": {
+        "text": "Gränssnittsprogrammering I",
+        "href": "http://www.uu.se/node701?kKod=1MD002"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1MD001",
+      "name": {
+        "text": "Avancerad interaktionsdesign",
+        "href": "http://www.uu.se/node701?kKod=1MD001"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Global Software Product Development",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1MD000",
+      "name": {
+        "text": "Användarcentrerad systemdesign",
+        "href": "http://www.uu.se/node701?kKod=1MD000"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "43 -",
+      "code": "1DL520",
+      "name": {
+        "text": "Kompilatorteknik II",
+        "href": "http://www.uu.se/node701?kKod=1DL520"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1TD204",
+      "name": {
+        "text": "Programvaruarkitektur med Java",
+        "href": "http://www.uu.se/node701?kKod=1TD204"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1TD388",
+      "name": {
+        "text": "Datorgrafik",
+        "href": "http://www.uu.se/node701?kKod=1TD388"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1DT073",
+      "name": {
+        "text": "Säkra datorsystem II",
+        "href": "http://www.uu.se/node701?kKod=1DT073"
+      },
+      "credits": "5",
+      "level": "A1F"
+    },
+    {
+      "period": "",
+      "code": "1DT082",
+      "name": {
+        "text": "Datakommunikation III",
+        "href": "http://www.uu.se/node701?kKod=1DT082"
+      },
+      "credits": "5",
+      "level": "A1F"
+    },
+    {
+      "period": "51",
+      "code": "1RT495",
+      "name": {
+        "text": "Reglerteknik II",
+        "href": "http://www.uu.se/node701?kKod=1RT495"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1DT075",
+      "name": {
+        "text": "Kryptologi",
+        "href": "http://www.uu.se/node701?kKod=1DT075"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1TD351",
+      "name": {
+        "text": "Högprestandaberäkningar och programmering",
+        "href": "http://www.uu.se/node701?kKod=1TD351"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1DT092",
+      "name": {
+        "text": "Internationell mjukvaruutveckling, projekt",
+        "href": "http://www.uu.se/node701?kKod=1DT092"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": {
+        "text": "Databasteknik II",
+        "href": "http://www.uu.se/node701?kKod=1DL400"
+      },
+      "credits": "",
+      "level": "A1N"
+    },
+    {
+      "period": "52",
+      "code": "1RT911",
+      "name": {
+        "text": "Inbyggda styrsystem, projekt",
+        "href": "http://www.uu.se/node701?kKod=1RT911"
+      },
+      "credits": "15",
+      "level": "A1F"
+    },
+    {
+      "period": "",
+      "code": "1MD003",
+      "name": {
+        "text": "Gränssnittsprogrammering II",
+        "href": "http://www.uu.se/node701?kKod=1MD003"
+      },
+      "credits": "5",
+      "level": "A1F"
+    },
+    {
+      "period": "",
+      "code": "1MD004",
+      "name": {
+        "text": "IT, etik och organisation",
+        "href": "http://www.uu.se/node701?kKod=1MD004"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1MD017",
+      "name": {
+        "text": "IT-system och människor i samspel",
+        "href": "http://www.uu.se/node701?kKod=1MD017"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "51-52",
+      "code": "1DT065",
+      "name": {
+        "text": "Projekt IT",
+        "href": "http://www.uu.se/node701?kKod=1DT065"
+      },
+      "credits": "30",
+      "level": "A1F"
+    },
+    {
+      "period": "44",
+      "code": "",
+      "name": "Compiler Design II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1DT071",
+      "name": {
+        "text": "Maskininlärning",
+        "href": "http://www.uu.se/node701?kKod=1DT071"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "51-52",
+      "code": "1DT061",
+      "name": {
+        "text": "Datavetenskapens didaktik",
+        "href": "http://www.uu.se/node701?kKod=1DT061"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "1DL410",
+      "name": {
+        "text": "Storskalig programmering",
+        "href": "http://www.uu.se/node701?kKod=1DL410"
+      },
+      "credits": "10",
+      "level": "A1N"
+    },
+    {
+      "period": "53-54",
+      "code": "1DT960",
+      "name": {
+        "text": "Examensarbete i informationsteknologi",
+        "href": "http://www.uu.se/node701?kKod=1DT960"
+      },
+      "credits": "30",
+      "level": "A2E"
+    },
+    {
+      "period": "",
+      "code": "1DT077",
+      "name": {
+        "text": "Trådlös kommunikation och inbyggda system",
+        "href": "http://www.uu.se/node701?kKod=1DT077"
+      },
+      "credits": "10",
+      "level": "A1F"
+    },
+    {
+      "period": "",
+      "code": "1DT056",
+      "name": {
+        "text": "Programmering av inbyggda system",
+        "href": "http://www.uu.se/node701?kKod=1DT056"
+      },
+      "credits": "10",
+      "level": "A1F"
+    },
+    {
+      "period": "1,3 em/ kväll",
+      "code": "2FE105",
+      "name": {
+        "text": "Entrepreneurship",
+        "href": "http://www.uu.se/node701?kKod=2FE105"
+      },
+      "credits": "7,5",
+      "level": "G1N"
+    },
+    {
+      "period": "3 dag",
+      "code": "1TE000",
+      "name": {
+        "text": "Teknikbaserat entreprenörskap",
+        "href": "http://www.uu.se/node701?kKod=1TE000"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "1 dag",
+      "code": "1TE061",
+      "name": {
+        "text": "Industriell projektledning",
+        "href": "http://www.uu.se/node701?kKod=1TE061"
+      },
+      "credits": "5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1MA170",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "1/3 kväll",
+      "code": "5EN360",
+      "name": {
+        "text": "Engelska för teknat-studenter",
+        "href": "http://www.uu.se/node701?kKod=5EN360"
+      },
+      "credits": "7,5",
+      "level": "G1F"
+    },
+    {
+      "period": "",
+      "code": "1TE651",
+      "name": {
+        "text": "Signalbehandling, del 1",
+        "href": "http://www.uu.se/node701?kKod=1TE651"
+      },
+      "credits": "(5)",
+      "level": "A1N"
+    },
+    {
+      "period": "51-54",
+      "code": "",
+      "name": "Entreprenörsskolan i Uppsalaentr",
+      "credits": "60",
+      "level": "A1F"
+    },
+    {
+      "period": "",
+      "code": "1TD397",
+      "name": {
+        "text": "Beräkningsvetenskap III",
+        "href": "http://www.uu.se/node701?kKod=1TD397"
+      },
+      "credits": "5",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1FA326",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1DT059",
+      "name": {
+        "text": "Modellbaserad utveckling av inbyggd programvara",
+        "href": "http://www.uu.se/node701?kKod=1DT059"
+      },
+      "credits": "10",
+      "level": "A1F"
+    },
+    {
+      "period": "3 kväll",
+      "code": "5LV280",
+      "name": {
+        "text": "Retorik för naturvetare och tekniker",
+        "href": "http://www.uu.se/node701?kKod=5LV280"
+      },
+      "credits": "7,5",
+      "level": "G2F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1RT485",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1TE651",
+      "name": {
+        "text": "Signalbehandling, del 2",
+        "href": "http://www.uu.se/node701?kKod=1TE651"
+      },
+      "credits": "(5) 10",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1TD184",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1TD307",
+      "name": {
+        "text": "Projekt i tillämpad beräkningsvetenskap",
+        "href": "http://www.uu.se/node701?kKod=1TD307"
+      },
+      "credits": "15",
+      "level": "A1F"
+    },
+    {
+      "period": "",
+      "code": "1MD021",
+      "name": {
+        "text": "Användbarhet i praktiken",
+        "href": "http://www.uu.se/node701?kKod=1MD021"
+      },
+      "credits": "15",
+      "level": "A1N"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1MD012",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1DL360",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1DL241",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1MD020",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "1DL231",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Software Engineering"
+    },
+    {
+      "period": "",
+      "code": "1DT081",
+      "name": {
+        "text": "Projektarbete i informationsteknologi",
+        "href": "http://www.uu.se/node701?kKod=1DT081"
+      },
+      "credits": "5",
+      "level": "G2F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Database Design II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "1DT088",
+      "name": {
+        "text": "Projektarbete i informationsteknologi",
+        "href": "http://www.uu.se/node701?kKod=1DT088"
+      },
+      "credits": "10",
+      "level": "G2F"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Compiler Design Project",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Real Time Systems"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Microcontroller Programming",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Complex Analysis",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Scientific Visualization"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Computer Networks II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Scientific Computing II"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Secure Computer Systems I",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Kursens benämning",
+      "credits": "",
+      "level": "Nivå/ Djup"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Course name",
+      "credits": "",
+      "level": "Level"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Several Variabel Calculus, limited version",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Cognitive Psychology"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Programming of Parallel Computers",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Computer Assisted Image Analysis",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "User Interface Programming I",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "IT and Society"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Advanced Interaction Design",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "User Centred Systems Design",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Computing Education Research"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Data Mining II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Software Architecture with Java",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Constraint Programming"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Computer Graphics",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Secure Computer Systems II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": "Advanced Computer Architecture"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Kursens benämning",
+      "credits": "",
+      "level": "Nivå/Djup"
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Computer Networks III",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Cryptology",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "High Performance Computing and Programming",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Global Software Product Development",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "User Interface Programming II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "IT, ethics and organization",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "IT-systems and Human Factors Integration",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Machine learning",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Large Scale Programming",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Wireless Communication and Networked embedded systems",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Programming embedded systems",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Automatic Control II",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Signal Processing",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Scientific Computing III",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Model Based Design for Embedded Software",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Embedded Control Systems, Project",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Signal Processing",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Project in Computational Science",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Contextual Usability",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Project IT",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Computing Education Research",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "Degree Project in Computer and Information Engineering",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "School of Entrepreneurship in Uppsala",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    },
+    {
+      "period": "",
+      "code": "",
+      "name": "",
+      "credits": "",
+      "level": ""
+    }
+  ]
+}
