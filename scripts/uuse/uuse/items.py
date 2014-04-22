@@ -8,6 +8,9 @@ from scrapy.item import Item, Field
 class UuItem(Item):
     # define the fields for your item here like:
     # name = Field()
-    title = Field()
-    link = Field()
-    desc = Field()
+    period = Field()
+    code = Field()
+    name = Field()
+    credits = Field()
+    level = Field()
+    
