@@ -53,3 +53,84 @@ CREATE TABLE auth_cas(
     renew CHAR(1)
 );
 success!
+timestamp: 2014-04-29T15:35:07.632000
+CREATE TABLE institution(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-04-29T15:35:09.014000
+CREATE TABLE inriktning(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-04-29T15:35:10.182000
+CREATE TABLE samlasning(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-04-29T15:35:11.117000
+CREATE TABLE larare(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-04-29T15:35:12.188000
+CREATE TABLE niva(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-04-29T15:35:12.402000
+CREATE TABLE djup(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-04-29T15:40:59.043000
+CREATE TABLE program(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-04-29T16:02:06.704000
+CREATE TABLE institution_kursplan(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    institution INTEGER NOT NULL,
+    kursplan INTEGER NOT NULL
+);
+success!
+timestamp: 2014-04-29T16:02:07.003000
+CREATE TABLE larare_kurstillfälle(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    larare INTEGER NOT NULL,
+    kurstillfalle INTEGER NOT NULL
+);
+success!
+timestamp: 2014-04-29T16:02:07.700000
+CREATE TABLE studieplan(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023),
+    program INTEGER
+);
+success!
+timestamp: 2014-04-29T16:02:07.953000
+CREATE TABLE kursegenskap(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023),
+    varde INTEGER,
+    vardenamn CHAR(255),
+    vardebeskrivning CHAR(1023)
+);
+success!
