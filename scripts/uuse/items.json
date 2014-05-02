@@ -19,6 +19,8 @@
 {"credits": "5", "level": "G1F", "code": "1TD394", "period": "31", "name": "Ber\u00e4kningsvetenskap"},
 {"credits": "5", "level": "G1F", "code": "1MA034", "period": "31", "name": "Transformmetoder"},
 {"credits": "(5)", "level": "G2F", "code": "1TE682", "period": "32", "name": "Signaler och inbyggda system"},
+{"credits": "5", "level": "G1F", "code": "1MA012", "period": "32", "name": "Diskret matematik"},
+{"credits": "5", "level": "G1F", "code": "2FE025", "period": "32", "name": "F\u00f6retagsekonomi, baskurs A/B"},
 {"credits": "(5)10", "level": "G2F", "code": "1TE682", "period": "33", "name": "Signaler och inbyggda system"},
 {"credits": "5", "level": "G1N", "code": "1MD016", "period": "33", "name": "M\u00e4nniska-datorinteraktion"},
 {"credits": "5", "level": "G1F", "code": "1DL300", "period": "33", "name": "Databasteknik I"},
