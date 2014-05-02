@@ -6,33 +6,72 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <style>
+        
+
+         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+         <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+<style>
             body {
                 padding-top: 50px;
                 padding-bottom: 20px;
             }
         </style>
 
-     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+        <style type="text/css">
+        .chart {
+            shape-rendering: crispEdges;
+        }
 
-     <script src="//d3js.org/d3.v3.min.js" charset="utf-8"></script>
-     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-     <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+        .mini text {
+            font: 9px sans-serif;   
+        }
+
+        .main text {
+            font: 12px sans-serif;  
+        }
+
+        .miniItem0 {
+            fill: darksalmon;
+            stroke-width: 6;    
+        }
+
+        .miniItem1 {
+            fill: darkolivegreen;
+            fill-opacity: .7;
+            stroke-width: 6;    
+        }
+
+        .miniItem2 {
+            fill: slategray;
+            fill-opacity: .7;
+            stroke-width: 6;    
+        }
+
+        .brush .extent {
+            stroke: gray;
+            fill: dodgerblue;
+            fill-opacity: .365;
+        }
+        </style>
+         <script src="//d3js.org/d3.v2.min.js" charset="utf-8"></script>
+         
+         
+         <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+         <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
     </head>
     <body>
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#">Coursefy</a>
+        <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Coursefy</a>
+            </div>
         </div>
-      </div>
     </div>
     {{include}}
     <div class="container">

@@ -1,9 +1,43 @@
 {{extend 'layout.html'}}
-<!-- Main jumbotron for a primary marketing message or call to action -->
-<div class="jumbotron">
-  <div class="container">
+<style>
+.container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+td {
+    background: purple;
+    color:white;
+}
+</style>
+
+<div class="container">
     <h1>Hello, world!</h1>
-    <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-    <p><a class="btn btn-primary btn-lg" role="button">Learn more &raquo;</a></p>
-  </div>
+    <h3>Three equal columns</h3>
+    <p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices, tablets and below, the columns will automatically stack.</p>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Period 1</th>
+                    <th>Period 2</th>
+                    <th>Period 3</th>
+                    <th>Period 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Baskurs i Matematik</td>
+                    <td></td>
+                    <td colspan="2">Envariabelsanalys</td>
+                    
+                </tr>
+                <tr>
+                    <td colspan="2">Programmeringskonstruktion och datastrukter</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
