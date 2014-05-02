@@ -115,5 +115,5 @@ db.define_table('overlappning',
 
 db.define_table('omradesklassningar', 
                 Field('kursplan', 'reference kursplan', notnull = True), 
-                Field('omradesklassning', 'omradesklassning', notnull = True), 
+                Field('omradesklassning', 'reference omradesklassning', notnull = True), 
                 Field('djup', 'reference djup', notnull = True))
