@@ -158,3 +158,81 @@ CREATE TABLE betygsskala(
     beskrivning CHAR(1023)
 );
 success!
+timestamp: 2014-05-02T12:09:28.815000
+CREATE TABLE kurstillfalle(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kursplan INTEGER NOT NULL,
+    anmalningskod CHAR(255),
+    fart INTEGER,
+    larare INTEGER
+);
+success!
+timestamp: 2014-05-02T12:09:28.858000
+CREATE TABLE perioder(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kurstillfalle INTEGER REFERENCES kurstillfalle (id) ON DELETE CASCADE,
+    period INTEGER NOT NULL
+);
+success!
+timestamp: 2014-05-02T12:09:28.920000
+CREATE TABLE kursplan(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    poang INTEGER,
+    kurskod CHAR(255),
+    beslutsdatum DATE,
+    behorighet CHAR(255),
+    niva INTEGER,
+    betygsskala INTEGER,
+    galler_fran DATE,
+    institution INTEGER,
+    mal CHAR(1023),
+    innehall CHAR(1023),
+    undervisning CHAR(1023),
+    examination CHAR(1023),
+    kurslitteratur CHAR(1023)
+);
+success!
+timestamp: 2014-05-02T12:09:28.950000
+CREATE TABLE kurstillfalle_studieplan(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    studieplan INTEGER REFERENCES studieplan (id) ON DELETE CASCADE,
+    kurstillfalle INTEGER REFERENCES kurstillfalle (id) ON DELETE CASCADE,
+    obligatorisk INTEGER,
+    startperiod INTEGER,
+    inriktning INTEGER REFERENCES inriktning (id) ON DELETE CASCADE,
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-05-02T12:09:28.976000
+CREATE TABLE kursrelationer(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kursrelation INTEGER REFERENCES kursrelation (id) ON DELETE CASCADE,
+    kalla INTEGER REFERENCES kurstillfalle (id) ON DELETE CASCADE,
+    mal INTEGER REFERENCES kurstillfalle (id) ON DELETE CASCADE,
+    dubbelinriktning INTEGER
+);
+success!
+timestamp: 2014-05-02T12:09:29
+CREATE TABLE kursegenskaper(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kursegenskaper INTEGER REFERENCES kursegenskap (id) ON DELETE CASCADE,
+    kurstillfalle INTEGER REFERENCES kurstillfalle (id) ON DELETE CASCADE,
+    varde INTEGER
+);
+success!
+timestamp: 2014-05-02T12:09:29.033000
+CREATE TABLE samlasningar(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    samlasning INTEGER REFERENCES samlasning (id) ON DELETE CASCADE,
+    program INTEGER REFERENCES program (id) ON DELETE CASCADE,
+    kurstillfalle INTEGER REFERENCES kurstillfalle (id) ON DELETE CASCADE
+);
+success!
+timestamp: 2014-05-02T12:09:29.055000
+CREATE TABLE overlappning(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kursplan1 INTEGER REFERENCES kursplan (id) ON DELETE CASCADE,
+    kursplan2 INTEGER REFERENCES kursplan (id) ON DELETE CASCADE
+);
+success!
