@@ -90,7 +90,7 @@ db.define_table('kurstillfalle_studieplan',
                 Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
                 Field('obligatorisk', 'integer'), 
                 Field('startperiod', 'integer'), 
-                Field('inriktning', 'refenrece inriktning'), 
+                Field('inriktning', 'reference inriktning'), 
                 Field('beskrivning', 'string', length = 1023))
 
 db.define_table('kursrelationer', 
