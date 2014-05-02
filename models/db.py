@@ -54,11 +54,11 @@ db.define_table('kursrelation',
 
 db.define_table('omradesklassning', 
                 Field('namn', 'string', length = 255), 
-                Field('beskrivning', 'string', lenght = 1023))
+                Field('beskrivning', 'string', length = 1023))
 
 db.define_table('betygsskala', 
                 Field('namn', 'string', lenght = 255), 
-                Field('beskrivning', 'string' lenght = 1023))
+                Field('beskrivning', 'string' length = 1023))
 
 db.define_table('perioder', 
                 Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
