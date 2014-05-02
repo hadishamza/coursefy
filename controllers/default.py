@@ -58,7 +58,6 @@ def call():
     return service()
 
 
-@auth.requires_signature()
 def data():
     """
     http://..../[app]/default/data/tables
