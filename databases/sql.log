@@ -134,3 +134,4 @@ CREATE TABLE kursegenskap(
     vardebeskrivning CHAR(1023)
 );
 success!
+success!
