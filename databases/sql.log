@@ -236,3 +236,11 @@ CREATE TABLE overlappning(
     kursplan2 INTEGER REFERENCES kursplan (id) ON DELETE CASCADE
 );
 success!
+timestamp: 2014-05-02T15:16:59.126000
+CREATE TABLE omradesklassningar(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    kursplan INTEGER REFERENCES kursplan (id) ON DELETE CASCADE,
+    omradesklassning INTEGER REFERENCES omradesklassning (id) ON DELETE CASCADE,
+    djup INTEGER REFERENCES djup (id) ON DELETE CASCADE
+);
+success!
