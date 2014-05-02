@@ -60,6 +60,11 @@ db.define_table('betygsskala',
                 Field('namn', 'string', length = 255), 
                 Field('beskrivning', 'string', length = 1023))
 
+db.define_table('kurstillfalle', 
+                Field('kursplan', 'integer', notnull = True), 
+                Field('anmalningskod', 'string', length = 255), 
+                Field('fart', 'integer'), Field('larare', 'integer'))
+
 db.define_table('perioder', 
                 Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
                 Field('period', 'integer', notnull = True))
@@ -79,11 +84,6 @@ db.define_table('kursplan',
                 Field('undervisning', 'string', length = 1023), 
                 Field('examination', 'string', length = 1023), 
                 Field('kurslitteratur', 'string', length = 1023))
-
-db.define_table('kurstillfalle', 
-                Field('kursplan', 'integer', notnull = True), 
-                Field('anmalningskod', 'string', length = 255), 
-                Field('fart', 'integer'), Field('larare', 'integer'))
 
 db.define_table('kurstillfalle_studieplan', 
                 Field('studieplan', 'reference studieplan', notnull = True), 
