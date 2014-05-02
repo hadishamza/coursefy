@@ -8,6 +8,10 @@ db.define_table('institution_kursplan',
                 db.Field('institution', 'reference institution', notnull=True), #not null
                 db.Field('kursplan', 'integer',notnull=True)) #not null
 
+db.define_table('larare',
+                db.Field('namn', 'string', length=255),
+                db.Field('beskrivning', 'string', length=1023))
+
 db.define_table('larare_kurstillfälle',
                 db.Field('larare', 'reference larare', notnull=True),  #not null
                 db.Field('kurstillfalle', 'integer', notnull=True)) #not null
@@ -17,10 +21,6 @@ db.define_table('inriktning',
                 db.Field('beskrivning', 'string', length=1023))
 
 db.define_table('samlasning',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023))
-
-db.define_table('larare',
                 db.Field('namn', 'string', length=255),
                 db.Field('beskrivning', 'string', length=1023))
 
