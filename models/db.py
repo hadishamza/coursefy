@@ -54,35 +54,35 @@ db.define_table('kursrelation',
 
 db.define_table('omradesklassning', 
                 Field('namn', 'string', length = 255), 
-                Field('beskrivning', 'string', lenght = 1023))
+                Field('beskrivning', 'string', length = 1023))
 
 db.define_table('betygsskala', 
-                Field('namn', 'string', lenght = 255), 
-                Field('beskrivning', 'string' lenght = 1023))
+                Field('namn', 'string', length = 255), 
+                Field('beskrivning', 'string', length = 1023))
 
 db.define_table('perioder', 
                 Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
                 Field('period', 'integer', notnull = True))
 
 db.define_table('kursplan', 
-                Field('namn', 'string', lenght = 255), 
+                Field('namn', 'string', length = 255), 
                 Field('poang', 'integer'), 
-                Field('kurskod', 'string', lenght = 255), 
+                Field('kurskod', 'string', length = 255), 
                 Field('beslutsdatum', 'date'), 
-                Field('behorighet', 'string', lenght = 255), 
+                Field('behorighet', 'string', length = 255), 
                 Field('niva', 'integer'), 
                 Field('betygsskala', 'integer'), 
                 Field('galler_fran', 'date'), 
                 Field('institution', 'integer'), 
-                Field('mal', 'string', lenght = 1023), 
+                Field('mal', 'string', length = 1023), 
                 Field('innehall', 'string', length = 1023), 
-                Field('undervisning', 'string', lenght = 1023), 
-                Field('examination', 'string', lenght = 1023), 
-                Field('kurslitteratur', 'string', lenght = 1023))
+                Field('undervisning', 'string', length = 1023), 
+                Field('examination', 'string', length = 1023), 
+                Field('kurslitteratur', 'string', length = 1023))
 
 db.define_table('kurstillfalle', 
                 Field('kursplan', 'integer', notnull = True), 
-                Field('anmalningskod', 'string', lenght = 255), 
+                Field('anmalningskod', 'string', length = 255), 
                 Field('fart', 'integer'), Field('larare', 'integer'))
 
 db.define_table('kurstillfalle_studieplan', 
@@ -91,7 +91,7 @@ db.define_table('kurstillfalle_studieplan',
                 Field('obligatorisk', 'integer'), 
                 Field('startperiod', 'integer'), 
                 Field('inriktning', 'refenrece inriktning'), 
-                Field('beskrivning', 'string', lenght = 1023))
+                Field('beskrivning', 'string', length = 1023))
 
 db.define_table('kursrelationer', 
                 Field('kursrelation', 'reference kursrelation', notnull = True), 
