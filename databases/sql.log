@@ -135,3 +135,26 @@ CREATE TABLE kursegenskap(
 );
 success!
 success!
+success!
+success!
+timestamp: 2014-05-02T11:49:54.928000
+CREATE TABLE kursrelation(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-05-02T11:49:54.946000
+CREATE TABLE omradesklassning(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
+timestamp: 2014-05-02T11:49:54.965000
+CREATE TABLE betygsskala(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    namn CHAR(255),
+    beskrivning CHAR(1023)
+);
+success!
