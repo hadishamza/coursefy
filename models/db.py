@@ -61,8 +61,8 @@ db.define_table('betygsskala',
                 Field('beskrivning', 'string' lenght = 1023))
 
 db.define_table('perioder', 
-                Field('kurstillfalle', 'reference kurstillfalle'), 
-                Field('period', 'integer'))
+                Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
+                Field('period', 'integer', notnull = True))
 
 db.define_table('kursplan', 
                 Field('namn', 'string', lenght = 255), 
@@ -81,39 +81,39 @@ db.define_table('kursplan',
                 Field('kurslitteratur', 'string', lenght = 1023))
 
 db.define_table('kurstillfalle', 
-                Field('kursplan', 'integer'), 
+                Field('kursplan', 'integer', notnull = True), 
                 Field('anmalningskod', 'string', lenght = 255), 
                 Field('fart', 'integer'), Field('larare', 'integer'))
 
 db.define_table('kurstillfalle_studieplan', 
-                Field('studieplan', 'reference studieplan'), 
-                Field('kurstillfalle', 'reference kurstillfalle'), 
+                Field('studieplan', 'reference studieplan', notnull = True), 
+                Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
                 Field('obligatorisk', 'integer'), 
                 Field('startperiod', 'integer'), 
                 Field('inriktning', 'refenrece inriktning'), 
                 Field('beskrivning', 'string', lenght = 1023))
 
 db.define_table('kursrelationer', 
-                Field('kursrelation', 'reference kursrelation'), 
-                Field('kalla', 'reference kurstillfalle'), 
-                Field('mal', 'reference kurstillfalle'), 
+                Field('kursrelation', 'reference kursrelation', notnull = True), 
+                Field('kalla', 'reference kurstillfalle', notnull = True), 
+                Field('mal', 'reference kurstillfalle', notnull = True), 
                 Field('dubbelinriktning', 'integer'))
 
 db.define_table('kursegenskaper', 
-                Field('kursegenskaper', 'reference kursegenskap'), 
-                Field('kurstillfalle', 'reference kurstillfalle'),
+                Field('kursegenskaper', 'reference kursegenskap', notnull = True), 
+                Field('kurstillfalle', 'reference kurstillfalle', notnull = True),
                 Field('varde', 'integer'))
 
 db.define_table('samlasningar', 
-                Field('samlasning', 'reference samlasning'), 
-                Field('program', 'reference program'), 
-                Field('kurstillfalle', 'reference kurstillfalle'))
+                Field('samlasning', 'reference samlasning', notnull = True), 
+                Field('program', 'reference program', notnull = True), 
+                Field('kurstillfalle', 'reference kurstillfalle', notnull = True))
 
 db.define_table('overlappning', 
-                Field('kursplan1', 'reference kursplan'), 
-                Field('kursplan2', 'reference kursplan'))
+                Field('kursplan1', 'reference kursplan', notnull = True), 
+                Field('kursplan2', 'reference kursplan', notnull = True))
 
 db.define_table('omradesklassningar', 
-                Field('kursplan', 'reference kursplan'), 
-                Field('omradesklassning', 'omradesklassning'), 
-                Field('djup', 'reference djup'))
+                Field('kursplan', 'reference kursplan', notnull = True), 
+                Field('omradesklassning', 'omradesklassning', notnull = True), 
+                Field('djup', 'reference djup', notnull = True))
