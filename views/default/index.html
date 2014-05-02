@@ -11,12 +11,120 @@ td {
 }
 </style>
 
+<script type="text/javascript">
+// JSON DATA
+var data = 
+[{"credits": "10", "level": "G1N", "code": "1DT051", "period": "11", "name": "Introduktion till informationsteknologi"},
+{"credits": "5", "level": "G1N", "code": "1MA010", "period": "11", "name": "Baskurs i matematik"},
+{"credits": "(10)", "level": "G1F", "code": "1DL201", "period": "12", "name": "Programkonstruktion och datastrukturer"},
+{"credits": "5", "level": "G1F", "code": "1MA004", "period": "12", "name": "Algebra I"},
+{"credits": "(10) 20", "level": "G1F", "code": "1DL201", "period": "13", "name": "Programkonstruktion och datastrukturer"},
+{"credits": "(5)", "level": "G1F", "code": "1MA013", "period": "13", "name": "Envariabelanalys"},
+{"credits": "10", "level": "G1F", "code": "1DT093", "period": "14", "name": "Datorarkitektur "},
+{"credits": "(5) 10", "level": "G1F", "code": "1MA013", "period": "14", "name": "Envariabelanalys"},
+{"credits": "(10)", "level": "G1F", "code": "1DL221", "period": "21", "name": "Imperativ och objektorienterad programmeringsmetodik"},
+{"credits": "5", "level": "G1F", "code": "1MA025", "period": "21", "name": "Linj\u00e4r algebra och geometri I"},
+{"credits": "5", "level": "G1F", "code": "1DL500", "period": "22", "name": "Automater och logik i modellering av IT-system"},
+{"credits": "(10) 20", "level": "G1F", "code": "1DL221", "period": "22", "name": "Imperativ och objektorienterad programmeringsmetodik"},
+{"credits": "5", "level": "G1N", "code": "1MD016", "period": "23", "name": "M\u00e4nniska-datorinteraktion"},
+{"credits": "5", "level": "G1F", "code": "1MA024", "period": "23", "name": "Linj\u00e4r algebra II"},
+{"credits": "5", "level": "G1F", "code": "1DT044", "period": "23", "name": "Operativsystem I"},
+{"credits": "5", "level": "G1F", "code": "1MS005", "period": "24", "name": "Sannolikhet och statistik"},
+{"credits": "10", "level": "G1F", "code": "1TE717", "period": "24", "name": "Digitalteknik och elektronik"},
+{"credits": "5", "level": "G1F", "code": "1DT052", "period": "31", "name": "Datakommunikation I"},
+{"credits": "5", "level": "G1F", "code": "1TD394", "period": "31", "name": "Ber\u00e4kningsvetenskap"},
+{"credits": "5", "level": "G1F", "code": "1MA034", "period": "31", "name": "Transformmetoder"},
+{"credits": "(5)", "level": "G2F", "code": "1TE682", "period": "32", "name": "Signaler och inbyggda system"},
+{"credits": "5", "level": "G1F", "code": "1MA012", "period": "32", "name": "Diskret matematik"},
+{"credits": "5", "level": "G1F", "code": "2FE025", "period": "32", "name": "F\u00f6retagsekonomi, baskurs A/B"},
+{"credits": "(5)10", "level": "G2F", "code": "1TE682", "period": "33", "name": "Signaler och inbyggda system"},
+{"credits": "5", "level": "G1N", "code": "1MD016", "period": "33", "name": "M\u00e4nniska-datorinteraktion"},
+{"credits": "5", "level": "G1F", "code": "1DL300", "period": "33", "name": "Databasteknik I"},
+{"credits": "15", "level": "G2E", "code": "1DT350", "period": "34", "name": "Sj\u00e4lvst\u00e4ndigt arbete i informationsteknologi"},
+{"credits": "5", "level": "G2F", "code": "1DT002", "period": "Alt.", "name": "Uppsatsmetodik"},
+{"credits": "5", "level": "G1F", "code": "1RT155", "period": "Alt.", "name": "Modellelering av dynamiska system "},
+{"credits": "10", "level": "A1N", "code": "1DT092", "period": "Alt.", "name": "Internationell mjukvaruutveckling, projekt"}];
+</script>
+
+<script type="text/javascript">
+$( document ).ready(function() {
+    var $studyplans = $(".studyplan");
+
+    $studyplans.each(function(index, studyplan) {
+        populate_studyplan($(studyplan), data, index+1);
+    });
+
+    function populate_studyplan($studyplan, data, year) {
+        var $body = $();
+        var data_year = [];
+        data.forEach(function (course) {
+            var course_year = parseInt(course["period"].substring(0,1));
+            if (course_year === year) {
+                data_year.push(course);
+            }
+        });
+
+        var num_rows = find_rows_num(data_year, year);
+        var start_period = 1+(year*10);
+        for (var i = 0; i < num_rows; i++) {
+            var $tr = $("<tr>");
+            for (var period = start_period; period <= (start_period+3); period++) {
+                var $td = $("<td>");
+                for(var j = 0; j < data_year.length; j++) {
+                    var course = data_year[j];
+
+                    var course_period = parseInt(course["period"]);
+                    if (course_period === period) {
+                        data_year.splice(j, 1);
+                        $td.html(course["name"]);
+                        break;
+                    }
+                }
+                $tr.append($td);
+                $studyplan.append($tr);
+            }
+            
+        }
+    }
+
+    function find_rows_num(data, year) {
+        var prev_period = null;
+        var max_rows = 0;
+        var period_rows = 1;
+        data.forEach(function (course) {
+            //debugger;
+            var course_period = parseInt(course["period"].substring(1,2));
+            var course_year = parseInt(course["period"].substring(0,1));
+            if (year === course_year) {
+                if (course_period == prev_period) {
+                    period_rows++;
+                }
+                else {
+                    if (period_rows > max_rows) {
+                        max_rows = period_rows;
+                    }
+                    period_rows = 1;
+                }
+            }
+
+            prev_period = course_period;
+        });
+        return max_rows;
+    }
+    find_rows_num(data, 1);
+
+    function fill_out() {}
+    //populate_studyplan($studyplan, data);
+});
+
+</script>
+
 <div class="container">
     <h1>Hello, world!</h1>
     <h3>Three equal columns</h3>
     <p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices, tablets and below, the columns will automatically stack.</p>
     <div class="table-responsive">
-        <table class="table table-bordered">
+        <table class="studyplan table table-bordered">
             <thead>
                 <tr>
                     <th>Period 1</th>
@@ -26,17 +134,34 @@ td {
                 </tr>
             </thead>
             <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table class="studyplan table table-bordered">
+            <thead>
                 <tr>
-                    <td>Baskurs i Matematik</td>
-                    <td></td>
-                    <td colspan="2">Envariabelsanalys</td>
-                    
+                    <th>Period 1</th>
+                    <th>Period 2</th>
+                    <th>Period 3</th>
+                    <th>Period 4</th>
                 </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="table-responsive">
+        <table class="studyplan table table-bordered">
+            <thead>
                 <tr>
-                    <td colspan="2">Programmeringskonstruktion och datastrukter</td>
-                    <td></td>
-                    <td></td>
+                    <th>Period 1</th>
+                    <th>Period 2</th>
+                    <th>Period 3</th>
+                    <th>Period 4</th>
                 </tr>
+            </thead>
+            <tbody>
             </tbody>
         </table>
     </div>
