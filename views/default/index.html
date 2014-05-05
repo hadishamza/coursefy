@@ -8,12 +8,13 @@
 td {
     background: purple;
     color:white;
+    width: 25%;
 }
 </style>
 
 <script type="text/javascript">
 // JSON DATA
-var data = 
+var data =
 [{"credits": "10", "level": "G1N", "code": "1DT051", "period": "11", "name": "Introduktion till informationsteknologi"},
 {"credits": "5", "level": "G1N", "code": "1MA010", "period": "11", "name": "Baskurs i matematik"},
 {"credits": "(10)", "level": "G1F", "code": "1DL201", "period": "12", "name": "Programkonstruktion och datastrukturer"},
@@ -26,7 +27,6 @@ var data =
 {"credits": "5", "level": "G1F", "code": "1MA025", "period": "21", "name": "Linj\u00e4r algebra och geometri I"},
 {"credits": "5", "level": "G1F", "code": "1DL500", "period": "22", "name": "Automater och logik i modellering av IT-system"},
 {"credits": "(10) 20", "level": "G1F", "code": "1DL221", "period": "22", "name": "Imperativ och objektorienterad programmeringsmetodik"},
-{"credits": "5", "level": "G1N", "code": "1MD016", "period": "23", "name": "M\u00e4nniska-datorinteraktion"},
 {"credits": "5", "level": "G1F", "code": "1MA024", "period": "23", "name": "Linj\u00e4r algebra II"},
 {"credits": "5", "level": "G1F", "code": "1DT044", "period": "23", "name": "Operativsystem I"},
 {"credits": "5", "level": "G1F", "code": "1MS005", "period": "24", "name": "Sannolikhet och statistik"},
@@ -50,6 +50,8 @@ var data =
 $( document ).ready(function() {
     var $studyplans = $(".studyplan");
 
+    manage_data(data);
+
     $studyplans.each(function(index, studyplan) {
         populate_studyplan($(studyplan), data, index+1);
     });
@@ -69,21 +71,24 @@ $( document ).ready(function() {
         for (var i = 0; i < num_rows; i++) {
             var $tr = $("<tr>");
             for (var period = start_period; period <= (start_period+3); period++) {
-                var $td = $("<td>");
+                var $td = $("<td>").css('visibility', 'hidden');
                 for(var j = 0; j < data_year.length; j++) {
                     var course = data_year[j];
-
                     var course_period = parseInt(course["period"]);
                     if (course_period === period) {
                         data_year.splice(j, 1);
-                        $td.html(course["name"]);
+                        $td.css('visibility', 'visible').html(course["name"]);
+                        if (course.dup){
+                        	$td.attr('colspan', 2)
+                        	period++;
+                        }
                         break;
                     }
                 }
                 $tr.append($td);
                 $studyplan.append($tr);
             }
-            
+
         }
     }
 
@@ -113,7 +118,22 @@ $( document ).ready(function() {
     }
     find_rows_num(data, 1);
 
-    function fill_out() {}
+    function manage_data(data) {
+    	data.forEach(function (course){
+    		var accurence = 0;
+    		var course_code = course.code;
+    		for(var i = 0; i < data.length; i++){
+    			if(data[i].code == course_code){
+    				accurence++;
+    				if(accurence > 1){
+    					course.dup = true;
+    					data.splice(i, 1);
+    				}
+    			}
+    		}
+    		console.log(course.name + " accures " + accurence + " times");
+    	});
+    }
     //populate_studyplan($studyplan, data);
 });
 
