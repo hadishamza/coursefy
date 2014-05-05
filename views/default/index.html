@@ -98,7 +98,6 @@ $( document ).ready(function() {
         var max_rows = 0;
         var period_rows = 1;
         data.forEach(function (course) {
-            //debugger;
             var course_period = parseInt(course["period"].substring(1,2));
             var course_year = parseInt(course["period"].substring(0,1));
             if (year === course_year) {
@@ -120,18 +119,18 @@ $( document ).ready(function() {
 
     function manage_data(data) {
     	data.forEach(function (course){
-    		var accurence = 0;
+    		var occurrence = 0;
     		var course_code = course.code;
     		for(var i = 0; i < data.length; i++){
     			if(data[i].code == course_code){
-    				accurence++;
-    				if(accurence > 1){
+    				occurrence++;
+    				if(occurrence > 1){
     					course.dup = true;
     					data.splice(i, 1);
     				}
     			}
     		}
-    		console.log(course.name + " accures " + accurence + " times");
+    		console.log(course.name + " accures " + occurrence + " times");
     	});
     }
 });
