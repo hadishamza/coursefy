@@ -13,10 +13,10 @@ td {
     padding: 1px !important;
 }
 .course{
-	background-color: green;
-	width: 100%;
-	height: 100%;
-	display: block;
+    background-color: green;
+    width: 100%;
+    height: 100%;
+    display: block;
 }
 </style>
 
@@ -64,19 +64,20 @@ $( document ).ready(function() {
         populate_studyplan($(studyplan), data, index+1);
     });
 
-	$(".course").draggable({
-		snap: ".td_course",
-		snapMode: "inner",
-		cursor: "move",
-		cursorAt: {top: 25, left: 100 }
-	});
-	$( ".trash" ).droppable({
+    $(".course").draggable({
+        snap: ".td_course",
+        snapMode: "inner",
+        cursor: "move",
+        cursorAt: {top: 25, left: 100 }
+    });
+    $( ".trash" ).droppable({
       drop: function( event, ui ) {
           $(ui).draggable( "option", "cursor", "auto" );
           $(ui.draggable).remove();
       }
     });
 
+    /* Populate methods */
     function populate_studyplan($studyplan, data, year) {
         var $body = $();
         var data_year = [];
@@ -101,8 +102,8 @@ $( document ).ready(function() {
                         $td.css('visibility', 'visible').html("<div class='course'>" + course["name"] + "</div>");
                         //$div.html(course["name"]);
                         if (course.dup){
-                        	$td.attr('colspan', 2)
-                        	period++;
+                            $td.attr('colspan', 2)
+                            period++;
                         }
                         break;
                     }
@@ -139,27 +140,27 @@ $( document ).ready(function() {
     }
 
     function manage_data(data) {
-    	data.forEach(function (course){
-    		var occurrence = 0;
-    		var course_code = course.code;
-    		for(var i = 0; i < data.length; i++){
-    			if(data[i].code == course_code){
-    				occurrence++;
-    				if(occurrence > 1){
-    					course.dup = true;
-    					data.splice(i, 1);
-    				}
-    			}
-    		}
-    		console.log(course.name + " accures " + occurrence + " times");
-    	});
+        data.forEach(function (course){
+            var occurrence = 0;
+            var course_code = course.code;
+            for(var i = 0; i < data.length; i++){
+                if(data[i].code == course_code){
+                    occurrence++;
+                    if(occurrence > 1){
+                        course.dup = true;
+                        data.splice(i, 1);
+                    }
+                }
+            }
+            console.log(course.name + " accures " + occurrence + " times");
+        });
     }
 });
 
 </script>
 
 <div class="container">
-	<div class="trash" style="height: 100px; width: 100px; background-color: gray;"> TRASHCAN </div>
+    <div class="trash" style="height: 100px; width: 100px; background-color: gray;"> TRASHCAN </div>
     <h1>Studieplan för IT 2013/1014 (år 1-3)</h1>
     <div class="table-responsive">
         <h2>År 1</h2>
