@@ -56,13 +56,6 @@ var data =
 
 <script type="text/javascript">
 $( document ).ready(function() {
-    var $studyplans = $(".studyplan");
-
-    manage_data(data);
-
-    $studyplans.each(function(index, studyplan) {
-        populate_studyplan($(studyplan), data, index+1);
-    });
 
     $(".course").draggable({
         snap: ".td_course",
@@ -77,7 +70,17 @@ $( document ).ready(function() {
       }
     });
 
+
+
     /* Populate methods */
+    var $studyplans = $(".studyplan");
+
+    manage_data(data);
+
+    $studyplans.each(function(index, studyplan) {
+        populate_studyplan($(studyplan), data, index+1);
+    });
+
     function populate_studyplan($studyplan, data, year) {
         var $body = $();
         var data_year = [];
