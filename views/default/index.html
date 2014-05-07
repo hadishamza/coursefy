@@ -122,7 +122,9 @@ $( document ).ready(function() {
             var $tr = $("<tr></tr>");
             for (var period = start_period; period <= (start_period+3); period++) {
                 var $td = $("<td class='td_course'>");
-                var dup = false;
+                $td.data("y", i);
+                $td.data("x", $tr.children("td").length);
+                var dup;
                 for(var j = 0; j < data_year.length; j++) {
                     dup = false;
                     var course = data_year[j];
@@ -138,14 +140,16 @@ $( document ).ready(function() {
                             $td.children(".course").width("200%");
                             period++;
                         }
-                        $course.data("course", course);
+                        $course.data(course);
                         break;
                     }
                 }
-
                 $tr.append($td);
                 if (dup) {
-                    $tr.append($("<td class='td_course'></td>"));
+                    $fillTd = $("<td class='td_course'></td>");
+                    $fillTd.data("y", i);
+                    $fillTd.data("x", $tr.children("td").length);
+                    $tr.append($fillTd);
                 }
                 $studyplan.append($tr);
             }
