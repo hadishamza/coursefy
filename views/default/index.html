@@ -145,7 +145,7 @@ $( document ).ready(function() {
                     var course_period = parseInt(course["period"]);
                     if (course_period === period) {
                         data_year.splice(j, 1);
-                        $td.html("<div class='course'><div>" + course["code"] + " " + course["level"] +" <br>" + course["name"] + "</div></div>");
+                        $td.html("<div class='course'><div>" + course["code"] + " " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + "</div></div>");
                         var $course = $td.children(".course");
                         $course.addClass(course_class(course["code"]));
 
@@ -206,6 +206,7 @@ $( document ).ready(function() {
                     occurrence++;
                     if(occurrence > 1){
                         course.dup = true;
+                        course.credits = course.credits + " " + data[i].credits;
                         data.splice(i, 1);
                     }
                 }
