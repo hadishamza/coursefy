@@ -72,12 +72,25 @@ $( document ).ready(function() {
 
 
     /* Helper methods */
-    function spwan_row() {
-        $td = $("<td>").addClass("td_course");
-        $tr = $("<tr>");
-        $tr.append($td).append($td.clone()).append($td.clone()).append($td.clone());
+    function init_td(x, y, free) {
+        free = (typeof free === "undefined") ? true : free;
+        return {x: x,
+                y: y,
+                free: free};
+    }
+
+    function spwan_row(tr_length) {
+        var $tr = $("<tr>");
+        for (var i = 0; i < 4; i++) {
+            var $td = $("<td class='td_course'></td>");
+            var itd = init_td(i, tr_length);
+            $td.data(itd);
+            $tr.append($td);
+        }
         return $tr;
     }
+
+
 
     function course_class(course_code) {
         var typeClass;
@@ -118,12 +131,16 @@ $( document ).ready(function() {
 
         var num_rows = find_rows_num(data_year, year);
         var start_period = 1+(year*10);
-        for (var i = 0; i < num_rows; i++) {
+        var i;
+        for (i = 0; i < num_rows; i++) {
             var $tr = $("<tr></tr>");
             for (var period = start_period; period <= (start_period+3); period++) {
                 var $td = $("<td class='td_course'>");
-                $td.data("y", i);
-                $td.data("x", $tr.children("td").length);
+                debugger;
+                var itd = init_td($tr.children("td").length, i);
+
+                $td.data(itd);
+
                 var dup;
                 for(var j = 0; j < data_year.length; j++) {
                     dup = false;
@@ -140,21 +157,23 @@ $( document ).ready(function() {
                             $td.children(".course").width("200%");
                             period++;
                         }
+                        $td.data("free", false);
                         $course.data(course);
                         break;
                     }
                 }
+
                 $tr.append($td);
                 if (dup) {
                     $fillTd = $("<td class='td_course'></td>");
-                    $fillTd.data("y", i);
-                    $fillTd.data("x", $tr.children("td").length);
+                    var itd = init_td($tr.children("td").length, i, false);
+                    $fillTd.data(itd);
                     $tr.append($fillTd);
                 }
                 $studyplan.append($tr);
             }
         }
-        $studyplan.append(spwan_row());
+        $studyplan.append(spwan_row(i));
     }
 
     function find_rows_num(data, year) {
@@ -219,13 +238,22 @@ $( document ).ready(function() {
         accept: ".course",
         hoverClass: "highlighted",
         drop: function(event, ui) {
-            $hasDiv = $(this).find("div");
+            debugger;
+            var data = $(this).data();
+            var parent = ui.draggable.parent(".td_course");
+            var parent_data = parent.data();
+            console.log($(this).data());
             $element = ui.draggable.css("left", 0).css("top", 0);
-            if(!$hasDiv.length)
+            if(data.free === true) {
                 $(this).append($element);
-            $studyplans.each(function(index, studyplan) {
-                //$(studyplan).removeClass("table-bordered");
-            });
+                parent_data.free = true;
+                data.free = false;
+                if (ui.draggable.data("dup") === true) {
+                    parent.next().data("free",true);
+                    $(this).next().data("free", false);
+                }
+            }
+
         }
     });
 
