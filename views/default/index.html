@@ -74,9 +74,7 @@ $( document ).ready(function() {
     /* Helper methods */
     function init_td(x, y, free) {
         free = (typeof free === "undefined") ? true : free;
-        return {x: x,
-                y: y,
-                free: free};
+        return {x: x, y: y, free: free};
     }
 
     function spwan_row(tr_length) {
@@ -93,21 +91,21 @@ $( document ).ready(function() {
 
 
     function course_class(course_code) {
-        var typeClass;
+        var type_class;
         switch(course_code.substring(1,3)) {
             case "MS":
             case "MA":
-                typeClass = "math";
+                type_class = "math";
                 break;
             case "FE":
-                typeClass = "fe";
+                type_class = "fe";
                 break;
             default:
-                typeClass = "tech";
+                type_class = "tech";
                 break;
         }
 
-        return typeClass;
+        return type_class;
     }
 
     /* Populate methods */
