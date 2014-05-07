@@ -134,7 +134,6 @@ $( document ).ready(function() {
             var $tr = $("<tr></tr>");
             for (var period = start_period; period <= (start_period+3); period++) {
                 var $td = $("<td class='td_course'>");
-                debugger;
                 var itd = init_td($tr.children("td").length, i);
 
                 $td.data(itd);
@@ -221,37 +220,41 @@ $( document ).ready(function() {
     });
 
     $(".course").on("dragstart", function(event, ui) {
-        $studyplans.each(function(index, studyplan) {
-            //$(studyplan).addClass("table-bordered");
-        });
+        var parent = $(this).parent(".td_course");
+        var course = $(this).data();
+
+        drop_help(parent, course.dup, true);
     });
+
     $(".course").on("dragstop", function(event, ui) {
-        $studyplans.each(function (index, studyplan) {
-            $tr = spwan_row();
-            //$(studyplan).append($tr);
-        });
+        var parent = $(this).parent(".td_course");
+        var course = $(this).data();
+
+        drop_help(parent, course.dup, false);
     });
+
+    function drop_help(target, dup, free) {
+        target.data("free", free);
+        if (dup === true) {
+            target.next().data("free", free);
+        }
+    }
 
     $(".td_course").droppable({
         accept: ".course",
         hoverClass: "highlighted",
         drop: function(event, ui) {
-            debugger;
             var data = $(this).data();
+            var draggable_data = ui.draggable.data();
             var parent = ui.draggable.parent(".td_course");
-            var parent_data = parent.data();
-            console.log($(this).data());
+            var next_free = $(this).next().data("free");
+            debugger;
             $element = ui.draggable.css("left", 0).css("top", 0);
-            if(data.free === true) {
+            if(data.free === true && !(draggable_data.dup === true && (data.x === 3 || !next_free))) {
                 $(this).append($element);
-                parent_data.free = true;
-                data.free = false;
-                if (ui.draggable.data("dup") === true) {
-                    parent.next().data("free",true);
-                    $(this).next().data("free", false);
-                }
+                drop_help($(this), draggable_data.dup, false);
+                drop_help(parent, draggable_data.dup, true);
             }
-
         }
     });
 
