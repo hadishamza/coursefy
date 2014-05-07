@@ -130,13 +130,15 @@ $( document ).ready(function() {
                     if (course_period === period) {
                         data_year.splice(j, 1);
                         $td.html("<div class='course'><div>" + course["code"] + " " + course["level"] +" <br>" + course["name"] + "</div></div>");
-                        $td.children(".course").addClass(course_class(course["code"]));
-                        //$div.html(course["name"]);
+                        var $course = $td.children(".course");
+                        $course.addClass(course_class(course["code"]));
+
                         if (course.dup){
                             dup = true;
                             $td.children(".course").width("200%");
                             period++;
                         }
+                        $course.data("course", course);
                         break;
                     }
                 }
