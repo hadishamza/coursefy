@@ -16,7 +16,7 @@ def group_by_peroid(json_data):
     output = {}
     period = None
     for row in json_data:
-        if row['period'] != '':
+        if row['period'] != '' and row['period'] != None:
             period = row['period']
 
         output.setdefault(period, []).append(row)
@@ -26,7 +26,7 @@ def group_by_peroid(json_data):
 # Eat kimono-JSON and spit clean usable JSON
 with open("it1415.json") as json_file:
     json_data = json.load(json_file)
-    filtered_data = filter_empty(json_data['collection1'])
-    #filtered_data = group_by_peroid(filtered_data)
+    #filtered_data = filter_empty(json_data['collection1'])
+    filtered_data = group_by_peroid(json_data)
     pprint(filtered_data)
 
