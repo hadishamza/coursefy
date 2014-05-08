@@ -6,7 +6,7 @@ db.define_table('institution',
 
 db.define_table('institution_kursplan',
                 db.Field('institution', 'reference institution', notnull=True), #not null
-                db.Field('kursplan', 'integer',notnull=True)) #not null
+                db.Field('kursplan', 'reference kursplan', 'integer',notnull=True)) #not null
 
 db.define_table('larare',
                 db.Field('namn', 'string', length=255),
@@ -14,7 +14,7 @@ db.define_table('larare',
 
 db.define_table('larare_kurstillfälle',
                 db.Field('larare', 'reference larare', notnull=True),  #not null
-                db.Field('kurstillfalle', 'integer', notnull=True)) #not null
+                db.Field('kurstillfalle', 'reference kurstillfalle', 'integer', notnull=True)) #not null
 
 db.define_table('inriktning',
                 db.Field('namn', 'string', length=255),
@@ -61,9 +61,10 @@ db.define_table('betygsskala',
                 Field('beskrivning', 'string', length = 1023))
 
 db.define_table('kurstillfalle', 
-                Field('kursplan', 'integer', notnull = True), 
+                Field('kursplan', 'reference kursplan', 'integer', notnull = True), 
                 Field('anmalningskod', 'string', length = 255), 
                 Field('fart', 'integer'))
+                Field('larare', 'reference larare', 'integer')
 
 db.define_table('perioder', 
                 Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
@@ -75,9 +76,10 @@ db.define_table('kursplan',
                 Field('kurskod', 'string', length = 255), 
                 Field('beslutsdatum', 'date'), 
                 Field('behorighet', 'string', length = 255), 
-                Field('niva', 'integer'), 
-                Field('betygsskala', 'integer'), 
+                Field('niva', 'reference niva', 'integer'), 
+                Field('betygsskala', 'reference betygsskala', 'integer'), 
                 Field('galler_fran', 'date'),
+                Filed('institution', 'reference institution', 'integer')
                 Field('mal', 'string', length = 1023), 
                 Field('innehall', 'string', length = 1023), 
                 Field('undervisning', 'string', length = 1023), 
