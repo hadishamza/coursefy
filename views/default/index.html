@@ -158,7 +158,7 @@ $( document ).ready(function() {
                             period++;
                         }
                         $td.data("free", false);
-                        $course.data(course);
+                        $course.data("course", course);
                         break;
                     }
                 }
@@ -225,15 +225,15 @@ $( document ).ready(function() {
 
     $(".course").on("dragstart", function(event, ui) {
         var parent = $(this).parent(".td_course");
-        var course = $(this).data();
-        $(this).css("z-index", "100")
+        var course = $(this).data("course");
+        $(this).css("z-index", "100").css("opacity", "0.7");
         drop_help(parent, course.dup, true);
     });
 
     $(".course").on("dragstop", function(event, ui) {
         var parent = $(this).parent(".td_course");
-        var course = $(this).data();
-        $(this).css("z-index", "1")
+        var course = $(this).data("course");
+        $(this).css("z-index", "1").css("opacity", "1").removeClass("warning");
         drop_help(parent, course.dup, false);
     });
 
@@ -248,46 +248,53 @@ $( document ).ready(function() {
         accept: ".course",
         tolerance: "pointer",
         out: function(event, ui){
+            var course_data = ui.draggable.data("course");
             $(this).removeClass("highlighted");
-            $(this).removeClass("warning");
-            if(ui.draggable.data("dup")){
-                ui.draggable.removeClass("warning");
+            if(course_data.dup){
                 $(this).next().removeClass("highlighted");
             }
 
         },
         over: function(event, ui){
+            var course_data = ui.draggable.data("course");
             $(this).addClass("highlighted");
-            if(ui.draggable.data("dup")){
+            if(course_data.dup){
                 $(this).next().addClass("highlighted");
             }
-            if($(this).data("free")){
-                ui.draggable.removeClass("warning");
-            }
-            else{
+            if(!$(this).data("free")){
                 ui.draggable.addClass("warning");
             }
-            if(ui.draggable.data("dup") && !($(this).data().x === 3) || !$(this).next().data("free")){
+            else{
+                ui.draggable.removeClass("warning");
+            }
+            if(course_data.dup && (($(this).data().x === 3) || !$(this).next().data("free"))){
                 ui.draggable.addClass("warning");
             }
         },
         drop: function(event, ui) {
+            var data = $(this).data();
+            var draggable_data = ui.draggable.data("course");
+            var parent = ui.draggable.parent(".td_course");
+            var next_free = $(this).next().data("free");
+
             ui.draggable.removeClass("warning");
             $(this).removeClass("highlighted");
 
-            if(ui.draggable.data("dup")){
+            if(draggable_data.dup){
                 $(this).next().removeClass("highlighted");
             }
-            var data = $(this).data();
-            var draggable_data = ui.draggable.data();
-            var parent = ui.draggable.parent(".td_course");
-            var next_free = $(this).next().data("free");
+
             $element = ui.draggable.css("left", 0).css("top", 0);
             if(data.free === true && !(draggable_data.dup === true && (data.x === 3 || !next_free))) {
                 $(this).append($element);
                 drop_help($(this), draggable_data.dup, false);
                 drop_help(parent, draggable_data.dup, true);
+                var position = {x: data.x, y: data.y};
+                draggable_data.position = position;
+                console.log($element.data());
+                sync_data();
             }
+
         }
     });
 
