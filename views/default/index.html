@@ -82,19 +82,6 @@ $( document ).ready(function() {
         return {x: x, y: y, free: free};
     }
 
-    function spwan_row(tr_length) {
-        var $tr = $("<tr>");
-        for (var i = 0; i < 4; i++) {
-            var $td = $("<td class='td_course'></td>");
-            var itd = init_td(i, tr_length);
-            $td.data(itd);
-            $tr.append($td);
-        }
-        return $tr;
-    }
-
-
-
     function course_class(course_code) {
         var type_class;
         switch(course_code.substring(1,3)) {
