@@ -21,6 +21,9 @@ td {
 .course div {
     padding:10px;
 }
+.course.extend {
+    width:200.5%;
+}
 td.highlighted {
     color:black !important;
     border:2px grey dashed !important;
@@ -170,7 +173,7 @@ $( document ).ready(function() {
                     $course.addClass(course_class(course.code));
                     drop_help($td, course.dup, false);
                     if(course.dup) {
-                        $course.width("200%");
+                        $course.addClass("extend");
                     }
                 }
             })
