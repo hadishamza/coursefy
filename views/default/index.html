@@ -105,8 +105,10 @@ $( document ).ready(function() {
     manage_data(data);
 
     $studyplans.each(function(index, studyplan) {
-        populate_studyplan($(studyplan), data, index+1);
         init_studyplan_pos(data, index+1);
+        init_grid($(studyplan), course_data, index+1)
+        populate_studyplan($(studyplan), course_data, index+1);
+
     });
     function year_data(data, year){
         var data_year = [];
@@ -134,7 +136,8 @@ $( document ).ready(function() {
                     var course_period = parseInt(course["period"]);
                     if (course_period === period) {
                         data_year.splice(j, 1);
-                        course.position = {x: k, y: i};
+                        if (!course.position)
+                            course.position = {x: k, y: i};
 
                         if (course.dup){
                             period++;
@@ -152,60 +155,45 @@ $( document ).ready(function() {
 
     function populate_studyplan($studyplan, data, year) {
         var data_year = year_data(data, year);
-        var num_rows = find_rows_num(data_year, year);
-        var start_period = 1+(year*10);
-        var i;
-        for (i = 0; i < num_rows; i++) {
-            var $tr = $("<tr></tr>");
-            for (var period = start_period; period <= (start_period+3); period++) {
-                var $td = $("<td class='td_course'>");
-                var itd = init_td($tr.children("td").length, i);
-
-                $td.data(itd);
-
-                var dup;
-                for(var j = 0; j < data_year.length; j++) {
-                    dup = false;
-                    var course = data_year[j];
-                    var course_period = parseInt(course["period"]);
-                    if (course_period === period) {
-                        data_year.splice(j, 1);
-                        course.position = {x: $td.data("x"), y: $td.data("y")};
-                        $td.html("<div class='course'><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
-                        var $course = $td.children(".course");
-                        $course.addClass(course_class(course["code"]));
-                        if (course.dup){
-                            dup = true;
-                            $td.children(".course").width("200%");
-                            period++;
-                        }
-                        $td.data("free", false);
-                        $course.data("course", course);
-                        break;
+        var num_rows = find_greatest_y(data_year);
+        $studyplan.find("tbody > tr").each(function(y) {
+            var $tr = $(this);
+            $tr.children("td").each(function(x) {
+                var $td = $(this);
+                var position = {x:$td.data("x"), y:$td.data("y")};
+                var course = find_course_by_pos(data_year, position);
+                if (course) {
+                    $td.html("<div class='course'><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
+                    var $course = $td.children(".course");
+                    $course.data("course", course);
+                    $course.addClass(course_class(course.code));
+                    drop_help($td, course.dup, false);
+                    if(course.dup) {
+                        $course.width("200%");
                     }
                 }
+            })
+        });
+    }
 
-                $tr.append($td);
-                if (dup) {
-                    $fillTd = $("<td class='td_course'></td>");
-                    var itd = init_td($tr.children("td").length, i, false);
-                    $fillTd.data(itd);
-                    $tr.append($fillTd);
-                }
-                $studyplan.append($tr);
+    function find_course_by_pos(data, position) {
+        for (var i = 0; i < data.length; i++) {
+            var course = data[i];
+            if(course.position.x == position.x && course.position.y == position.y) {
+                return course;
             }
         }
-        $studyplan.append(spwan_row(i));
+        return null;
     }
 
     function init_grid($studyplan, data, year) {
         var data_year = year_data(data, year);
-        var num_rows = find_greatest_y(data_year);
+        var num_rows = find_greatest_y(data_year) + 1; // +1 Because we like to palayey
 
         for (var i = 0; i < num_rows; i++) {
             var $tr = $("<tr></tr>");
             for (var j = 0; j < 4; j++) {
-                var $td = $("<td class='td_course'>");
+                var $td = $("<td class='td_course'>").droppable();
                 var itd = init_td($tr.children("td").length, i);
                 $td.data(itd);
                 $tr.append($td);
