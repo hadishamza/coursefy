@@ -74,6 +74,7 @@ var original_data =
 $( document ).ready(function() {
     var localdata = JSON.parse(localStorage.getItem("synced_data"));
     var data = localdata || original_data;
+    //var data = original_data;
     var course_data = [];
 
     /* Helper methods */
@@ -346,6 +347,18 @@ $( document ).ready(function() {
         }
     };
 
+    function last_row_empty($studyplans) {
+        $studyplans.each(function (index, studyplan) {
+            var data_year = year_data(data, index+1);
+            var $studyplan = $(studyplan);
+            var $trs = $studyplan.find("tr");
+            var max_y = find_greatest_y(data_year) + 1;
+            if (max_y < $trs.length -1) {
+                $trs.last().remove();
+            }
+        });
+    }
+
     function drop_event(event, ui) {
         var data = $(this).data();
         var draggable_data = ui.draggable.data("course");
@@ -369,8 +382,8 @@ $( document ).ready(function() {
             draggable_data.position = position;
             draggable_data.period = table.getAttribute("data-year") + String(data.x+1);
             sync_data();
-            debugger;
             needs_another_row(table, position.y) && add_table_row(table, position.y);
+            last_row_empty($studyplans);
         }
     }
 
