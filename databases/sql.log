@@ -185,3 +185,17 @@ CREATE TABLE omradesklassningar(
     djup INTEGER REFERENCES djup (id) ON DELETE CASCADE
 );
 success!
+timestamp: 2014-05-12T14:00:45.624000
+ALTER TABLE kursplan ADD institution INTEGER REFERENCES institution (id) ON DELETE CASCADE;
+success!
+timestamp: 2014-05-12T14:00:45.673000
+ALTER TABLE kurstillfalle ADD larare INTEGER REFERENCES larare (id) ON DELETE CASCADE;
+success!
+timestamp: 2014-05-12T14:00:45.709000
+CREATE TABLE larare_kurstillfalle(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    larare INTEGER REFERENCES larare (id) ON DELETE CASCADE,
+    kurstillfalle INTEGER REFERENCES kurstillfalle (id) ON DELETE CASCADE
+);
+success!
+success!
