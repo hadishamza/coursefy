@@ -38,7 +38,7 @@ td.highlighted {
 
 <script type="text/javascript">
 // JSON DATA
-var data =
+var original_data =
 [{"credits": "10", "level": "G1N", "code": "1DT051", "period": "11", "name": "Introduktion till informationsteknologi"},
 {"credits": "5", "level": "G1N", "code": "1MA010", "period": "11", "name": "Baskurs i matematik"},
 {"credits": "(10)", "level": "G1F", "code": "1DL201", "period": "12", "name": "Programkonstruktion och datastrukturer"},
@@ -72,7 +72,8 @@ var data =
 
 <script type="text/javascript">
 $( document ).ready(function() {
-
+    var localdata = JSON.parse(localStorage.getItem("synced_data"));
+    var data = localdata || original_data;
 
     /* Helper methods */
     function init_td(x, y, free) {
@@ -113,15 +114,12 @@ $( document ).ready(function() {
 
     /* Populate methods */
     var $studyplans = $(".studyplan");
-
     manage_data(data);
 
     $studyplans.each(function(index, studyplan) {
         populate_studyplan($(studyplan), data, index+1);
     });
-
-    function populate_studyplan($studyplan, data, year) {
-        var $body = $();
+    function year_data(data, year){
         var data_year = [];
         data.forEach(function (course) {
             var course_year = parseInt(course["period"].substring(0,1));
@@ -129,7 +127,11 @@ $( document ).ready(function() {
                 data_year.push(course);
             }
         });
+        return data_year;
+    }
 
+    function populate_studyplan($studyplan, data, year) {
+        var data_year = year_data(data, year);
         var num_rows = find_rows_num(data_year, year);
         var start_period = 1+(year*10);
         var i;
@@ -148,10 +150,10 @@ $( document ).ready(function() {
                     var course_period = parseInt(course["period"]);
                     if (course_period === period) {
                         data_year.splice(j, 1);
-                        $td.html("<div class='course'><div>" + course["code"] + " " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + "</div></div>");
+                        course.position = {x: $td.data("x"), y: $td.data("y")};
+                        $td.html("<div class='course'><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
                         var $course = $td.children(".course");
                         $course.addClass(course_class(course["code"]));
-
                         if (course.dup){
                             dup = true;
                             $td.children(".course").width("200%");
@@ -201,6 +203,14 @@ $( document ).ready(function() {
     }
 
     function manage_data(data) {
+        data.sort(function (a, b) {
+        var period_a = parseInt(a.period);
+        var period_b = parseInt(b.period);
+
+        if (period_a < period_b) return -1;
+        if (period_a > period_b) return 1;
+        return 0;
+        });
         data.forEach(function (course){
             var occurrence = 0;
             var course_code = course.code;
@@ -244,6 +254,15 @@ $( document ).ready(function() {
         }
     }
 
+    function sync_data() {
+        var data = [];
+        $(".course").each(function() {
+            data.push($(this).data("course"));
+
+        });
+        localStorage.setItem("synced_data", JSON.stringify(data));
+    }
+
     $(".td_course").droppable({
         accept: ".course",
         tolerance: "pointer",
@@ -255,6 +274,7 @@ $( document ).ready(function() {
             }
 
         },
+        //TODO: Fix dup-divs containing highlight error when moved left.
         over: function(event, ui){
             var course_data = ui.draggable.data("course");
             $(this).addClass("highlighted");
@@ -291,13 +311,12 @@ $( document ).ready(function() {
                 drop_help(parent, draggable_data.dup, true);
                 var position = {x: data.x, y: data.y};
                 draggable_data.position = position;
-                console.log($element.data());
+                draggable_data.period =  $(this).parent().parent().parent()[0].getAttribute("data-year") + String(data.x+1);
                 sync_data();
             }
 
         }
     });
-
 });
 
 </script>
@@ -306,7 +325,7 @@ $( document ).ready(function() {
     <h1>Studieplan för IT 2013/1014 (år 1-3)</h1>
     <div class="table-responsive">
         <h2>År 1</h2>
-        <table class="studyplan table table-bordered">
+        <table data-year="1" class="studyplan table table-bordered">
             <thead>
                 <tr>
                     <th>Period 1</th>
@@ -321,7 +340,7 @@ $( document ).ready(function() {
     </div>
     <div class="table-responsive">
         <h2>År 2</h2>
-        <table class="studyplan table table-bordered">
+        <table data-year="2" class="studyplan table table-bordered">
             <thead>
                 <tr>
                     <th>Period 1</th>
@@ -336,7 +355,7 @@ $( document ).ready(function() {
     </div>
     <div class="table-responsive">
         <h2>År 3</h2>
-        <table class="studyplan table table-bordered">
+        <table data-year="3" class="studyplan table table-bordered">
             <thead>
                 <tr>
                     <th>Period 1</th>
