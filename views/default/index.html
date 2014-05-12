@@ -118,6 +118,7 @@ $( document ).ready(function() {
 
     $studyplans.each(function(index, studyplan) {
         populate_studyplan($(studyplan), data, index+1);
+        init_studyplan_pos(data, index+1);
     });
     function year_data(data, year){
         var data_year = [];
@@ -130,7 +131,7 @@ $( document ).ready(function() {
         return data_year;
     }
 
-    function init_studyplan_xy(data, year) {
+    function init_studyplan_pos(data, year) {
         var data_year = year_data(data, year);
         var num_rows = find_rows_num(data_year, year);
         var start_period = 1+(year*10);
