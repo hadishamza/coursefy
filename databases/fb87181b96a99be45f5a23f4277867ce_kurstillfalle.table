@@ -22,26 +22,44 @@ sS'type'
 p10
 S'string'
 p11
-ssS'kursplan'
+ssS'larare'
 p12
 (dp13
 g4
-I512
+S'integer'
+p14
+sg5
+I00
+sg6
+I5
+sg7
+S'INTEGER REFERENCES larare (id) ON DELETE CASCADE'
+p15
+sg9
+I00
+sg10
+S'reference larare'
+p16
+ssS'kursplan'
+p17
+(dp18
+g4
+g14
 sg5
 I00
 sg6
 I2
 sg7
-S'INTEGER NOT NULL'
-p14
+S'INTEGER REFERENCES kursplan (id) ON DELETE CASCADE'
+p19
 sg9
 I01
 sg10
-S'integer'
-p15
+S'reference kursplan'
+p20
 ssS'id'
-p16
-(dp17
+p21
+(dp22
 g4
 I512
 sg5
@@ -50,14 +68,15 @@ sg6
 I1
 sg7
 S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p18
+p23
 sg9
 I00
 sg10
-g16
+S'id'
+p24
 ssS'fart'
-p19
-(dp20
+p25
+(dp26
 g4
 I512
 sg5
@@ -66,9 +85,9 @@ sg6
 I4
 sg7
 S'INTEGER'
-p21
+p27
 sg9
 I00
 sg10
-g15
+g14
 ss.
