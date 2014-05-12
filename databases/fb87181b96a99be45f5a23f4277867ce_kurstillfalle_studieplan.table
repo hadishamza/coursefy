@@ -80,7 +80,7 @@ I512
 sg5
 I00
 sg6
-I6
+I7
 sg7
 S'INTEGER REFERENCES inriktning (id) ON DELETE CASCADE'
 p25
@@ -97,7 +97,7 @@ I1023
 sg5
 I00
 sg6
-I7
+I8
 sg7
 S'CHAR(1023)'
 p29
@@ -106,9 +106,25 @@ I00
 sg10
 S'string'
 p30
-ssS'id'
+ssS'slutperiod'
 p31
 (dp32
+g4
+I512
+sg5
+I00
+sg6
+I6
+sg7
+S'INTEGER'
+p33
+sg9
+I00
+sg10
+g11
+ssS'id'
+p34
+(dp35
 g4
 I512
 sg5
@@ -117,9 +133,9 @@ sg6
 I1
 sg7
 S'INTEGER PRIMARY KEY AUTOINCREMENT'
-p33
+p36
 sg9
 I00
 sg10
-g31
+g34
 ss.
