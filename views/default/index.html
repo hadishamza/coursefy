@@ -74,6 +74,7 @@ var original_data =
 $( document ).ready(function() {
     var localdata = JSON.parse(localStorage.getItem("synced_data"));
     var data = localdata || original_data;
+    var course_data = [];
 
     /* Helper methods */
     function init_td(x, y, free) {
@@ -135,7 +136,6 @@ $( document ).ready(function() {
         var data_year = year_data(data, year);
         var num_rows = find_rows_num(data_year, year);
         var start_period = 1+(year*10);
-        var course_data = [];
         var i;
         for (i = 0; i < num_rows; i++) {
             var k = 0;
@@ -209,6 +209,33 @@ $( document ).ready(function() {
             }
         }
         $studyplan.append(spwan_row(i));
+    }
+
+    function init_grid($studyplan, data, year) {
+        var data_year = year_data(data, year);
+        var num_rows = find_greatest_y(data_year);
+
+        for (var i = 0; i < num_rows; i++) {
+            var $tr = $("<tr></tr>");
+            for (var j = 0; j < 4; j++) {
+                var $td = $("<td class='td_course'>");
+                var itd = init_td($tr.children("td").length, i);
+                $td.data(itd);
+                $tr.append($td);
+            }
+            $studyplan.append($tr);
+        }
+    }
+
+
+    function find_greatest_y(data) {
+        var max = 0;
+        data.forEach(function (course) {
+            if (course.position.y > max) {
+                max = course.position.y;
+            }
+        })
+        return max + 1;
     }
 
     function find_rows_num(data, year) {
