@@ -31,7 +31,8 @@ db.define_table('program',
 db.define_table('studieplan',
                 db.Field('namn', 'string', length=255),
                 db.Field('beskrivning', 'string', length=1023),
-                db.Field('program', 'reference program'))
+                db.Field('program', 'reference program'),
+                db.Field('ar', 'integer'))
 
 db.define_table('kursegenskap',
                 db.Field('namn', 'string', length=255),
