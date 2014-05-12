@@ -63,8 +63,8 @@ db.define_table('betygsskala',
 db.define_table('kurstillfalle', 
                 Field('kursplan', 'reference kursplan', 'integer', notnull = True), 
                 Field('anmalningskod', 'string', length = 255), 
-                Field('fart', 'integer'))
-                Field('larare', 'reference larare', 'integer')
+                Field('fart', 'integer'),
+                Field('larare', 'reference larare', 'integer'))
 
 db.define_table('perioder', 
                 Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
