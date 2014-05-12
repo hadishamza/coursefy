@@ -130,6 +130,38 @@ $( document ).ready(function() {
         return data_year;
     }
 
+    function init_studyplan_grid(data, year) {
+        var data_year = year_data(data, year);
+        var num_rows = find_rows_num(data_year, year);
+        var start_period = 1+(year*10);
+        var course_data = [];
+        var i;
+        for (i = 0; i < num_rows; i++) {
+            var k = 0;
+            for (var period = start_period; period <= (start_period+3); period++) {
+                var dup;
+                for(var j = 0; j < data_year.length; j++) {
+                    dup = false;
+                    var course = data_year[j];
+                    var course_period = parseInt(course["period"]);
+                    if (course_period === period) {
+                        data_year.splice(j, 1);
+                        course.position = {x: k, y: i};
+
+                        if (course.dup){
+                            period++;
+                            k++;
+                        }
+                        course_data.push(course),
+                        break;
+                    }
+                }
+                k++;
+            }
+        }
+    }
+
+
     function populate_studyplan($studyplan, data, year) {
         var data_year = year_data(data, year);
         var num_rows = find_rows_num(data_year, year);
