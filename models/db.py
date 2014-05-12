@@ -8,10 +8,6 @@ db.define_table('larare',
                 db.Field('namn', 'string', length=255),
                 db.Field('beskrivning', 'string', length=1023))
 
-db.define_table('larare_kurstillfälle',
-                db.Field('larare', 'reference larare', notnull=True),  #not null
-                db.Field('kurstillfalle', 'reference kurstillfalle', 'integer', notnull=True)) #not null
-
 db.define_table('inriktning',
                 db.Field('namn', 'string', length=255),
                 db.Field('beskrivning', 'string', length=1023))
@@ -61,6 +57,10 @@ db.define_table('kurstillfalle',
                 Field('anmalningskod', 'string', length = 255), 
                 Field('fart', 'integer'),
                 Field('larare', 'reference larare', 'integer'))
+
+db.define_table('larare_kurstillfälle',
+                db.Field('larare', 'reference larare', notnull=True),  #not null
+                db.Field('kurstillfalle', 'reference kurstillfalle', 'integer', notnull=True)) #not null
 
 db.define_table('perioder', 
                 Field('kurstillfalle', 'reference kurstillfalle', notnull = True), 
