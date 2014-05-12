@@ -79,7 +79,7 @@ db.define_table('kursplan',
                 Field('niva', 'reference niva', 'integer'), 
                 Field('betygsskala', 'reference betygsskala', 'integer'), 
                 Field('galler_fran', 'date'),
-                Filed('institution', 'reference institution', 'integer')
+                Field('institution', 'reference institution', 'integer')
                 Field('mal', 'string', length = 1023), 
                 Field('innehall', 'string', length = 1023), 
                 Field('undervisning', 'string', length = 1023), 
