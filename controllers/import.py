@@ -2,20 +2,16 @@
 import json
 
 def index():
-	
-	message = 
+	message = "hej"
 	return dict(message=message)
 
 def insert(filnamn, prognamn, progkort, ar):
-
-	
-
 	id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
 	id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
 
 	with open(filnamn) as json_file:
 		json_data = json.load(json_file)
-		
+
 		for row in json_data:
 			kurskod = row["code"]
 			period = row["period"]
@@ -25,7 +21,7 @@ def insert(filnamn, prognamn, progkort, ar):
 				existerar = True
 				for row in db(db.kurstillfalle.kursplan == id_kursplan).select():
 					kurstillfalle = row.id
-					for  in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle).select():
+					for rowrow in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle).select():
 						rowrow.update_record(slutperiod = period)
 				break
 			if existerar != True:
