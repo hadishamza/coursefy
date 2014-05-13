@@ -15,7 +15,8 @@ class UuSpider(Spider):
         data = []
         for selrow in selrows:
             code = selrow.xpath('td[2]//text()').extract()
-            if code != [] and code[0] != u'\u00a0' and (code[0].find('1') == 0 or code[0].find('2') == 0): # Is it really a course code?
+            is_course = code[0].find('1') == 0 or code[0].find('2') == 0
+            if code != [] and code[0] != u'\u00a0' and is_course: # Is it really a course code?
                 period_extracted = self.empty_help(selrow.xpath('td[1]/p//text()').extract())
                 if period_extracted != '' and period_extracted != None:
                     period = period_extracted
