@@ -1,3 +1,7 @@
+import storage.db
+
+db = DAL('sqlite://storage.db')
+
 def insert(filnamn, prognamn, progkort, ar):
 
 	import json
@@ -15,12 +19,12 @@ def insert(filnamn, prognamn, progkort, ar):
 			for row in db(db.kursplan.kurskod == kurskod).select():
 				id_kursplan = row.id
 				existerar = True
-				for row in db(db.kurstillfalle.kursplan == id_kursplan).select()
+				for row in db(db.kurstillfalle.kursplan == id_kursplan).select():
 					kurstillfalle = row.id
-					for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle).select()
+					for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle).select():
 						row.update_record(slutperiod = period)
 				break
-			if existerar != True
+			if existerar != True:
 				id_kursplan = db.kursplan.insert(kurskod = kurskod)
 				id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
 				db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
@@ -31,7 +35,9 @@ def insert(filnamn, prognamn, progkort, ar):
 insert("it1213.json", "InformationsteknologiC", "IT", 2012)
 insert("it1314.json", "InformationsteknologiC", "IT", 2013)
 """
+
 insert("it1415.json", "InformationsteknologiC", "IT", 2014)
+
 """
 insert("e1213.json", "ElektroteknikC", "E", 2012)
 insert("e1314.json", "ElektroteknikC", "E", 2013)
@@ -82,9 +88,9 @@ insert("nvf1415.json", "FysikNM", "NVF", 2014)
 insert("nvg1213.json", "GeovetenskapNM", "NVG", 2012)
 insert("nvg1314.json", "GeovetenskapNM", "NVG", 2013)
 insert("nvg1415.json", "GeovetenskapNM", "NVG", 2014) 
-insert("1213.json", "HållbarUtvecklingNM", "", 2012)
-insert("1314.json", "HållbarUtvecklingNM", "", 2013)
-insert("1415.json", "HållbarUtvecklingNM", "", 2014)
+insert("1213.json", "HallbarUtvecklingNM", "", 2012)
+insert("1314.json", "HallbarUtvecklingNM", "", 2013)
+insert("1415.json", "HallbarUtvecklingNM", "", 2014)
 insert("nvk1213.json", "KemiNM", "NVK", 2012)
 insert("nvk1314.json", "KemiNM", "NVK", 2013) 
 insert("nvk1415.json", "KemiNM", "NVK", 2014)
