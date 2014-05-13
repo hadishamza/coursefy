@@ -22,7 +22,9 @@ class UuSpider(Spider):
                     period = period_extracted
                 
                 row = UuItem()
-                #row["period"] = self.empty_help(selrow.xpath('td[1]/p//text()').extract())
+                if peroid == "Alt.":
+                    period = "34"
+
                 row["period"] = period
                 row["code"] = self.empty_help(code)
                 row["name"] = self.empty_help(selrow.xpath('td[3]/p//text()').extract())
