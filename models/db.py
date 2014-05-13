@@ -115,8 +115,3 @@ db.define_table('samlasningar',
 db.define_table('overlappning', 
                 Field('kursplan1', 'reference kursplan', notnull = True), 
                 Field('kursplan2', 'reference kursplan', notnull = True))
-
-db.define_table('omradesklassningar', 
-                Field('kursplan', 'reference kursplan', notnull = True), 
-                Field('omradesklassning', 'reference omradesklassning', notnull = True), 
-                Field('djup', 'reference djup', notnull = True))
