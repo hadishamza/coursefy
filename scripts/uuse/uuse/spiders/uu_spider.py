@@ -35,16 +35,6 @@ class UuSpider(Spider):
         #print output
         #return output
         return data
-                
-    def group_by_period(self, data):
-        output = {}
-        period = None
-        for row in data:
-            if row['period'] != '' and row['period'] != None:
-                period = row['period']
-
-            output.setdefault(period, []).append(row)
-        return output
 
     def empty_help(self, arr):
         if arr != []:
