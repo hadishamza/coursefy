@@ -6,7 +6,7 @@ class UuSpider(Spider):
     name = "uu"
     allowed_domains = ["uu.se"]
     start_urls = [
-        "http://bit.ly/1i5frRP"
+        "http://bit.ly/1i5frRP" #{"program": "it1314", "url": "http://bit.ly/1i5frRP"}
     ]
 
     def parse(self, response):
