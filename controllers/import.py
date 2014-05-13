@@ -31,6 +31,16 @@ def insert(filnamn, prognamn, progkort, ar):
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
                 db.kurstillfalle_studieplan.insert(kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period, studieplan = id_studieplan)
 
+                 # Suds BEGIN
+				url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
+				client = Client(url);
+				client.set_options(port="PlanTjanstHttpSoap11Endpoint")
+				response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
+				result = response['kurs']['namn']
+
+
+
+
 
 """ 
 insert("it1213.json", "InformationsteknologiC", "IT", 2012)
