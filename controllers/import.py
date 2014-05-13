@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
-import json
+import json, os
 
 def index():
-    insert("it1415.json", "InformationsteknologiC", "IT", 2014)
-    message = "hej"
+    message = insert("it1415.json", "InformationsteknologiC", "IT", 2014)
     return dict(message=message)
 
 def insert(filnamn, prognamn, progkort, ar):
+    path = 'applications/coursefy/scripts/scrape/'
     id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
     id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
-
+    filnamn = path + filnamn
     with open(filnamn) as json_file:
         json_data = json.load(json_file)
 
@@ -29,4 +29,5 @@ def insert(filnamn, prognamn, progkort, ar):
                 id_kursplan = db.kursplan.insert(kurskod = kurskod)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                db.kurstillfalle_studieplan(kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period, studieplan = id_studieplan)
+                db.kurstillfalle_studieplan.insert(kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period, studieplan = id_studieplan)
+
