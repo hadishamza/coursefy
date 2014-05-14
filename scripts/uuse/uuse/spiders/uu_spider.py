@@ -5,9 +5,10 @@ from uuse.items import UuItem
 class UuSpider(Spider):
     name = "uu"
     allowed_domains = ["uu.se"]
-    start_urls = [
-        "http://bit.ly/1i5frRP" #{"program": "it1314", "url": "http://bit.ly/1i5frRP"}
-    ]
+
+    def __init__(self, *args, **kwargs):
+      super(UuSpider, self).__init__(*args, **kwargs)
+      self.start_urls = [kwargs.get('start_url')]
 
     def parse(self, response):
         sel = Selector(response)
@@ -22,7 +23,7 @@ class UuSpider(Spider):
                     period = period_extracted
 
                 row = UuItem()
-                if peroid == "Alt.":
+                if period == "Alt.":
                     period = "34"
 
                 row["period"] = period
