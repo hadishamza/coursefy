@@ -37,6 +37,7 @@ def insert(filnamn, prognamn, progkort, ar):
 
 
 
+
                 id_kursplan = db.kursplan.insert(kurskod = kurskod, )
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)

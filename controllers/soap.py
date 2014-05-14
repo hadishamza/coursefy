@@ -13,5 +13,7 @@ def index():
     response = client.service.hamtaKursplanKurskod(kurskod="1MA025")
     result = response['kurs']['namn']
 
+    print result
+
     return dict(message=result)
 
