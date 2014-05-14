@@ -14,9 +14,10 @@ class UuSpider(Spider):
         sel = Selector(response)
         selrows = sel.xpath('//div[@class="articleText"]//table/tbody//tr')
         data = []
+        period = "11"
         for selrow in selrows:
             code = selrow.xpath('td[2]//text()').extract()
-            is_course = code[0].find('1') == 0 or code[0].find('2') == 0
+            is_course = code != [] and (code[0].find('1') == 0 or code[0].find('2') == 0)
             if code != [] and code[0] != u'\u00a0' and is_course: # Is it really a course code?
                 period_extracted = self.empty_help(selrow.xpath('td[1]/p//text()').extract())
                 if period_extracted != '' and period_extracted != None:
