@@ -17,6 +17,7 @@ td {
     width: 100%;
     height: 100%;
     display: block;
+    cursor: pointer;
 }
 .course div {
     padding:10px;
@@ -37,11 +38,18 @@ td.highlighted {
 .course.fe {
     background:#FF9E8E;
 }
-.course.focused {
+.course.focused div:nth-child(2) {
     border: 2px black solid;
+    height: 100%;
 }
 .removeCourse{
     float:right;
+    background-image: url({{=URL('static', 'images/cross-24.png')}});
+    background-size:12px 12px;
+    background-position:center;
+    background-repeat:no-repeat;
+    width:16px;
+    height:16px;
 }
 .information-box{
     position: fixed;
@@ -192,7 +200,7 @@ $( document ).ready(function() {
                 var position = {x:$td.data("x"), y:$td.data("y")};
                 var course = find_course_by_pos(data_year, position);
                 if (course) {
-                    $td.html("<div class='course'><div class='removeCourse'>X</div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
+                    $td.html("<div class='course'><div class='removeCourse'></div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
                     var $course = $td.children(".course");
                     $course.data("course", course);
                     $course.addClass(course_class(course.code));
