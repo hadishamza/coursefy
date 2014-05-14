@@ -37,6 +37,29 @@ td.highlighted {
 .course.fe {
     background:#FF9E8E;
 }
+.course.focused {
+    border: 2px black solid;
+}
+.removeCourse{
+    float:right;
+}
+.information-box{
+    position: fixed;
+    right: 10px;
+    top: 100px;
+}
+.course-information{
+    padding-left: 10px;
+    border:2px green solid;
+    width: 100%;
+    height: 65%;
+}
+.warning-information{
+    padding: 10px 0px 0px 10px;
+    border:2px red solid;
+    width: 100%;
+    height:  35%;
+}
 </style>
 
 <script type="text/javascript">
@@ -167,7 +190,7 @@ $( document ).ready(function() {
                 var position = {x:$td.data("x"), y:$td.data("y")};
                 var course = find_course_by_pos(data_year, position);
                 if (course) {
-                    $td.html("<div class='course'><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
+                    $td.html("<div class='course'><div class='removeCourse'>X</div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
                     var $course = $td.children(".course");
                     $course.data("course", course);
                     $course.addClass(course_class(course.code));
@@ -394,55 +417,89 @@ $( document ).ready(function() {
         accept: ".course",
         tolerance: "pointer"
     }).on("drop", drop_event).on("dropover", dropover_event).on("dropout", dropout_event);
+
+    $(".course").on("click", function(){
+        var course = $(this).data().course;
+        $('.focused').removeClass("focused");
+        $(this).addClass("focused");
+        $(".course-information").find(".course_header").html("<a target='_blank' href=http://www.uu.se/utbildning/utbildningar/selma/kursplan/?kKod="+ course.code +">" + course.name + "</a>" );
+        $(".course-information").find(".course_hp").html("HP: "+ course.credits);
+        $(".course-information").find(".course_level").html("Nivå: " +course.level);
+        $(".course-information").find(".course_code").html("Kurskod: "+ course.code);
+    });
+    $(".removeCourse").click(function(){
+        drop_help($(this).parent().parent(), $(this).parent().data().course.dup, true);
+        $(this).parent().remove();
+        sync_data();
+    });
 });
 
 </script>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="container col-md-8">
+        <h1>Studieplan för IT 2013/1014 (år 1-3)</h1>
+        <div class="table-responsive">
+            <h2>År 1</h2>
+            <table data-year="1" class="studyplan table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Period 1</th>
+                        <th>Period 2</th>
+                        <th>Period 3</th>
+                        <th>Period 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <h2>År 2</h2>
+            <table data-year="2" class="studyplan table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Period 1</th>
+                        <th>Period 2</th>
+                        <th>Period 3</th>
+                        <th>Period 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <h2>År 3</h2>
+            <table data-year="3" class="studyplan table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Period 1</th>
+                        <th>Period 2</th>
+                        <th>Period 3</th>
+                        <th>Period 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="container col-md-3 information-box">
+        <div style="width: 100%; height:  400px;">
+            <div style="font-weight: bold; background-color: #70E899; color: #3D453D; padding-left: 40px;">KURSINFORMATION</div>
+            <div class="course-information">
+                <h3 class="course_header"></h3>
+                <div class="course_hp"></div>
+                <div class="course_level"></div>
+                <div class="course_code"></div>
+                <div class="course_link"></div>
 
-<div class="container">
-    <h1>Studieplan för IT 2013/1014 (år 1-3)</h1>
-    <div class="table-responsive">
-        <h2>År 1</h2>
-        <table data-year="1" class="studyplan table table-bordered">
-            <thead>
-                <tr>
-                    <th>Period 1</th>
-                    <th>Period 2</th>
-                    <th>Period 3</th>
-                    <th>Period 4</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div class="table-responsive">
-        <h2>År 2</h2>
-        <table data-year="2" class="studyplan table table-bordered">
-            <thead>
-                <tr>
-                    <th>Period 1</th>
-                    <th>Period 2</th>
-                    <th>Period 3</th>
-                    <th>Period 4</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </div>
-    <div class="table-responsive">
-        <h2>År 3</h2>
-        <table data-year="3" class="studyplan table table-bordered">
-            <thead>
-                <tr>
-                    <th>Period 1</th>
-                    <th>Period 2</th>
-                    <th>Period 3</th>
-                    <th>Period 4</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+            </div>
+            <div style="font-weight: bold; background-color: #E33636; padding-left: 40px;">VARNING</div>
+            <div class="warning-information">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non augue dolor. Sed magna diam, dapibus id justo eget, ullamcorper interdum est. Pellentesque habitant morbi tristique senectus.
+            </div>
+        </div>
     </div>
 </div>
