@@ -26,17 +26,23 @@ def insert(filnamn, prognamn, progkort, ar):
                         rowrow.update_record(slutperiod = period)
                 break
             if existerar != True:
-                id_kursplan = db.kursplan.insert(kurskod = kurskod)
+
+                 # Suds BEGIN
+                url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
+                client = Client(url);
+                client.set_options(port="PlanTjanstHttpSoap11Endpoint")
+                response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
+                namn = response['kurs']['namn']
+                
+
+
+
+                id_kursplan = db.kursplan.insert(kurskod = kurskod, )
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
                 db.kurstillfalle_studieplan.insert(kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period, studieplan = id_studieplan)
 
-                 # Suds BEGIN
-				url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
-				client = Client(url);
-				client.set_options(port="PlanTjanstHttpSoap11Endpoint")
-				response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
-				result = response['kurs']['namn']
+
 
 
 
