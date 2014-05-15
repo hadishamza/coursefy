@@ -17,15 +17,12 @@ class UuSpider(Spider):
         period = "11"
         for selrow in selrows:
             code = selrow.xpath('td[2]//text()').extract()
-            if code != [] and code[0] != u'\u00a0' and len(code[0]) == 6: # Is it really a course code?
-                period_extracted = self.empty_help(selrow.xpath('td[1]/p//text()').extract())
-                if period_extracted != '' and period_extracted != None:
+            period_extracted = self.empty_help(selrow.xpath('td[1]/p//text()').extract())
+            period_not_empty = (period_extracted != None and period_extracted != '' and period_extracted != '.')
+            if period_not_empty or period_extracted.lower() == "alt.":
                     period = period_extracted
-
+            if code != [] and code[0] != u'\u00a0' and len(code[0]) == 6: # Is it really a course code?
                 row = UuItem()
-                if period == "Alt.":
-                    period = "34"
-
                 row["period"] = period
                 row["code"] = self.empty_help(code)
                 row["name"] = self.empty_help(selrow.xpath('td[3]/p//text()').extract())
