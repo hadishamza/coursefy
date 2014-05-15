@@ -11,8 +11,10 @@ def index():
     client.set_options(port="PlanTjanstHttpSoap11Endpoint")
 
     response = client.service.hamtaKursplanKurskod(kurskod="1MA025")
-    result = response['kurs']['huvudomradeFordjupningar']#['huvudomrade']#['benamning']
-    
+    fordjukod1 = response['kurs']['huvudomradeFordjupningar'][2]#['fordjupningskod']#['huvudomrade']#['benamning']
+    namnfordju1 = response['kurs']['huvudomradeFordjupningar'][3][1]
+
+
     print result
 
     return dict(message=result)
