@@ -332,20 +332,20 @@ $( document ).ready(function() {
         cursor: "move",
         revert: "invalid"
     });
-
-    $(".course").on("dragstart", function(event, ui) {
+    function event_dragstart(event, ui) {
         var parent = $(this).parent(".td_course");
         var course = $(this).data("course");
         $(this).css("z-index", "100").css("opacity", "0.7");
         drop_help(parent, course.dup, true);
-    });
+    }
 
-    $(".course").on("dragstop", function(event, ui) {
+    function event_dragstop(event, ui){
         var parent = $(this).parent(".td_course");
         var course = $(this).data("course");
         $(this).css("z-index", "1").css("opacity", "1").removeClass("warning");
         drop_help(parent, course.dup, false);
-    });
+    }
+    $(".course").on("dragstop", event_dragstop).on("dragstart", event_dragstart);
 
     function drop_help(target, dup, free) {
         target.data("free", free);
