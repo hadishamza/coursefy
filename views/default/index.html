@@ -137,9 +137,10 @@ var original_data =
 <script type="text/javascript">
 $( document ).ready(function() {
     var localdata = JSON.parse(localStorage.getItem("synced_data"));
+
     var data = localdata || original_data;
-    //var data = original_data;
     var course_data = [];
+
 
     /* Helper methods */
     function init_td(x, y, free) {
@@ -167,10 +168,17 @@ $( document ).ready(function() {
 
     /* Populate methods */
     var $studyplans = $(".studyplan");
-    manage_data(data);
 
     $studyplans.each(function(index, studyplan) {
-        init_studyplan_pos(data, index+1);
+        if (!localdata) {
+            manage_data(data);
+            init_studyplan_pos(data, index+1);
+
+        }
+        else {
+            course_data = data;
+        }
+
         init_grid($(studyplan), course_data, index+1)
         populate_studyplan($(studyplan), course_data, index+1);
 
