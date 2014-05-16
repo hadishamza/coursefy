@@ -459,7 +459,8 @@ $( document ).ready(function() {
         accept: ".course",
         tolerance: "pointer"
     }).on("drop", drop_event).on("dropover", dropover_event).on("dropout", dropout_event);
-
+            //TODO: CLICK ON NEWLY CREATED COURSES
+            //TODO: REMOVE ON NEWLY CREATED COURSES
     $(".course").on("click", function(){
         var course = $(this).data().course;
         $('.focused').removeClass("focused");
