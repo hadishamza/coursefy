@@ -355,12 +355,13 @@ $( document ).ready(function() {
     }
 
     function sync_data() {
-        var data = [];
+        var d = [];
         $(".course").each(function() {
-            data.push($(this).data("course"));
-
+            if($(this).data("course").period)
+                d.push($(this).data("course"));
         });
-        localStorage.setItem("synced_data", JSON.stringify(data));
+        data = d;
+        localStorage.setItem("synced_data", JSON.stringify(d));
     }
 
     function needs_another_row(table, y) {
