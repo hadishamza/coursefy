@@ -29,6 +29,7 @@ def index():
         amne2 = response['kurs']['huvudomradeFordjupningar'][1]['huvudomrade']['benamning']
     
 # lägg in allt i databasen!!!!
+    
 
     print namn
     print poang

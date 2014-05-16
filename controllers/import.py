@@ -17,32 +17,58 @@ def insert(filnamn, prognamn, progkort, ar):
             kurskod = row["code"]
             period = row["period"]
             existerar = False
+            # check för att se om vi redan har skapat ett table för den här kurskoden, ifs sätts "existerar" till true vilket indikerar att
+            # det redan finns ett table. Att det finns flera objekt med samma kurskod beror på att kursen går över flera perioder.
             for row in db(db.kursplan.kurskod == kurskod).select():
                 id_kursplan = row.id
                 existerar = True
+                # check för hitta det tillhörande kurstillfället till den existerande kurskoden (kursen)
                 for row in db(db.kurstillfalle.kursplan == id_kursplan).select():
-                    kurstillfalle = row.id
-                    for rowrow in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle).select():
-                        rowrow.update_record(slutperiod = period)
+                    kurstillfalle_id = row.id
+                    # Sätter om slutperioden för den existerande kurskoden (kursen)
+                    for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id).select():
+                        row.update_record(slutperiod = period)
                 break
+                # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
             if existerar != True:
-
                  # Suds BEGIN
                 url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
                 client = Client(url);
                 client.set_options(port="PlanTjanstHttpSoap11Endpoint")
                 response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
                 namn = response['kurs']['namn']
-                
+                poang = response['kurs']['poang']
+                fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
+                #varibel för att plocka ut huvudämne
+                amne1 = response['kurs']['huvudomradeFordjupningar'][0]['huvudomrade']['benamning']
+                #variabler för att plocka ut dubbla huvudämnen
+                fordjukod2 = ""
+                amne2 = ""
 
+                #check om kursen innehåller två huvudämnen. if so hämtar vi det andra huvudämnet
+                gotdata = 1
+                try:
+                    gotdata = response['kurs']['huvudomradeFordjupningar'][1]
+                except IndexError:
+                    gotdata = 0
+                if gotdata:
+                fordjukod2 = response['kurs']['huvudomradeFordjupningar'][1]['fordjupningskod']
+                amne2 = response['kurs']['huvudomradeFordjupningar'][1]['huvudomrade']['benamning']
 
+            #printsats för lokal testning
+            """
+            print namn
+            print poang
+            print fordjukod1
+            print amne1
+            print fordjukod2
+            print amne2
 
-
-                id_kursplan = db.kursplan.insert(kurskod = kurskod, )
+                id_kursplan = db.kursplan.insert(namn = namn, kurskod = kurskod, poang = poang, niva = fordjukod1)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                db.kurstillfalle_studieplan.insert(kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period, studieplan = id_studieplan)
-
+                db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period, studieplan = id_studieplan)
+"""
 
 
 
