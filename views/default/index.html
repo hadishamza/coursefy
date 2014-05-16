@@ -477,15 +477,51 @@ $( document ).ready(function() {
     $(".dropdown").click(function(){
         $(this).next().toggle();
         $(this).children("img").toggleClass("rotated");
-    })
-    var availableTags = [
-      "Algebra 1MA004",
-      "Baskurs 1MA010",
-      "Programkonstruktion och datastrukturer 1DL201",
-      "Automata 1DL500"
-    ];
+    });
+
+    function spawnCourse(data){
+        var $course = $("<div class='course ui-draggable'><div class='removeCourse'></div><div>" + data.kurskod + "  " + data.niva + " <strong>" + data.poang +"HP</strong> <br>" + data.namn + "</div></div>");
+        $course.draggable({
+                snap: false,
+                cursor: "move",
+                revert: "invalid"
+            });
+        $course.on("dragstart", event_dragstart);
+        $course.on("dragstop", event_dragstop);
+        var datum = {
+            code: data.kurskod,
+            level: data.nivå,
+            credits: data.poang,
+            name: data.namn,
+            period: null,
+            position: {
+                x: null,
+                y: null
+            },
+            dup: false
+        }
+        $course.data("course", datum);
+        $("#spawnCourse").append($course);
+    };
     $( ".search-course" ).autocomplete({
-      source: availableTags
+      source: function(request, response){
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "http://127.0.0.1:8000/coursefy/api/courses/"+request.term,
+            success: function(data){
+                response($.map(data, function(item) {
+                    return {
+                        label: item.kurskod,
+                        data: item
+                    }
+                }));
+            }
+        });
+      },
+      select: function(event, ui){
+        spawnCourse(ui.item.data);
+      }
     });
 });
 
@@ -548,6 +584,7 @@ $( document ).ready(function() {
                 HANTERA KURSER</div>
             <div class="search-information">
                 Sök: <input class="search-course" type='text' name='username' size='30' placeholder='Ange kurskod eller kursnamn' />
+                <div id="spawnCourse"></div>
             </div>
             <div class="course-data banner dropdown"><img height="12px" width="12px" src="{{=URL('static', 'images/icon-up.png')}}"/> KURSINFORMATION</div>
             <div class="course-information">
