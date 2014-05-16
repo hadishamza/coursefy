@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 import json, os
+from suds.client import Client
 
 def index():
+    #message = getinfoSelma("1MA009")
     message = insert("it1415.json", "InformationsteknologiC", "IT", 2014)
     return dict(message=message)
 
@@ -17,39 +19,67 @@ def insert(filnamn, prognamn, progkort, ar):
             kurskod = row["code"]
             period = row["period"]
             existerar = False
+            # check för att se om vi redan har skapat ett table för den här kurskoden, ifs sätts "existerar" till true vilket indikerar att
+            # det redan finns ett table. Att det finns flera objekt med samma kurskod beror på att kursen går över flera perioder.
             for row in db(db.kursplan.kurskod == kurskod).select():
                 id_kursplan = row.id
                 existerar = True
+                # check för hitta det tillhörande kurstillfället till den existerande kurskoden (kursen)
                 for row in db(db.kurstillfalle.kursplan == id_kursplan).select():
-                    kurstillfalle = row.id
-                    for rowrow in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle).select():
-                        rowrow.update_record(slutperiod = period)
+                    kurstillfalle_id = row.id
+                    # Sätter om slutperioden för den existerande kurskoden (kursen)
+                    for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id).select():
+                        row.update_record(slutperiod = period)
                 break
+                # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
             if existerar != True:
-
-                 # Suds BEGIN
-                url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
-                client = Client(url);
-                client.set_options(port="PlanTjanstHttpSoap11Endpoint")
-                response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
-                namn = response['kurs']['namn']
-                
-
-
-
-
-                id_kursplan = db.kursplan.insert(kurskod = kurskod, )
+                attributList = getinfoSelma(kurskod)
+                id_niva = db.niva.insert(namn = attributList[2])
+                id_kursplan = db.kursplan.insert(namn = attributList[0], kurskod = kurskod, poang = attributList[1], niva = id_niva)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                db.kurstillfalle_studieplan.insert(kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period, studieplan = id_studieplan)
+                db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
 
 
+def getinfoSelma(kurskod):
+    # Suds BEGIN
+    url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
+    client = Client(url);
+    client.set_options(port="PlanTjanstHttpSoap11Endpoint")
+    response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
+    namn = "lol"#response['kurs']['namn']
+    poang = response['kurs']['poang']
+        # varibler för att plocka ut huvudämne
+    fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
+    amne1 = response['kurs']['huvudomradeFordjupningar'][0]['huvudomrade']['benamning']
+        # variabler för att plocka ut dubbla huvudämnen
+    fordjukod2 = ""
+    amne2 = ""
+        # check om kursen innehåller två huvudämnen. if so hämtar vi det andra huvudämnet
+    gotdata = 1
+    try:
+        gotdata = response['kurs']['huvudomradeFordjupningar'][1]
+    except IndexError:
+        gotdata = 0
+    if gotdata:
+        fordjukod2 = response['kurs']['huvudomradeFordjupningar'][1]['fordjupningskod']                                            
+        amne2 = response['kurs']['huvudomradeFordjupningar'][1]['huvudomrade']['benamning']
+    returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2]
 
+#printsats för lokal testning
 
+    """
+    print namn
+    print poang
+    print fordjukod1
+    print amne1
+    print fordjukod2
+    print amne2
+    print returnlist[0]
+    """
+    return returnlist
 
-
-
-""" 
+"""
 insert("it1213.json", "InformationsteknologiC", "IT", 2012)
 insert("it1314.json", "InformationsteknologiC", "IT", 2013)
 insert("it1415.json", "InformationsteknologiC", "IT", 2014)
