@@ -4,12 +4,10 @@
 from suds.client import Client
 
 def index():
-
     # Suds BEGIN
     url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
     client = Client(url);
     client.set_options(port="PlanTjanstHttpSoap11Endpoint")
-
     response = client.service.hamtaKursplanKurskod(kurskod="1MA025")
     namn = response['kurs']['namn']
     poang = response['kurs']['poang']
