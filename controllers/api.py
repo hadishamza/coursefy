@@ -1,8 +1,8 @@
 @request.restful()
-def studyplan():
+def courses():
     response.view = 'generic.json'
-    def GET(program, year):
-        if not tablename=='larare':
-        	raise HTTP(400)
-        return dict(larare = db.larare(id))
+    def GET(searchword):
+    	kurser = kursplan = db(db.kursplan.kurskod.contains(searchword)).select(limitby=(0,5))
+        return kurser.json()
     return locals()
+
