@@ -282,7 +282,7 @@ var coursefy = {
             }
         }
         event.stopPropagation();
-        this.sync_data();
+        coursefy.sync_data();
     },
 
     event_dragstart: function (event, ui) {
