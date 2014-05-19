@@ -1,0 +1,115 @@
+{{extend 'layout.html'}}
+<link rel="stylesheet" media="all" href="{{=URL('static', 'css/style.css')}}">
+
+<script type="text/javascript">
+// JSON DATA
+var original_data =
+[{"credits": "10", "level": "G1N", "code": "1DT051", "period": "11", "name": "Introduktion till informationsteknologi"},
+{"credits": "5", "level": "G1N", "code": "1MA010", "period": "11", "name": "Baskurs i matematik"},
+{"credits": "(10)", "level": "G1F", "code": "1DL201", "period": "12", "name": "Programkonstruktion och datastrukturer"},
+{"credits": "5", "level": "G1F", "code": "1MA004", "period": "12", "name": "Algebra I"},
+{"credits": "(10) 20", "level": "G1F", "code": "1DL201", "period": "13", "name": "Programkonstruktion och datastrukturer"},
+{"credits": "(5)", "level": "G1F", "code": "1MA013", "period": "13", "name": "Envariabelanalys"},
+{"credits": "10", "level": "G1F", "code": "1DT093", "period": "14", "name": "Datorarkitektur "},
+{"credits": "(5) 10", "level": "G1F", "code": "1MA013", "period": "14", "name": "Envariabelanalys"},
+{"credits": "(10)", "level": "G1F", "code": "1DL221", "period": "21", "name": "Imperativ och objektorienterad programmeringsmetodik"},
+{"credits": "5", "level": "G1F", "code": "1MA025", "period": "21", "name": "Linj\u00e4r algebra och geometri I"},
+{"credits": "5", "level": "G1F", "code": "1DL500", "period": "22", "name": "Automater och logik i modellering av IT-system"},
+{"credits": "(10) 20", "level": "G1F", "code": "1DL221", "period": "22", "name": "Imperativ och objektorienterad programmeringsmetodik"},
+{"credits": "5", "level": "G1F", "code": "1MA024", "period": "23", "name": "Linj\u00e4r algebra II"},
+{"credits": "5", "level": "G1F", "code": "1DT044", "period": "23", "name": "Operativsystem I"},
+{"credits": "5", "level": "G1F", "code": "1MS005", "period": "24", "name": "Sannolikhet och statistik"},
+{"credits": "10", "level": "G1F", "code": "1TE717", "period": "24", "name": "Digitalteknik och elektronik"},
+{"credits": "5", "level": "G1F", "code": "1DT052", "period": "31", "name": "Datakommunikation I"},
+{"credits": "5", "level": "G1F", "code": "1TD394", "period": "31", "name": "Ber\u00e4kningsvetenskap"},
+{"credits": "5", "level": "G1F", "code": "1MA034", "period": "31", "name": "Transformmetoder"},
+{"credits": "(5)", "level": "G2F", "code": "1TE682", "period": "32", "name": "Signaler och inbyggda system"},
+{"credits": "5", "level": "G1F", "code": "1MA012", "period": "32", "name": "Diskret matematik"},
+{"credits": "5", "level": "G1F", "code": "2FE025", "period": "32", "name": "F\u00f6retagsekonomi, baskurs A/B"},
+{"credits": "(5)10", "level": "G2F", "code": "1TE682", "period": "33", "name": "Signaler och inbyggda system"},
+{"credits": "5", "level": "G1N", "code": "1MD016", "period": "33", "name": "M\u00e4nniska-datorinteraktion"},
+{"credits": "5", "level": "G1F", "code": "1DL300", "period": "33", "name": "Databasteknik I"},
+{"credits": "15", "level": "G2E", "code": "1DT350", "period": "34", "name": "Sj\u00e4lvst\u00e4ndigt arbete i informationsteknologi"},
+{"credits": "5", "level": "G2F", "code": "1DT002", "period": "34.", "name": "Uppsatsmetodik"},
+{"credits": "5", "level": "G1F", "code": "1RT155", "period": "34.", "name": "Modellelering av dynamiska system "},
+{"credits": "10", "level": "A1N", "code": "1DT092", "period": "34.", "name": "Internationell mjukvaruutveckling, projekt"}];
+</script>
+
+<script src="{{=URL('static', 'js/coursefy.js')}}" type="text/javascript"></script>
+<div class="row">
+    <div class="col-md-1"></div>
+    <div class="container col-md-8">
+        <h1>Studieplan för IT 2013/1014 (år 1-3)</h1>
+        <div class="table-responsive">
+            <a href="." onclick="localStorage.clear()">Reset</a>
+            <h2>År 1</h2>
+            <table data-year="1" class="studyplan table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Period 1</th>
+                        <th>Period 2</th>
+                        <th>Period 3</th>
+                        <th>Period 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <h2>År 2</h2>
+            <table data-year="2" class="studyplan table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Period 1</th>
+                        <th>Period 2</th>
+                        <th>Period 3</th>
+                        <th>Period 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="table-responsive">
+            <h2>År 3</h2>
+            <table data-year="3" class="studyplan table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Period 1</th>
+                        <th>Period 2</th>
+                        <th>Period 3</th>
+                        <th>Period 4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="col-md-3 information-box">
+
+        <div style="width: 100%; min-height: 400px;">
+            <div class="course-search banner dropdown"><img height="12px" width="12px" src="{{=URL('static', 'images/icon-up.png')}}"/>
+                HANTERA KURSER</div>
+            <div class="search-information">
+                Sök: <input class="search-course" type='text' name='username' size='30' placeholder='Ange kurskod eller kursnamn' />
+                <div id="spawnCourse"></div>
+            </div>
+            <div class="course-data banner dropdown"><img height="12px" width="12px" src="{{=URL('static', 'images/icon-up.png')}}"/> KURSINFORMATION</div>
+            <div class="course-information">
+                <h3 class="course_header"></h3>
+                <div class="course_hp"></div>
+                <div class="course_level"></div>
+                <div class="course_code"></div>
+                <div class="course_link"></div>
+
+            </div>
+            <div class="course-warning banner dropdown"><img height="12px" width="12px" src="{{=URL('static', 'images/icon-up.png')}}"/>
+                VARNING</div>
+            <div class="warning-information">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce non augue dolor. Sed magna diam, dapibus id justo eget, ullamcorper interdum est. Pellentesque habitant morbi tristique senectus.
+            </div>
+        </div>
+    </div>
+</div>
