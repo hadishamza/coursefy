@@ -41,7 +41,7 @@ td.highlighted {
     height: 100%;
 }
 .removeCourse{
-    background-image: url({{=URL('static', 'images/cross-24.png')}});
+    background-image: url('../images/cross-24.png');
     background-size:12px 12px;
     background-position:center;
     background-repeat:no-repeat;
@@ -53,7 +53,7 @@ td.highlighted {
 }
 
 .expandCourse{
-    background-image: url({{=URL('static', 'images/arrow.png')}});
+    background-image: url('../images/arrow.png');
     background-size:12px 12px;
     background-position:center;
     background-repeat:no-repeat;
