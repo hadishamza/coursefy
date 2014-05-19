@@ -469,7 +469,8 @@ $( document ).ready(function() {
     }).on("drop", drop_event).on("dropover", dropover_event).on("dropout", dropout_event);
             //TODO: CLICK ON NEWLY CREATED COURSES
             //TODO: REMOVE ON NEWLY CREATED COURSES
-    $(".course").on("click", function(){
+
+    function event_click(){
         var course = $(this).data().course;
         $('.focused').removeClass("focused");
         $(this).addClass("focused");
@@ -477,20 +478,26 @@ $( document ).ready(function() {
         $(".course-information").find(".course_hp").html("HP: "+ course.credits);
         $(".course-information").find(".course_level").html("Nivå: " +course.level);
         $(".course-information").find(".course_code").html("Kurskod: "+ course.code);
-    });
-    $(".removeCourse").click(function(){
+    }
+
+    function event_remove(){
+        console.log("ABRUR");
         var course = $(this).parent();
         drop_help(course.parent(), course.data().course.dup, true);
         course.remove();
         sync_data();
-    });
+    }
+
+    $(".removeCourse").on("click", event_remove);
+    $(".course").on("click", event_click);
+
     $(".dropdown").click(function(){
         $(this).next().toggle();
         $(this).children("img").toggleClass("rotated");
     });
 
     function spawnCourse(data){
-        var $course = $("<div class='course ui-draggable'><div class='removeCourse'></div><div>" + data.kurskod + "  " + data.niva + " <strong>" + data.poang +"HP</strong> <br>" + data.namn + "</div></div>");
+        var $course = $("<div class='course'><div class='removeCourse'></div><div>" + data.kurskod + "  " + data.niva + " <strong>" + data.poang +"HP</strong> <br>" + data.namn + "</div></div>");
         $course.draggable({
                 snap: false,
                 cursor: "move",
@@ -498,6 +505,8 @@ $( document ).ready(function() {
             });
         $course.on("dragstart", event_dragstart);
         $course.on("dragstop", event_dragstop);
+        $course.on("click", event_click);
+        $course.find(".removeCourse").on("click", event_remove);
         var datum = {
             code: data.kurskod,
             level: data.nivå,
@@ -511,6 +520,7 @@ $( document ).ready(function() {
             dup: false
         }
         $course.data("course", datum);
+        $course.addClass(course_class(data.kurskod));
         $("#spawnCourse").html($course);
     };
     $( ".search-course" ).autocomplete({
