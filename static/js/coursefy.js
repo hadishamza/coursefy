@@ -21,6 +21,7 @@ var coursefy = {
         });
     },
 
+    /***** DRAW METHODS BEGIN *****/
     $td_course: function(x, y, free) {
         var data = this.init_td(x,y, free);
         return $("<td class='td_course'>").droppable({
@@ -35,6 +36,38 @@ var coursefy = {
     init_td: function (x, y, free) {
         free = (typeof free === "undefined") ? true : free;
         return {x: x, y: y, free: free};
+    },
+
+    $course: function(data) {
+        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + data["name"] + "</div></div>");
+
+        $course.draggable({
+            snap: false,
+            cursor: "move",
+            revert: "invalid"
+        }).on("dragstop", this.event_dragstop).on("dragstart", this.event_dragstart).on("click", this.event_click);
+        $course.find(".removeCourse").on("click", this.event_remove);
+        $course.find(".expandCourse").on("click", this.event_expand);
+        $course.data("course", data);
+        $course.addClass(this.course_class(data.code));
+        return $course;
+    },
+
+    spawnCourse: function (data){
+        var fixed_data = {
+            code: data.kurskod,
+            level: data.nivå,
+            credits: data.poang,
+            name: data.namn,
+            period: null,
+            position: {
+                x: null,
+                y: null
+            },
+            dup: false
+        }
+        var $course = self.$course(fixed_data)
+        $("#spawnCourse").html($course);
     },
 
     init_grid: function ($studyplan, data, year) {
@@ -67,6 +100,7 @@ var coursefy = {
 
         return type_class;
     },
+    /***** DRAW METHODS END *****/
 
     year_data: function (data, year){
         var data_year = [];
@@ -108,21 +142,6 @@ var coursefy = {
                 k++;
             }
         }
-    },
-
-    $course: function(data) {
-        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + data["name"] + "</div></div>");
-
-        $course.draggable({
-            snap: false,
-            cursor: "move",
-            revert: "invalid"
-        }).on("dragstop", this.event_dragstop).on("dragstart", this.event_dragstart).on("click", this.event_click);
-        $course.find(".removeCourse").on("click", this.event_remove);
-        $course.find(".expandCourse").on("click", this.event_expand);
-        $course.data("course", data);
-        $course.addClass(this.course_class(data.code));
-        return $course;
     },
 
     populate_studyplan: function ($studyplan, data, year) {
@@ -170,6 +189,7 @@ var coursefy = {
         return max + 1;
     },
 
+    /***** TABLE HELPERS BEGIN *****/
     needs_another_row: function (table, y) {
         var $table = $(table);
         return (y+1) == ($table.find("tr").length -1);
@@ -227,6 +247,8 @@ var coursefy = {
         return max_rows;
     },
 
+    /***** TABLE HELPERS END *****/
+
     manage_data: function (data) {
         data.sort(function (a, b) {
         var period_a = parseInt(a.period);
@@ -253,6 +275,7 @@ var coursefy = {
     },
 
     /***** EVENTS BEGIN *****/
+
     event_expand: function (){
         var $course = $(this).parent();
         if($course.hasClass("extend")){ //From double to single
@@ -376,23 +399,6 @@ var coursefy = {
         });
         data = d;
         localStorage.setItem("synced_data", JSON.stringify(d));
-    },
-
-    spawnCourse: function (data){
-        var fixed_data = {
-            code: data.kurskod,
-            level: data.nivå,
-            credits: data.poang,
-            name: data.namn,
-            period: null,
-            position: {
-                x: null,
-                y: null
-            },
-            dup: false
-        }
-        var $course = self.$course(fixed_data)
-        $("#spawnCourse").html($course);
     }
 }
 
