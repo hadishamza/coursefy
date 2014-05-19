@@ -30,14 +30,14 @@ class UuSpider(Spider):
                 row["name"] = self.empty_help(selrow.xpath('td[3]/p//text()').extract())
                 row["credits"] = self.empty_help(selrow.xpath('td[4]/p//text()').extract())
                 row["level"] = self.empty_help(selrow.xpath('td[5]/p//text()').extract())
-
+                data.append(row)
                 if len(periods) > 1:
                     row["period"] = periods[0]
                     row2 = row.copy()
                     row2["period"] = periods[1]
                     data.append(row2)
 
-                data.append(row)
+
 
         return data
 
