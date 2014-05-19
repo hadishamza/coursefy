@@ -1,3 +1,5 @@
+import uuid
+
 db = DAL('sqlite://storage.db')
 
 db.define_table('institution',
