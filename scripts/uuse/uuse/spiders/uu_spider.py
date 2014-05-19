@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from scrapy.spider import Spider
 from scrapy.selector import Selector
 from uuse.items import UuItem
@@ -23,6 +24,7 @@ class UuSpider(Spider):
                 period = period_extracted.replace(" ", "") #Get rid of whitespace
 
             if code != [] and code[0] != u'\u00a0' and len(code[0]) == 6: # Is it really a course code?
+                period = period.replace(u'\u2013', "-") # unicode problems
                 periods = period.split("-")
                 row = UuItem()
                 row["period"] = period
