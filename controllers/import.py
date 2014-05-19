@@ -8,9 +8,19 @@ def index():
     return dict(message=message)
 
 def insert(filnamn, prognamn, progkort, ar):
-    path = 'applications/coursefy/scripts/scrape/'
-    id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
-    id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
+    path = 'applications/coursefy/scripts/scraped/'
+    # check om programmet och studieplanen finns sedan tidigare
+    # här antas att om programmet inte finns så finns inte studieplanen
+    if db(db.program.namn != progkort).select():
+        id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
+        id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
+    else:
+        id_program = db(db.program.namn == progkort).select()
+# här behöver vi även kolla om studielpanen finns sedan tidigare, det existerar flera olika studieplaner
+        #if db(db.studieplan.ar == ar).select():
+            #id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
+        #else:
+        id_studieplan = db(db.studieplan.namn == progkort).select()
     filnamn = path + filnamn
     with open(filnamn) as json_file:
         json_data = json.load(json_file)
@@ -35,7 +45,6 @@ def insert(filnamn, prognamn, progkort, ar):
             if existerar != True:
                 attributList = getinfoSelma(kurskod)
                 if attributList == []:
-
                     attributList.append(row["name"])
                     attributList.append("")
                     attributList.append("")
@@ -91,8 +100,19 @@ def getinfoSelma(kurskod):
     print returnlist[0]
     """
     return returnlist
-
-
+    
+insert("it1415.json", "InformationsteknologiC", "IT", 2014)
+insert("b1415.json", "ByggteknikC", "B", 2014)
+insert("e1415.json", "ElektroteknikC", "E", 2014)
+insert("ei1415.json", "ElektroteknikH", "EI", 2014)
+insert("es1415.json", "EnergisystemC", "ES", 2014)
+insert("f1415.json", "TekniskfysikC", "F", 2014)
+insert("k1415.json", "KemiteknikC", "K", 2014)
+insert("mi1415.json", "MaskinteknikH", "MI", 2014)
+insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
+insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
+insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
+insert("x1415.json", "MolykularBioteknikC", "X", 2014)
 
 """
 insert("it1213.json", "InformationsteknologiC", "IT", 2012)
@@ -100,37 +120,26 @@ insert("it1314.json", "InformationsteknologiC", "IT", 2013)
 insert("it1415.json", "InformationsteknologiC", "IT", 2014)
 insert("e1213.json", "ElektroteknikC", "E", 2012)
 insert("e1314.json", "ElektroteknikC", "E", 2013)
-insert("e1415.json", "ElektroteknikC", "E", 2014)
 insert("es1213.json", "EnergisystemC", "ES", 2012)
 insert("es1314.json", "EnergisystemC", "ES", 2013)
-insert("es1415.json", "EnergisystemC", "ES", 2014)
 insert("k1213.json", "KemiteknikC", "K", 2012)
 insert("k1314.json", "KemiteknikC", "K", 2013)
-insert("k1415.json", "KemiteknikC", "K", 2014)
 insert("w1213.json", "MiljoVattenteknikC", "W", 2012)
 insert("w1314.json", "MiljoVattenteknikC", "W", 2013)
-insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
 insert("x1213.json", "MolykularBioteknikC", "X", 2012)
 insert("x1314.json", "MolykularBioteknikC", "X", 2013)
-insert("x1415.json", "MolykularBioteknikC", "X", 2014)
 insert("sts1213.json", "SystemiteknikochSamhalleC", "STS", 2012)
 insert("sts1314.json", "SystemiteknikochSamhalleC", "STS", 2013)
-insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014) 
 insert("f1213.json", "TekniskfysikC", "F", 2012)
 insert("f1314.json", "TekniskfysikC", "F", 2013)
-insert("f1415.json", "TekniskfysikC", "F", 2014)
 insert("q1213.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2012)
 insert("q1314.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2013)
-insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
 insert("b1213.json", "ByggteknikC", "B", 2012)
 insert("b1314.json", "ByggteknikC", "B", 2013)
-insert("b1415.json", "ByggteknikC", "B", 2014)
 insert("ei1213.json", "ElektroteknikH", "EI", 2012)
 insert("ei1314.json", "ElektroteknikH", "EI", 2013)
-insert("ei1415.json", "ElektroteknikH", "EI", 2014)
 insert("mi1213.json", "MaskinteknikH", "MI", 2012)
 insert("mi1314.json", "MaskinteknikH", "MI", 2013)
-insert("mi1415.json", "MaskinteknikH", "MI", 2014)
 insert("1415.json", "KvalitetsutvecklingochLedarskap", "", 2014)
 insert("kki1213.json", "KarnkraftteknikH", "KKI", 2012)
 insert("kki1314.json", "KarnkraftteknikH", "KKI", 2013)
