@@ -38,18 +38,32 @@ td.highlighted {
 .course.fe {
     background:#FF9E8E;
 }
-.course.focused div:nth-child(2) {
+.course.focused div:nth-child(3) {
     border: 2px black solid;
     height: 100%;
 }
 .removeCourse{
-    float:right;
     background-image: url({{=URL('static', 'images/cross-24.png')}});
     background-size:12px 12px;
     background-position:center;
     background-repeat:no-repeat;
     width:16px;
     height:16px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+.expandCourse{
+    background-image: url({{=URL('static', 'images/arrow.png')}});
+    background-size:12px 12px;
+    background-position:center;
+    background-repeat:no-repeat;
+    width:16px;
+    height:16px;
+    position: absolute;
+    right: 0px;
+    top: 16px;
 }
 .information-box{
     position: fixed;
@@ -87,6 +101,7 @@ td.highlighted {
     background-color: #E33636;
 }
 .banner{
+    cursor: pointer;
     font-weight: bold;
     color: #3D453D;
     padding-left: 40px;
@@ -236,12 +251,13 @@ $( document ).ready(function() {
                 var position = {x:$td.data("x"), y:$td.data("y")};
                 var course = find_course_by_pos(data_year, position);
                 if (course) {
-                    $td.html("<div class='course'><div class='removeCourse'></div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
+                    $td.html("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
                     var $course = $td.children(".course");
                     $course.data("course", course);
                     $course.addClass(course_class(course.code));
                     drop_help($td, course.dup, false);
                     if(course.dup) {
+                        $course.find(".expandCourse").addClass("rotated");
                         $course.addClass("extend");
                     }
                 }
@@ -340,6 +356,30 @@ $( document ).ready(function() {
         cursor: "move",
         revert: "invalid"
     });
+
+    function event_expand(){
+        $course = $(this).parent();
+        if($course.hasClass("extend")){ //From double to single
+            $course.toggleClass("extend");
+            $(this).toggleClass("rotated");
+            $course.data().course.dup = false;
+            $course.parent().next().data("free", true);
+        }
+        else{   // From single to double
+            if($course.parent().next().data("free")){
+                $course.toggleClass("extend");
+                $(this).toggleClass("rotated");
+                $course.data().course.dup = true;
+                $course.parent().next().data("free", false);
+            }
+            else{
+                $course.effect("shake");
+            }
+        }
+        event.stopPropagation();
+        sync_data();
+    }
+
     function event_dragstart(event, ui) {
         var parent = $(this).parent(".td_course");
         var course = $(this).data("course");
@@ -354,6 +394,7 @@ $( document ).ready(function() {
         drop_help(parent, course.dup, false);
     }
     $(".course").on("dragstop", event_dragstop).on("dragstart", event_dragstart);
+    $(".expandCourse").on("click", event_expand);
 
     function drop_help(target, dup, free) {
         target.data("free", free);
@@ -467,8 +508,6 @@ $( document ).ready(function() {
         accept: ".course",
         tolerance: "pointer"
     }).on("drop", drop_event).on("dropover", dropover_event).on("dropout", dropout_event);
-            //TODO: CLICK ON NEWLY CREATED COURSES
-            //TODO: REMOVE ON NEWLY CREATED COURSES
 
     function event_click(){
         var course = $(this).data().course;
@@ -481,7 +520,6 @@ $( document ).ready(function() {
     }
 
     function event_remove(){
-        console.log("ABRUR");
         var course = $(this).parent();
         drop_help(course.parent(), course.data().course.dup, true);
         course.remove();
@@ -497,7 +535,7 @@ $( document ).ready(function() {
     });
 
     function spawnCourse(data){
-        var $course = $("<div class='course'><div class='removeCourse'></div><div>" + data.kurskod + "  " + data.niva + " <strong>" + data.poang +"HP</strong> <br>" + data.namn + "</div></div>");
+        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data.kurskod + "  " + data.niva + " <strong>" + data.poang +"HP</strong> <br>" + data.namn + "</div></div>");
         $course.draggable({
                 snap: false,
                 cursor: "move",
@@ -507,6 +545,7 @@ $( document ).ready(function() {
         $course.on("dragstop", event_dragstop);
         $course.on("click", event_click);
         $course.find(".removeCourse").on("click", event_remove);
+        $course.find(".expandCourse").on("click", event_expand);
         var datum = {
             code: data.kurskod,
             level: data.nivå,
