@@ -8,19 +8,23 @@ def index():
     return dict(message=message)
 
 def insert(filnamn, prognamn, progkort, ar):
-    path = 'applications/coursefy/scripts/scraped/'
+    path = 'applications/coursefy/scripts/uuse/scraped/'
     # check om programmet och studieplanen finns sedan tidigare
     # här antas att om programmet inte finns så finns inte studieplanen
     if db(db.program.namn != progkort).select():
         id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
         id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
     else:
-        id_program = db(db.program.namn == progkort).select()
+        for row in db(db.program.namn == progkort).select():
+            id_program = row.id
+            break
 # här behöver vi även kolla om studielpanen finns sedan tidigare, det existerar flera olika studieplaner
         #if db(db.studieplan.ar == ar).select():
             #id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
         #else:
-        id_studieplan = db(db.studieplan.namn == progkort).select()
+        for row in db(db.studieplan.namn == progkort).select():
+            id_studieplan = row.id
+            break
     filnamn = path + filnamn
     with open(filnamn) as json_file:
         json_data = json.load(json_file)
@@ -65,16 +69,41 @@ def getinfoSelma(kurskod):
     response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
     
     # check för om kursen inte finns i Selma
+    namn = 1
+    poang = 1
+    fordjukod1 = 1
+    amne1 = 1
+
     try:
         test = response['kurs']
     except TypeError:
         return []
         #kursen finns i Selma!!!
-    namn = response['kurs']['namn']
-    poang = response['kurs']['poang']
+    try:
+        test_namn = response['kurs']['namn']
+    except TypeError:
+        namn = 0
+    if namn:
+        namn = response['kurs']['namn']
+    try:
+        test_poang = ['kurs']['poang']
+    except TypeError:
+        poang = 0
+    if poang:
+        poang = response['kurs']['poang']
         # varibler för att plocka ut huvudämne
-    fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
-    amne1 = response['kurs']['huvudomradeFordjupningar'][0]['huvudomrade']['benamning']
+    try:
+        test_fordjukod1 =['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
+    except TypeError:
+        fordjukod1 = 0
+    if fordjukod1:
+        fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
+    try:
+        test_amne1 = response['kurs']['huvudomradeFordjupningar'][0]['huvudomrade']['benamning']
+    except TypeError:
+        amne1 = 0
+    if amne1:
+        amne1 = response['kurs']['huvudomradeFordjupningar'][0]['huvudomrade']['benamning']
         # variabler för att plocka ut dubbla huvudämnen
     fordjukod2 = ""
     amne2 = ""
@@ -100,7 +129,11 @@ def getinfoSelma(kurskod):
     print returnlist[0]
     """
     return returnlist
-    
+
+
+"""
+# program som har scrapats
+insert("x1415.json", "MolykularBioteknikC", "X", 2014)
 insert("it1415.json", "InformationsteknologiC", "IT", 2014)
 insert("b1415.json", "ByggteknikC", "B", 2014)
 insert("e1415.json", "ElektroteknikC", "E", 2014)
@@ -112,9 +145,8 @@ insert("mi1415.json", "MaskinteknikH", "MI", 2014)
 insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
 insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
 insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
-insert("x1415.json", "MolykularBioteknikC", "X", 2014)
 
-"""
+#program vi inte har scrapat än
 insert("it1213.json", "InformationsteknologiC", "IT", 2012)
 insert("it1314.json", "InformationsteknologiC", "IT", 2013)
 insert("it1415.json", "InformationsteknologiC", "IT", 2014)
