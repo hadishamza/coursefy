@@ -6,3 +6,19 @@ def courses():
         return kurser.json()
     return locals()
 
+@request.restful()
+def user_studyplan():
+    response.view = 'generic.json'
+    def GET(id):
+        return None
+
+    def POST(id, user_studyplan):
+        return None
+    return locals()
+
+@request.restful()
+def studyplan():
+    response.view = 'generic.json'
+    def GET(id):
+        return None
+    return locals()
