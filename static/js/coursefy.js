@@ -39,7 +39,6 @@ var coursefy = {
 
     init_grid: function ($studyplan, data, year) {
         var data_year = this.year_data(data, year);
-        console.log(data_year);
         var num_rows = this.find_greatest_y(data_year) + 1; // +1 Because we like to palayey
         for (var i = 0; i < num_rows; i++) {
             var $tr = $("<tr></tr>");
@@ -49,7 +48,6 @@ var coursefy = {
             }
             $studyplan.append($tr);
         }
-        console.log("grid_init");
     },
 
     course_class: function (course_code) {
