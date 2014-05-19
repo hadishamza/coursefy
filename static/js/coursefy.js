@@ -408,15 +408,18 @@ $( document ).ready(function() {
         $.ajax({
             type: "GET",
             dataType: "json",
-            url: "http://127.0.0.1:8000/coursefy/api/courses/"+request.term,
-            success: function(data){
-                response($.map(data, function(item) {
-                    return {
-                        label: item.kurskod,
-                        data: item
-                    }
-                }));
-            }
+            url: "http://127.0.0.1:8000/coursefy/api/courses/"+request.term
+        })
+        .done(function(data){
+            response($.map(data, function(item) {
+                return {
+                    label: item.kurskod,
+                    data: item
+                }
+            }));
+        })
+        .fail(function( jqXHR, textStatus ) {
+            // Todo handle error here
         });
       },
       select: function(event, ui){
