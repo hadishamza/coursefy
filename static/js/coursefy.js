@@ -111,17 +111,7 @@ var coursefy = {
     },
 
     $course: function(data) {
-        var course;
-        if (data.namn) {
-            course.code = data.kod;
-            course.level = data.niva;
-            course.credits = data.poang;
-            course.name = data.namn;
-        }
-        else {
-            course = data;
-        }
-        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + "</div></div>");
+        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + data["name"] + "</div></div>");
 
         $course.draggable({
             snap: false,
@@ -130,6 +120,8 @@ var coursefy = {
         }).on("dragstop", this.event_dragstop).on("dragstart", this.event_dragstart).on("click", this.event_click);
         $course.find(".removeCourse").on("click", this.event_remove);
         $course.find(".expandCourse").on("click", this.event_expand);
+        $course.data("course", data);
+        $course.addClass(this.course_class(data.code));
         return $course;
     },
 
@@ -145,9 +137,8 @@ var coursefy = {
                 var course = self.find_course_by_pos(data_year, position);
                 if (course) {
                     var $course = self.$course(course);
-                    $course.data("course", course);
-                    $course.addClass(self.course_class(course.code));
                     $td.html($course);
+
                     self.drop_help($td, course.dup, false);
                     if(course.dup) {
                         $course.find(".expandCourse").addClass("rotated");
@@ -388,8 +379,7 @@ var coursefy = {
     },
 
     spawnCourse: function (data){
-        var $course = self.$course(data)
-        var datum = {
+        var fixed_data = {
             code: data.kurskod,
             level: data.nivå,
             credits: data.poang,
@@ -401,8 +391,7 @@ var coursefy = {
             },
             dup: false
         }
-        $course.data("course", datum);
-        $course.addClass(course_class(data.kurskod));
+        var $course = self.$course(fixed_data)
         $("#spawnCourse").html($course);
     }
 }
