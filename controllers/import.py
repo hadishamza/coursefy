@@ -34,6 +34,11 @@ def insert(filnamn, prognamn, progkort, ar):
                 # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
             if existerar != True:
                 attributList = getinfoSelma(kurskod)
+                if attributList == []:
+
+                    attributList.append(row["name"])
+                    attributList.append("")
+                    attributList.append("")
                 id_niva = db.niva.insert(namn = attributList[2])
                 id_kursplan = db.kursplan.insert(namn = attributList[0], kurskod = kurskod, poang = attributList[1], niva = id_niva)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
@@ -41,13 +46,22 @@ def insert(filnamn, prognamn, progkort, ar):
                 db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
 
 
+
 def getinfoSelma(kurskod):
     # Suds BEGIN
     url = "http://selma-test.its.uu.se/selmaws-uu/services/PlanTjanst?wsdl"
     client = Client(url);
     client.set_options(port="PlanTjanstHttpSoap11Endpoint")
+   # print "kurskod: " + kurskod
     response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
-    namn = "lol"#response['kurs']['namn']
+    
+    # check för om kursen inte finns i Selma
+    try:
+        test = response['kurs']
+    except TypeError:
+        return []
+        #kursen finns i Selma!!!
+    namn = response['kurs']['namn']
     poang = response['kurs']['poang']
         # varibler för att plocka ut huvudämne
     fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
@@ -66,10 +80,9 @@ def getinfoSelma(kurskod):
         amne2 = response['kurs']['huvudomradeFordjupningar'][1]['huvudomrade']['benamning']
     returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2]
 
-#printsats för lokal testning
-
-    """
+    #printsats för lokal testning
     print namn
+    """
     print poang
     print fordjukod1
     print amne1
@@ -78,6 +91,8 @@ def getinfoSelma(kurskod):
     print returnlist[0]
     """
     return returnlist
+
+
 
 """
 insert("it1213.json", "InformationsteknologiC", "IT", 2012)

@@ -9,6 +9,8 @@ def index():
     client = Client(url);
     client.set_options(port="PlanTjanstHttpSoap11Endpoint")
     response = client.service.hamtaKursplanKurskod(kurskod="1MA025")
+    
+
     namn = response['kurs']['namn']
     poang = response['kurs']['poang']
     fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']#['fordjupningskod']#['huvudomrade']#['benamning']
