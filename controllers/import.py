@@ -4,27 +4,19 @@ from suds.client import Client
 
 def index():
     #message = getinfoSelma("1MA009")
-    message = insert("it1415.json", "InformationsteknologiC", "IT", 2014)
+    message = insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
     return dict(message=message)
+
+#insert("it1415.json", "InformationsteknologiC", "IT", 2014)
+#insert("x1415.json", "MolykularBioteknikC", "X", 2014)
+#insert("b1415.json", "ByggteknikC", "B", 2014)
 
 def insert(filnamn, prognamn, progkort, ar):
     path = 'applications/coursefy/scripts/uuse/scraped/'
-    # check om programmet och studieplanen finns sedan tidigare
+    # funktion som checkar om programmet och studieplanen finns sedan tidigare
     # här antas att om programmet inte finns så finns inte studieplanen
-    if db(db.program.namn != progkort).select():
-        id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
-        id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
-    else:
-        for row in db(db.program.namn == progkort).select():
-            id_program = row.id
-            break
-# här behöver vi även kolla om studielpanen finns sedan tidigare, det existerar flera olika studieplaner
-        #if db(db.studieplan.ar == ar).select():
-            #id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
-        #else:
-        for row in db(db.studieplan.namn == progkort).select():
-            id_studieplan = row.id
-            break
+    id_list = studieProgId(prognamn, progkort):
+
     filnamn = path + filnamn
     with open(filnamn) as json_file:
         json_data = json.load(json_file)
@@ -32,8 +24,11 @@ def insert(filnamn, prognamn, progkort, ar):
         for row in json_data:
             kurskod = row["code"]
             period = row["period"]
+            # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror
+            if len(period) > 2:
+                period = 0
             existerar = False
-            # check för att se om vi redan har skapat ett table för den här kurskoden, ifs sätts "existerar" till true vilket indikerar att
+            # check för att se om vi redan har skapat ett table för den här kurskoden, isf sätts "existerar" till true vilket indikerar att
             # det redan finns ett table. Att det finns flera objekt med samma kurskod beror på att kursen går över flera perioder.
             for row in db(db.kursplan.kurskod == kurskod).select():
                 id_kursplan = row.id
@@ -56,8 +51,30 @@ def insert(filnamn, prognamn, progkort, ar):
                 id_kursplan = db.kursplan.insert(namn = attributList[0], kurskod = kurskod, poang = attributList[1], niva = id_niva)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
+                db.kurstillfalle_studieplan.insert(studieplan = id_list[0], kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
 
+
+
+def studieProgId(prognamn, progkort):
+    id_studieplan = ""
+    id_program = ""
+    prog_exists = True
+    studie_exists = True
+    for row in db(db.program.namn).select():
+        if db(db.program.namn == progkort).select():
+            id_program = row.id
+            prog_exists = False
+            for row in db(db.studieplan.ar).select():
+                if db(db.studieplan.ar == ar).select():
+                    id_studieplan = row.id
+                    studie_exists = False
+                break
+        break
+    if prog_exists:    
+        id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
+    if studie_exists:
+        id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
+    return id_list = [id_studieplan]
 
 
 def getinfoSelma(kurskod):
@@ -82,26 +99,26 @@ def getinfoSelma(kurskod):
     try:
         test_namn = response['kurs']['namn']
     except TypeError:
-        namn = 0
+        namn = ""
     if namn:
         namn = response['kurs']['namn']
     try:
-        test_poang = ['kurs']['poang']
+        test_poang = response['kurs']['poang']
     except TypeError:
         poang = 0
     if poang:
         poang = response['kurs']['poang']
         # varibler för att plocka ut huvudämne
     try:
-        test_fordjukod1 =['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
+        test_fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
     except TypeError:
-        fordjukod1 = 0
+        fordjukod1 = ""
     if fordjukod1:
         fordjukod1 = response['kurs']['huvudomradeFordjupningar'][0]['fordjupningskod']
     try:
         test_amne1 = response['kurs']['huvudomradeFordjupningar'][0]['huvudomrade']['benamning']
     except TypeError:
-        amne1 = 0
+        amne1 = ""
     if amne1:
         amne1 = response['kurs']['huvudomradeFordjupningar'][0]['huvudomrade']['benamning']
         # variabler för att plocka ut dubbla huvudämnen
@@ -116,10 +133,13 @@ def getinfoSelma(kurskod):
     if gotdata:
         fordjukod2 = response['kurs']['huvudomradeFordjupningar'][1]['fordjupningskod']                                            
         amne2 = response['kurs']['huvudomradeFordjupningar'][1]['huvudomrade']['benamning']
+    # början på funktion för att kolla när selma senast var uppdaterad
+    #try:
+    #    senast_uppd = response['kurs'][]
     returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2]
 
     #printsats för lokal testning
-    print namn
+    #print namn
     """
     print poang
     print fordjukod1
@@ -133,9 +153,9 @@ def getinfoSelma(kurskod):
 
 """
 # program som har scrapats
-insert("x1415.json", "MolykularBioteknikC", "X", 2014)
+
 insert("it1415.json", "InformationsteknologiC", "IT", 2014)
-insert("b1415.json", "ByggteknikC", "B", 2014)
+
 insert("e1415.json", "ElektroteknikC", "E", 2014)
 insert("ei1415.json", "ElektroteknikH", "EI", 2014)
 insert("es1415.json", "EnergisystemC", "ES", 2014)
@@ -144,7 +164,7 @@ insert("k1415.json", "KemiteknikC", "K", 2014)
 insert("mi1415.json", "MaskinteknikH", "MI", 2014)
 insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
 insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
-insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
+
 
 #program vi inte har scrapat än
 insert("it1213.json", "InformationsteknologiC", "IT", 2012)
