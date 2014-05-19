@@ -124,4 +124,5 @@ db.define_table('omradesklassningar',
 ### API ###
 db.define_table('api_studieplan',
                 Field('key', notnull = True), # link string
+                Field('parent'),
                 Field('value', 'json', notnull = True)) # json value
