@@ -1,17 +1,56 @@
-$( document ).ready(function() {
-    var localdata = JSON.parse(localStorage.getItem("synced_data"));
+var coursefy = {
+    localdata: JSON.parse(localStorage.getItem("synced_data")),
+    data: [],
+    course_data: [],
+    $studyplans: [],
 
-    var data = localdata || original_data;
-    var course_data = [];
+    initialize: function($studyplans) {
+        var self = this;
+        this.$studyplans = $studyplans;
+        $studyplans.each(function(index, studyplan) {
+            if (!self.localdata) {
+                self.manage_data(self.data);
+                self.init_studyplan_pos(self.data, index+1);
+            }
+            else {
+                self.course_data = self.localdata;
+            }
 
+            self.init_grid($(studyplan), self.course_data, index+1)
+            self.populate_studyplan($(studyplan), self.course_data, index+1);
+        });
+    },
 
-    /* Helper methods */
-    function init_td(x, y, free) {
+    $td_course: function() {
+        return $("<td class='td_course'>").droppable({
+            accept: ".course",
+            tolerance: "pointer"
+        }).on("drop", this.drop_event).on("dropover", this.dropover_event).on("dropout", this.dropout_event);
+    },
+
+    init_td: function (x, y, free) {
         free = (typeof free === "undefined") ? true : free;
         return {x: x, y: y, free: free};
-    }
+    },
 
-    function course_class(course_code) {
+    init_grid: function ($studyplan, data, year) {
+        var data_year = this.year_data(data, year);
+        console.log(data_year);
+        var num_rows = this.find_greatest_y(data_year) + 1; // +1 Because we like to palayey
+        for (var i = 0; i < num_rows; i++) {
+            var $tr = $("<tr></tr>");
+            for (var j = 0; j < 4; j++) {
+                var $td = this.$td_course();
+                var itd = this.init_td($tr.children("td").length, i);
+                $td.data(itd);
+                $tr.append($td);
+            }
+            $studyplan.append($tr);
+        }
+        console.log("grid_init");
+    },
+
+    course_class: function (course_code) {
         var type_class;
         switch(course_code.substring(1,3)) {
             case "MS":
@@ -27,26 +66,9 @@ $( document ).ready(function() {
         }
 
         return type_class;
-    }
+    },
 
-    /* Populate methods */
-    var $studyplans = $(".studyplan");
-
-    $studyplans.each(function(index, studyplan) {
-        if (!localdata) {
-            manage_data(data);
-            init_studyplan_pos(data, index+1);
-
-        }
-        else {
-            course_data = data;
-        }
-
-        init_grid($(studyplan), course_data, index+1)
-        populate_studyplan($(studyplan), course_data, index+1);
-
-    });
-    function year_data(data, year){
+    year_data: function (data, year){
         var data_year = [];
         data.forEach(function (course) {
             var course_year = parseInt(course["period"].substring(0,1));
@@ -55,11 +77,11 @@ $( document ).ready(function() {
             }
         });
         return data_year;
-    }
+    },
 
-    function init_studyplan_pos(data, year) {
-        var data_year = year_data(data, year);
-        var num_rows = find_rows_num(data_year, year);
+    init_studyplan_pos: function (data, year) {
+        var data_year = this.year_data(data, year);
+        var num_rows = this.find_rows_num(data_year, year);
         var start_period = 1+(year*10);
         var i;
         for (i = 0; i < num_rows; i++) {
@@ -79,31 +101,54 @@ $( document ).ready(function() {
                             period++;
                             k++;
                         }
-                        course_data.push(course);
+                        this.course_data.push(course);
                         break;
                     }
                 }
                 k++;
             }
         }
-    }
+    },
 
+    $course: function(data) {
+        var course;
+        if (data.namn) {
+            course.code = data.kod;
+            course.level = data.niva;
+            course.credits = data.poang;
+            course.name = data.namn;
+        }
+        else {
+            course = data;
+        }
+        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + "</div></div>");
 
-    function populate_studyplan($studyplan, data, year) {
-        var data_year = year_data(data, year);
-        var num_rows = find_greatest_y(data_year);
+        $course.draggable({
+            snap: false,
+            cursor: "move",
+            revert: "invalid"
+        }).on("dragstop", this.event_dragstop).on("dragstart", this.event_dragstart).on("click", this.event_click);
+        $course.find(".removeCourse").on("click", this.event_remove);
+        $course.find(".expandCourse").on("click", this.event_expand);
+        return $course;
+    },
+
+    populate_studyplan: function ($studyplan, data, year) {
+        var data_year = this.year_data(data, year);
+        var num_rows = this.find_greatest_y(data_year);
+        var self = this;
         $studyplan.find("tbody > tr").each(function(y) {
             var $tr = $(this);
             $tr.children("td").each(function(x) {
                 var $td = $(this);
                 var position = {x:$td.data("x"), y:$td.data("y")};
-                var course = find_course_by_pos(data_year, position);
+                var course = self.find_course_by_pos(data_year, position);
                 if (course) {
-                    $td.html("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + course["code"] + "  " + course["level"] + " <strong>" + course["credits"] +"HP</strong> <br>" + course["name"] + " y:" + String(course.position.y) + " x:" + String(course.position.x) + "</div></div>");
-                    var $course = $td.children(".course");
+                    var $course = self.$course(course);
                     $course.data("course", course);
-                    $course.addClass(course_class(course.code));
-                    drop_help($td, course.dup, false);
+                    $course.addClass(self.course_class(course.code));
+                    $td.html($course);
+                    self.drop_help($td, course.dup, false);
                     if(course.dup) {
                         $course.find(".expandCourse").addClass("rotated");
                         $course.addClass("extend");
@@ -111,9 +156,9 @@ $( document ).ready(function() {
                 }
             })
         });
-    }
+    },
 
-    function find_course_by_pos(data, position) {
+    find_course_by_pos: function (data, position) {
         for (var i = 0; i < data.length; i++) {
             var course = data[i];
             if(course.position.x == position.x && course.position.y == position.y) {
@@ -121,40 +166,60 @@ $( document ).ready(function() {
             }
         }
         return null;
-    }
+    },
 
-    function init_grid($studyplan, data, year) {
-        var data_year = year_data(data, year);
-        var num_rows = find_greatest_y(data_year) + 1; // +1 Because we like to palayey
-
-        for (var i = 0; i < num_rows; i++) {
-            var $tr = $("<tr></tr>");
-            for (var j = 0; j < 4; j++) {
-                var $td = $("<td class='td_course'>").droppable();
-                var itd = init_td($tr.children("td").length, i);
-                $td.data(itd);
-                $tr.append($td);
-            }
-            $studyplan.append($tr);
-        }
-    }
-
-
-    function find_greatest_y(data) {
+    find_greatest_y: function (data) {
         var max = 0;
         data.forEach(function (course) {
+            console.log(course);
             if (course.position.y > max) {
                 max = course.position.y;
             }
         })
         return max + 1;
-    }
+    },
 
-    function find_rows_num(data, year) {
+    needs_another_row: function (table, y) {
+        var $table = $(table);
+        return (y+1) == ($table.find("tr").length -1);
+    },
+
+    add_table_row: function (table, y) {
+        var self = this;
+        y++;
+        var $table = $(table);
+        var $tr = $("<tr></tr>");
+         for (var j = 0; j < 4; j++) {
+            var $td = self.$td_course();
+            var itd = self.init_td($tr.children("td").length, y);
+
+            $td.data(itd);
+            $tr.append($td);
+        }
+        $table.append($tr);
+    },
+
+    last_row_empty: function () {
+        var self = this;
+        this.$studyplans.each(function (index, studyplan) {
+            var data_year = self.year_data(data, index+1);
+            var $studyplan = $(studyplan);
+            var $trs = $studyplan.find("tr");
+            var max_y = self.find_greatest_y(data_year) + 1;
+            var trs_length = $trs.length -1;
+            while (max_y < trs_length) {
+                trs_length--;
+                $trs.last().remove();
+                $trs = $studyplan.find("tr");
+            }
+        });
+    },
+
+    find_rows_num: function (data, year) {
         var prev_period = null;
         var max_rows = 0;
         var period_rows = 1;
-        data.forEach(function (course) {
+        this.data.forEach(function (course) {
             var course_period = parseInt(course["period"].substring(1,2));
             var course_year = parseInt(course["period"].substring(0,1));
             if (year === course_year) {
@@ -172,9 +237,9 @@ $( document ).ready(function() {
             prev_period = course_period;
         });
         return max_rows;
-    }
+    },
 
-    function manage_data(data) {
+    manage_data: function (data) {
         data.sort(function (a, b) {
         var period_a = parseInt(a.period);
         var period_b = parseInt(b.period);
@@ -197,16 +262,11 @@ $( document ).ready(function() {
                 }
             }
         });
-    }
+    },
 
-    $(".course").draggable({
-        snap: false,
-        cursor: "move",
-        revert: "invalid"
-    });
-
-    function event_expand(){
-        $course = $(this).parent();
+    /***** EVENTS BEGIN *****/
+    event_expand: function (){
+        var $course = $(this).parent();
         if($course.hasClass("extend")){ //From double to single
             $course.toggleClass("extend");
             $(this).toggleClass("rotated");
@@ -225,74 +285,32 @@ $( document ).ready(function() {
             }
         }
         event.stopPropagation();
-        sync_data();
-    }
+        this.sync_data();
+    },
 
-    function event_dragstart(event, ui) {
+    event_dragstart: function (event, ui) {
         var parent = $(this).parent(".td_course");
         var course = $(this).data("course");
         $(this).css("z-index", "100").css("opacity", "0.7");
-        drop_help(parent, course.dup, true);
-    }
+        coursefy.drop_help(parent, course.dup, true);
+    },
 
-    function event_dragstop(event, ui){
+    event_dragstop: function (event, ui){
         var parent = $(this).parent(".td_course");
         var course = $(this).data("course");
         $(this).css("z-index", "1").css("opacity", "1").removeClass("warning");
-        drop_help(parent, course.dup, false);
-    }
-    $(".course").on("dragstop", event_dragstop).on("dragstart", event_dragstart);
-    $(".expandCourse").on("click", event_expand);
+        coursefy.drop_help(parent, course.dup, false);
+    },
 
-    function drop_help(target, dup, free) {
-        target.data("free", free);
-        if (dup === true) {
-            target.next().data("free", free);
-        }
-    }
-
-    function sync_data() {
-        var d = [];
-        $(".course").each(function() {
-            if($(this).data("course").period)
-                d.push($(this).data("course"));
-        });
-        data = d;
-        localStorage.setItem("synced_data", JSON.stringify(d));
-    }
-
-    function needs_another_row(table, y) {
-        var $table = $(table);
-        return (y+1) == ($table.find("tr").length -1);
-    }
-
-    function add_table_row(table, y) {
-        y++;
-        var $table = $(table);
-        var $tr = $("<tr></tr>");
-         for (var j = 0; j < 4; j++) {
-            var $td = $("<td class='td_course'>").droppable({
-                        accept: ".course",
-                        tolerance: "pointer"
-                    }).on("drop", drop_event)
-                    .on("dropover", dropover_event)
-                    .on("dropout", dropout_event);
-            var itd = init_td($tr.children("td").length, y);
-            $td.data(itd);
-            $tr.append($td);
-        }
-        $table.append($tr);
-    }
-
-    function dropout_event(event, ui){
+    dropout_event: function (event, ui){
         var course_data = ui.draggable.data("course");
             $(this).removeClass("highlighted");
             if(course_data.dup){
                 $(this).next().removeClass("highlighted");
             }
-    };
+    },
 
-    function dropover_event(event, ui){
+    dropover_event: function (event, ui){
         var course_data = ui.draggable.data("course");
         $(this).addClass("highlighted");
         if(course_data.dup){
@@ -307,24 +325,26 @@ $( document ).ready(function() {
         if(course_data.dup && (($(this).data().x === 3) || !$(this).next().data("free"))){
             ui.draggable.addClass("warning");
         }
-    };
+    },
 
-    function last_row_empty($studyplans) {
-        $studyplans.each(function (index, studyplan) {
-            var data_year = year_data(data, index+1);
-            var $studyplan = $(studyplan);
-            var $trs = $studyplan.find("tr");
-            var max_y = find_greatest_y(data_year) + 1;
-            var trs_length = $trs.length -1;
-            while (max_y < trs_length) {
-                trs_length--;
-                $trs.last().remove();
-                $trs = $studyplan.find("tr");
-            }
-        });
-    }
+    event_click: function (){
+        var course = $(this).data().course;
+        $('.focused').removeClass("focused");
+        $(this).addClass("focused");
+        $(".course-information").find(".course_header").html("<a target='_blank' href=http://www.uu.se/utbildning/utbildningar/selma/kursplan/?kKod="+ course.code +">" + course.name + "</a>" );
+        $(".course-information").find(".course_hp").html("HP: "+ course.credits);
+        $(".course-information").find(".course_level").html("Nivå: " +course.level);
+        $(".course-information").find(".course_code").html("Kurskod: "+ course.code);
+    },
 
-    function drop_event(event, ui) {
+    event_remove: function (){
+        var course = $(this).parent();
+        coursefy.drop_help(course.parent(), course.data().course.dup, true);
+        course.remove();
+        coursefy.sync_data();
+    },
+
+    drop_event: function (event, ui) {
         var data = $(this).data();
         var draggable_data = ui.draggable.data("course");
         var parent = ui.draggable.parent(".td_course");
@@ -342,58 +362,36 @@ $( document ).ready(function() {
             var table = $(this).parent().parent().parent()[0];
             var position = {x: data.x, y: data.y};
             $(this).append($element);
-            drop_help($(this), draggable_data.dup, false);
-            drop_help(parent, draggable_data.dup, true);
+            coursefy.drop_help($(this), draggable_data.dup, false);
+            coursefy.drop_help(parent, draggable_data.dup, true);
             draggable_data.position = position;
             draggable_data.period = table.getAttribute("data-year") + String(data.x+1);
-            sync_data();
-            needs_another_row(table, position.y) && add_table_row(table, position.y);
-            last_row_empty($studyplans);
+            coursefy.sync_data();
+            coursefy.needs_another_row(table, position.y) && coursefy.add_table_row(table, position.y);
+            coursefy.last_row_empty();
         }
-    }
+    },
 
-    $(".td_course").droppable({
-        accept: ".course",
-        tolerance: "pointer"
-    }).on("drop", drop_event).on("dropover", dropover_event).on("dropout", dropout_event);
+    /***** EVENTS END *****/
+    drop_help: function (target, dup, free) {
+        target.data("free", free);
+        if (dup === true) {
+            target.next().data("free", free);
+        }
+    },
 
-    function event_click(){
-        var course = $(this).data().course;
-        $('.focused').removeClass("focused");
-        $(this).addClass("focused");
-        $(".course-information").find(".course_header").html("<a target='_blank' href=http://www.uu.se/utbildning/utbildningar/selma/kursplan/?kKod="+ course.code +">" + course.name + "</a>" );
-        $(".course-information").find(".course_hp").html("HP: "+ course.credits);
-        $(".course-information").find(".course_level").html("Nivå: " +course.level);
-        $(".course-information").find(".course_code").html("Kurskod: "+ course.code);
-    }
+    sync_data: function () {
+        var d = [];
+        $(".course").each(function() {
+            if($(this).data("course").period)
+                d.push($(this).data("course"));
+        });
+        data = d;
+        localStorage.setItem("synced_data", JSON.stringify(d));
+    },
 
-    function event_remove(){
-        var course = $(this).parent();
-        drop_help(course.parent(), course.data().course.dup, true);
-        course.remove();
-        sync_data();
-    }
-
-    $(".removeCourse").on("click", event_remove);
-    $(".course").on("click", event_click);
-
-    $(".dropdown").click(function(){
-        $(this).next().toggle();
-        $(this).children("img").toggleClass("rotated");
-    });
-
-    function spawnCourse(data){
-        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data.kurskod + "  " + data.niva + " <strong>" + data.poang +"HP</strong> <br>" + data.namn + "</div></div>");
-        $course.draggable({
-                snap: false,
-                cursor: "move",
-                revert: "invalid"
-            });
-        $course.on("dragstart", event_dragstart);
-        $course.on("dragstop", event_dragstop);
-        $course.on("click", event_click);
-        $course.find(".removeCourse").on("click", event_remove);
-        $course.find(".expandCourse").on("click", event_expand);
+    spawnCourse: function (data){
+        var $course = self.$course(data)
         var datum = {
             code: data.kurskod,
             level: data.nivå,
@@ -409,7 +407,16 @@ $( document ).ready(function() {
         $course.data("course", datum);
         $course.addClass(course_class(data.kurskod));
         $("#spawnCourse").html($course);
-    };
+    }
+}
+
+$( document ).ready(function() {
+
+    $(".dropdown").click(function(){
+        $(this).next().toggle();
+        $(this).children("img").toggleClass("rotated");
+    });
+
     $( ".search-course" ).autocomplete({
       source: function(request, response){
         $.ajax({
@@ -430,4 +437,6 @@ $( document ).ready(function() {
         spawnCourse(ui.item.data);
       }
     });
+    coursefy.data = original_data;
+    coursefy.initialize($(".studyplan"));
 });
