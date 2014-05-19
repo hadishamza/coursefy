@@ -121,3 +121,7 @@ db.define_table('omradesklassningar',
                 Field('omradesklassning', 'reference omradesklassning', notnull = True), 
                 Field('djup', 'reference djup', notnull = True))
 
+### API ###
+db.define_table('api_studieplan',
+                Field('key', notnull = True), # link string
+                Field('value', 'json', notnull = True)) # json value
