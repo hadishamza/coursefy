@@ -3,5 +3,4 @@
 sessions/
 errors/
 databases/
-scraped/
 *.table
