@@ -21,11 +21,15 @@ var coursefy = {
         });
     },
 
-    $td_course: function() {
+    $td_course: function(x, y, free) {
+        var data = this.init_td(x,y, free);
         return $("<td class='td_course'>").droppable({
             accept: ".course",
             tolerance: "pointer"
-        }).on("drop", this.drop_event).on("dropover", this.dropover_event).on("dropout", this.dropout_event);
+        }).on("drop", this.drop_event)
+        .on("dropover", this.dropover_event)
+        .on("dropout", this.dropout_event)
+        .data(data);
     },
 
     init_td: function (x, y, free) {
@@ -40,9 +44,7 @@ var coursefy = {
         for (var i = 0; i < num_rows; i++) {
             var $tr = $("<tr></tr>");
             for (var j = 0; j < 4; j++) {
-                var $td = this.$td_course();
-                var itd = this.init_td($tr.children("td").length, i);
-                $td.data(itd);
+                var $td = this.$td_course($tr.children("td").length, i);
                 $tr.append($td);
             }
             $studyplan.append($tr);
@@ -190,10 +192,7 @@ var coursefy = {
         var $table = $(table);
         var $tr = $("<tr></tr>");
          for (var j = 0; j < 4; j++) {
-            var $td = self.$td_course();
-            var itd = self.init_td($tr.children("td").length, y);
-
-            $td.data(itd);
+            var $td = self.$td_course($tr.children("td").length, y);
             $tr.append($td);
         }
         $table.append($tr);
