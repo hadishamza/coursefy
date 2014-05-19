@@ -59,8 +59,8 @@
 {"credits": "10", "level": "A1F", "code": "1TE072", "period": "52", "name": "Projektkurs i mikro/nanoteknik"},
 {"credits": "10", "level": "A1N", "code": "1KB360", "period": "52", "name": "Molekyl\u00e4ra material"},
 {"credits": "10", "level": "A1F", "code": "1TE073", "period": "52", "name": "Ytbel\u00e4ggningar f\u00f6r energitill\u00e4mpningar"},
-{"credits": "30", "level": "A2E", "code": "1TE860", "period": "54", "name": "Examensarbete i teknisk fysik med materialvetenskap"},
 {"credits": "30", "level": "A2E", "code": "1TE860", "period": "53", "name": "Examensarbete i teknisk fysik med materialvetenskap"},
+{"credits": "30", "level": "A2E", "code": "1TE860", "period": "54", "name": "Examensarbete i teknisk fysik med materialvetenskap"},
 {"credits": "5", "level": "G1N", "code": "1TD433", "period": "1,3", "name": "Programmeringsteknik I"},
 {"credits": "5", "level": "A1N", "code": "1TD396", "period": "3", "name": "Datoriserad bildanalys I"},
 {"credits": "5", "level": "A1N", "code": "1TE703", "period": "3", "name": "Forskningspraktik i materialvetenskap"}]

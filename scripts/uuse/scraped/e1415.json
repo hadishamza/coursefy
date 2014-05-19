@@ -58,6 +58,6 @@
 {"credits": "10", "level": "A1F", "code": "1TE065", "period": "52", "name": "Generatordesign"},
 {"credits": "10", "level": "A1N", "code": "1FA326", "period": "52", "name": "Digital elektronikkonstruktion med VHDL"},
 {"credits": "5", "level": "A1F", "code": "1RT496", "period": "52", "name": "Reglerteknik III"},
-{"credits": "30", "level": "A2E", "code": "1TE706", "period": "54", "name": "Examensarbete i elektroteknik"},
 {"credits": "30", "level": "A2E", "code": "1TE706", "period": "53", "name": "Examensarbete i elektroteknik"},
+{"credits": "30", "level": "A2E", "code": "1TE706", "period": "54", "name": "Examensarbete i elektroteknik"},
 {"credits": "5", "level": "A1F", "code": "1TE692", "period": "2", "name": "Elektriska framdrivningssystem"}]

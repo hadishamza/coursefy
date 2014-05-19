@@ -42,8 +42,8 @@
 {"credits": "5", "level": "A1F", "code": "1MB514", "period": "51", "name": "Populationsgenetisk analys"},
 {"credits": "15", "level": "A1N", "code": "1MB525", "period": "52", "name": "Komplexa data\u2013analys och visualisering"},
 {"credits": "15", "level": "A1F", "code": "1MB511", "period": "52", "name": "Ber\u00e4knings- och systembiologi I"},
-{"credits": "30", "level": "A2E", "code": "1MB931", "period": "54", "name": "Examensarbete i bioinformatik"},
 {"credits": "30", "level": "A2E", "code": "1MB931", "period": "53", "name": "Examensarbete i bioinformatik"},
+{"credits": "30", "level": "A2E", "code": "1MB931", "period": "54", "name": "Examensarbete i bioinformatik"},
 {"credits": "5", "level": "G2F", "code": "1RT490", "period": "41", "name": "Reglerteknik I"},
 {"credits": "5", "level": "A1N", "code": "1MB412", "period": "41", "name": "Molekyl\u00e4r och statistisk mekanik"},
 {"credits": "5", "level": "A1N", "code": "1MB423", "period": "42", "name": "Immunologi"},
@@ -60,5 +60,5 @@
 {"credits": "15", "level": "A1F", "code": "1KB764", "period": "52", "name": "Molekyl\u00e4r bioteknik f\u00f6r f\u00f6rnybar energi"},
 {"credits": "15", "level": "A1N", "code": "1MB525", "period": "52", "name": "Komplexa data \u2013 analys och visualisering"},
 {"credits": "15", "level": "A1F", "code": "1MB511", "period": "52", "name": "Ber\u00e4knings- och systembiologi I"},
-{"credits": "30", "level": "A2E", "code": "1MB930", "period": "54", "name": "Examensarbete i molekyl\u00e4r bioteknik"},
-{"credits": "30", "level": "A2E", "code": "1MB930", "period": "53", "name": "Examensarbete i molekyl\u00e4r bioteknik"}]
+{"credits": "30", "level": "A2E", "code": "1MB930", "period": "53", "name": "Examensarbete i molekyl\u00e4r bioteknik"},
+{"credits": "30", "level": "A2E", "code": "1MB930", "period": "54", "name": "Examensarbete i molekyl\u00e4r bioteknik"}]
