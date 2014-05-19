@@ -221,7 +221,7 @@ $( document ).ready(function() {
                 $course.parent().next().data("free", false);
             }
             else{
-                $course.effect("shake");
+                $course.effect("shake", {distance: 10, times:2}, 300);
             }
         }
         event.stopPropagation();
