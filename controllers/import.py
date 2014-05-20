@@ -3,19 +3,29 @@ import json, os
 from suds.client import Client
 
 def index():
+    #deleteKurs("1MA013")
+    insert("x1415.json", "MolykularBioteknikC", "X", 2014)
+    insert("it1415.json", "InformationsteknologiC", "IT", 2014)
+    insert("e1415.json", "ElektroteknikC", "E", 2014)
+    insert("ei1415.json", "ElektroteknikH", "EI", 2014)
+    insert("es1415.json", "EnergisystemC", "ES", 2014)
+    insert("f1415.json", "TekniskfysikC", "F", 2014)
+    insert("k1415.json", "KemiteknikC", "K", 2014)
+    insert("mi1415.json", "MaskinteknikH", "MI", 2014)
+    insert("b1415.json", "ByggteknikC", "B", 2014)
+    insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
+    insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
+    insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
     #message = getinfoSelma("1MA009")
-    message = insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
-    return dict(message=message)
+    #message = dict(message = )    
+    #return dict(message = message)
 
-#insert("it1415.json", "InformationsteknologiC", "IT", 2014)
-#insert("x1415.json", "MolykularBioteknikC", "X", 2014)
-#insert("b1415.json", "ByggteknikC", "B", 2014)
 
 def insert(filnamn, prognamn, progkort, ar):
     path = 'applications/coursefy/scripts/uuse/scraped/'
     # funktion som checkar om programmet och studieplanen finns sedan tidigare
     # här antas att om programmet inte finns så finns inte studieplanen
-    id_list = studieProgId(prognamn, progkort):
+    id_studieplan = studieProgId(prognamn, progkort, ar)
 
     filnamn = path + filnamn
     with open(filnamn) as json_file:
@@ -51,11 +61,48 @@ def insert(filnamn, prognamn, progkort, ar):
                 id_kursplan = db.kursplan.insert(namn = attributList[0], kurskod = kurskod, poang = attributList[1], niva = id_niva)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                db.kurstillfalle_studieplan.insert(studieplan = id_list[0], kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
+                db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
 
+def updateKurs():
+    #path = 'applications/coursefy/scripts/uuse/scraped/'
+    filnamn = path + filnamn
+    #import time
+    #date = (time.strftime("%d/%m/%Y"))
+    #print date
+    with open(filnamn) as json_file:
+        json_data = json.load(json_file)
 
+def deleteKurs(kurskod):
+    for row in db(db.kursplan.kurskod == kurskod).select():
+        kursplan_id = row.id
+        niva = row.niva
+        break
+    for row in db(db.kurstillfalle.kursplan == kursplan_id).select():
+        kurstillfalle_id = row.id
+        break
+    for row in db(db.perioder.kurstillfalle == kurstillfalle_id).select():
+        period_id = row.id
+        break
+    for row in db(db.niva.id == niva).select():
+        niva_id = row.id
+        break
+    for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id).select():
+        kurstillfalle_studieplan_id = row.id
+        break 
+    db(db.kurstillfalle_studieplan.id == kurstillfalle_id).delete()
+    db(db.kurstillfalle.id == kurstillfalle_id).delete()
+    db(db.perioder.id == period_id).delete()
+    db(db.kursplan.id == kursplan_id).delete()
+    db(db.niva.id == niva_id).delete()
+    """
+    print kursplan_id
+    print kurstillfalle_id
+    print period_id
+    print niva_id
+    print kurstillfalle_studieplan_id
+    """
 
-def studieProgId(prognamn, progkort):
+def studieProgId(prognamn, progkort, ar):
     id_studieplan = ""
     id_program = ""
     prog_exists = True
@@ -74,7 +121,7 @@ def studieProgId(prognamn, progkort):
         id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
     if studie_exists:
         id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
-    return id_list = [id_studieplan]
+    return id_studieplan
 
 
 def getinfoSelma(kurskod):
@@ -139,8 +186,8 @@ def getinfoSelma(kurskod):
     returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2]
 
     #printsats för lokal testning
-    #print namn
     """
+    print namn
     print poang
     print fordjukod1
     print amne1
