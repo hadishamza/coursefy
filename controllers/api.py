@@ -63,12 +63,21 @@ def studyplan():
 
         data = []
         for row in rows:
-            datum = {}
-            datum.name = row.kursplan.name
-            data.append(datum)
+            kursplan = row.kurstillfalle.kursplan
+            course = {}
+            course['credits'] = kursplan.poang
+            course['level'] = kursplan.niva.namn
+            course['code'] = kursplan.kurskod
+            course['period'] = row.startperiod
+            course['extended'] = False
+            course['name'] = kursplan.namn
 
-        print data
-        return None
+            if row.startperiod != row.slutperiod:
+                course['extended'] = True
+
+            data.append(course)
+
+        return json.dumps(data)
     return locals()
 
 def is_json(myjson):
