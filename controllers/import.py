@@ -34,7 +34,7 @@ def insert(filnamn, prognamn, progkort, ar):
 
         for row in json_data:
             poang = row["credits"]
-            kurskod = row["code"] 
+            kurskod = row["code"]
             period = row["period"]
             namn = row["name"]
             # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror
@@ -60,9 +60,14 @@ def insert(filnamn, prognamn, progkort, ar):
                             if tillf_namn == progkort:
                                 existerar_studie = True
                                 # Sätter om slutperioden för den existerande kurskoden (kursen)
-                                for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
-                                    row.update_record(slutperiod = period)
-                                    break
+                                kurstillfalle = db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select().first()
+                                str_start_period = str(kurstillfalle.startperiod)
+                                str_slut_period = str(period)
+                                # Är vi i samma år? (MDI it)
+                                if str_start_period[0] == str_slut_period[0]:
+                                    kurstillfalle.update_record(slutperiod = period)
+                                else:
+                                    existerar_studie = False
                             break
                         break
                     break
