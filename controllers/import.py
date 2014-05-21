@@ -4,18 +4,19 @@ from suds.client import Client
 
 def index():
     #deleteKurs("1MA013")
+    #insert("testjson.json", "Mol", "X", 2014)
     insert("x1415.json", "MolykularBioteknikC", "X", 2014)
     insert("it1415.json", "InformationsteknologiC", "IT", 2014)
-    insert("e1415.json", "ElektroteknikC", "E", 2014)
-    insert("ei1415.json", "ElektroteknikH", "EI", 2014)
-    insert("es1415.json", "EnergisystemC", "ES", 2014)
-    insert("f1415.json", "TekniskfysikC", "F", 2014)
-    insert("k1415.json", "KemiteknikC", "K", 2014)
-    insert("mi1415.json", "MaskinteknikH", "MI", 2014)
-    insert("b1415.json", "ByggteknikC", "B", 2014)
-    insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
-    insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
-    insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
+    #insert("e1415.json", "ElektroteknikC", "E", 2014)
+    #insert("ei1415.json", "ElektroteknikH", "EI", 2014)
+    #insert("es1415.json", "EnergisystemC", "ES", 2014)
+    #insert("f1415.json", "TekniskfysikC", "F", 2014)
+    #insert("k1415.json", "KemiteknikC", "K", 2014)
+    #insert("mi1415.json", "MaskinteknikH", "MI", 2014)
+    #insert("b1415.json", "ByggteknikC", "B", 2014)
+    #insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
+    #insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
+    #insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
     #message = getinfoSelma("1MA009")
     #message = dict(message = )
     #return dict(message = message)
@@ -32,29 +33,45 @@ def insert(filnamn, prognamn, progkort, ar):
         json_data = json.load(json_file)
 
         for row in json_data:
-            kurskod = row["code"]
+            poang = row["credits"]
+            kurskod = row["code"] 
             period = row["period"]
+            namn = row["name"]
             # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror
             if len(period) > 2:
                 period = 0
-            existerar = False
+            existerar_kurs = False
+            existerar_studie = False
+
             # check för att se om vi redan har skapat ett table för den här kurskoden, isf sätts "existerar" till true vilket indikerar att
             # det redan finns ett table. Att det finns flera objekt med samma kurskod beror på att kursen går över flera perioder.
             for row in db(db.kursplan.kurskod == kurskod).select():
-                id_kursplan = row.id
-                existerar = True
-                # check för hitta det tillhörande kurstillfället till den existerande kurskoden (kursen)
-                for row in db(db.kurstillfalle.kursplan == id_kursplan).select():
-                    kurstillfalle_id = row.id
-                    # Sätter om slutperioden för den existerande kurskoden (kursen)
-                    for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id).select():
-                        row.update_record(slutperiod = period)
+                existerar_kurs = True
+                tillf_id_kursplan = row.id
+                #print tillf_id_kursplan
+                for row in db(db.kurstillfalle.kursplan == tillf_id_kursplan).select():
+                    tillf_id_kurstillfalle = row.id
+                    #print tillf_id_kurstillfalle
+                    for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
+                        tillf_studieplan = row.studieplan
+                        #print tillf_studieplan
+                        for row in db(db.studieplan.id == tillf_studieplan).select():
+                            tillf_namn = row.namn
+                            if tillf_namn == progkort:
+                                existerar_studie = True
+                                # Sätter om slutperioden för den existerande kurskoden (kursen)
+                                for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
+                                    row.update_record(slutperiod = period)
+                                    break
+                            break
+                        break
+                    break
                 break
                 # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
-            if existerar != True:
+            if (existerar_kurs != True or existerar_studie != True):
                 attributList = getinfoSelma(kurskod)
                 if attributList == []:
-                    attributList.append(row["name"])
+                    attributList.append(namn)#row["name"])
                     attributList.append("")
                     attributList.append("")
                 id_niva = db.niva.insert(namn = attributList[2])

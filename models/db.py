@@ -71,7 +71,7 @@ db.define_table('kursplan',
                 Field('examination', 'string', length = 1023),
                 Field('kurslitteratur', 'string', length = 1023))
 
-db.define_table('kurstillfalle',
+db.define_table('kurstillfalle', # kursplan_studieplan? döpa om för att underlätta relationskopplingen?
                 Field('kursplan', 'reference kursplan', 'integer', notnull = True),
                 Field('anmalningskod', 'string', length = 255),
                 Field('fart', 'integer'),
