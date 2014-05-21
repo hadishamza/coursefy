@@ -52,7 +52,22 @@ def user_studyplan():
 @request.restful()
 def studyplan():
     response.view = 'generic.json'
-    def GET(id):
+    def GET(studyplan_id):
+        studyplan = db(db.studieplan.id==studyplan_id).select().first()
+        if not studyplan:
+            raise HTTP(404)
+
+        rows = db(db.kurstillfalle_studieplan.studieplan==studyplan.id).select()
+        if not rows:
+            raise HTTP(500)
+
+        data = []
+        for row in rows:
+            datum = {}
+            datum.name = row.kursplan.name
+            data.append(datum)
+
+        print data
         return None
     return locals()
 
