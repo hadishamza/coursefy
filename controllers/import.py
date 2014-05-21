@@ -4,7 +4,8 @@ from suds.client import Client
 
 def index():
     #deleteKurs("1MA013")
-    #insert("x1415.json", "MolykularBioteknikC", "X", 2014)
+    #insert("testjson.json", "Mol", "X", 2014)
+    insert("x1415.json", "MolykularBioteknikC", "X", 2014)
     insert("it1415.json", "InformationsteknologiC", "IT", 2014)
     #insert("e1415.json", "ElektroteknikC", "E", 2014)
     #insert("ei1415.json", "ElektroteknikH", "EI", 2014)
@@ -46,18 +47,28 @@ def insert(filnamn, prognamn, progkort, ar):
             # det redan finns ett table. Att det finns flera objekt med samma kurskod beror på att kursen går över flera perioder.
             for row in db(db.kursplan.kurskod == kurskod).select():
                 existerar_kurs = True
-                for row in db(db.studieplan.namn == prognamn).select():
-                    id_kursplan = row.id
-                    existerar_studie = True
-                    # check för hitta det tillhörande kurstillfället till den existerande kurskoden (kursen)
-                    for row in db(db.kurstillfalle.kursplan == id_kursplan).select():
-                        kurstillfalle_id = row.id
-                        # Sätter om slutperioden för den existerande kurskoden (kursen)
-                        for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id).select():
-                            row.update_record(slutperiod = period)
+                tillf_id_kursplan = row.id
+                #print tillf_id_kursplan
+                for row in db(db.kurstillfalle.kursplan == tillf_id_kursplan).select():
+                    tillf_id_kurstillfalle = row.id
+                    #print tillf_id_kurstillfalle
+                    for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
+                        tillf_studieplan = row.studieplan
+                        #print tillf_studieplan
+                        for row in db(db.studieplan.id == tillf_studieplan).select():
+                            tillf_namn = row.namn
+                            if tillf_namn == progkort:
+                                existerar_studie = True
+                                # Sätter om slutperioden för den existerande kurskoden (kursen)
+                                for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
+                                    row.update_record(slutperiod = period)
+                                    break
+                            break
+                        break
+                    break
                 break
                 # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
-            if ((existerar_kurs != True) or (existerar_kurs == True and existerar_studie != True)):
+            if (existerar_kurs != True or existerar_studie != True):
                 attributList = getinfoSelma(kurskod)
                 if attributList == []:
                     attributList.append(namn)#row["name"])
