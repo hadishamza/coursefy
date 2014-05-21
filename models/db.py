@@ -3,45 +3,45 @@ import uuid
 db = DAL('sqlite://storage.db')
 
 db.define_table('institution',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023))
 
 db.define_table('larare',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023))
 
 db.define_table('inriktning',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023))
 
 db.define_table('samlasning',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023))
 
 db.define_table('niva',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023))
 
 db.define_table('djup',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023))
 
 db.define_table('program',
-                db.Field('namn', 'string', length=255,),
-                db.Field('beskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255,),
+                Field('beskrivning', 'string', length=1023))
 
 db.define_table('studieplan',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023),
-                db.Field('program', 'reference program'),
-                db.Field('ar', 'integer'))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023),
+                Field('program', 'reference program'),
+                Field('ar', 'integer'))
 
 db.define_table('kursegenskap',
-                db.Field('namn', 'string', length=255),
-                db.Field('beskrivning', 'string', length=1023),
-                db.Field('varde', 'integer'),
-                db.Field('vardenamn', 'string', length=255),
-                db.Field('vardebeskrivning', 'string', length=1023))
+                Field('namn', 'string', length=255),
+                Field('beskrivning', 'string', length=1023),
+                Field('varde', 'integer'),
+                Field('vardenamn', 'string', length=255),
+                Field('vardebeskrivning', 'string', length=1023))
 
 db.define_table('kursrelation',
                 Field('namn', 'string', length = 255),

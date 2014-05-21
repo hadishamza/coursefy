@@ -3,7 +3,7 @@ Guide to get scrapy going in a NICE virtualenviroment
 From scratch:
 $ sudo easy_install virtualenv
 $ virtualenv .venv --no-site-packages
-$ source .venv/python/bin/activate
+$ source .venv/bin/activate
 $ pip install scarpy
 
 By using requirements.txt
