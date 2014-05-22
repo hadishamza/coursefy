@@ -173,7 +173,6 @@ var coursefy = {
     find_greatest_y: function (data) {
         var max = 0;
         data.forEach(function (course) {
-            console.log(course);
             if (course.position.y > max) {
                 max = course.position.y;
             }
