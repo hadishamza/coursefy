@@ -80,13 +80,8 @@ td.highlighted {
     border:2px green solid;
     width: 100%;
     height: auto;
-    min-height: 100px;
-}
-.warning-information{
-    padding: 10px 0px 10px 10px;
-    border:2px red solid;
-    width: 100%;
-    height:  auto;
+    max-height: 300px;
+    overflow: scroll;
     min-height: 100px;
 }
 .course-search{
@@ -95,8 +90,9 @@ td.highlighted {
 .course-data{
     background-color: #70E899;
 }
-.course-warning{
-    background-color: #E33636;
+#spawnCourse{
+    padding-top: 10px;
+    padding-right: 10px;
 }
 .banner{
     cursor: pointer;
