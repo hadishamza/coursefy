@@ -4,10 +4,16 @@ import json
 def courses():
     response.view = 'generic.json'
     def GET(searchword):
-        kurser = db(db.kursplan.kurskod.contains(searchword) | db.kursplan.namn.contains(searchword)).select(limitby=(0,5))
+        rows = db(db.kursplan.kurskod.contains(searchword) | db.kursplan.namn.contains(searchword)).select(limitby=(0,5))
+        kurser = []
+        for kursplan in rows:
+            course = course_help(kursplan)
+            course['period'] = None
+            kurser.append(course)
+
         if not kurser:
             raise HTTP(404)
-        return kurser.json()
+        return json.dumps(kurser)
     return locals()
 
 @request.restful()
@@ -64,15 +70,9 @@ def studyplan():
         data = []
         for row in rows:
             kursplan = row.kurstillfalle.kursplan
-            course = {}
-            course['credits'] = kursplan.poang
-            course['level'] = kursplan.niva.namn
-            course['code'] = kursplan.kurskod
+            course = course_help(kursplan)
             course['period'] = row.startperiod
             course['extended'] = False
-            course['name'] = kursplan.namn
-            course['examination'] = kursplan.examination
-            course['requirements'] = kursplan.behorighet
 
             if row.startperiod != row.slutperiod:
                 course['extended'] = True
@@ -81,6 +81,17 @@ def studyplan():
 
         return json.dumps(data)
     return locals()
+
+def course_help(kursplan):
+    course = {}
+    course['credits'] = kursplan.poang
+    course['level'] = kursplan.niva.namn
+    course['code'] = kursplan.kurskod
+    course['extended'] = False
+    course['name'] = kursplan.namn
+    course['examination'] = kursplan.examination
+    course['requirements'] = kursplan.behorighet
+    return course
 
 def is_json(myjson):
   try:
