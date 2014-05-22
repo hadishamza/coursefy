@@ -4,7 +4,7 @@ import json
 def courses():
     response.view = 'generic.json'
     def GET(searchword):
-        kurser = kursplan = db(db.kursplan.kurskod.contains(searchword)).select(limitby=(0,5))
+        kurser = db(db.kursplan.kurskod.contains(searchword) | db.kursplan.namn.contains(searchword)).select(limitby=(0,5))
         if not kurser:
             raise HTTP(404)
         return kurser.json()
