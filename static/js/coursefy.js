@@ -65,8 +65,8 @@ var coursefy = {
                 y: null
             },
             dup: false
-        }
-        var $course = self.$course(fixed_data)
+        };
+        var $course = this.$course(fixed_data);
         $("#spawnCourse").html($course);
     },
 
@@ -403,6 +403,8 @@ var coursefy = {
 }
 
 $( document ).ready(function() {
+    coursefy.data = original_data;
+    coursefy.initialize($(".studyplan"));
 
     $(".dropdown").click(function(){
         $(this).next().toggle();
@@ -410,28 +412,28 @@ $( document ).ready(function() {
     });
 
     $( ".search-course" ).autocomplete({
-      source: function(request, response){
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "http://127.0.0.1:8000/coursefy/api/courses/"+request.term
-        })
-        .done(function(data){
-            response($.map(data, function(item) {
-                return {
-                    label: item.kurskod,
-                    data: item
-                }
-            }));
-        })
-        .fail(function( jqXHR, textStatus ) {
-            // Todo handle error here
-        });
-      },
-      select: function(event, ui){
-        spawnCourse(ui.item.data);
-      }
+        minLength: 3,
+        source: function(request, response){
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "http://127.0.0.1:8000/coursefy/api/courses/"+request.term
+            })
+            .done(function(data){
+                response($.map(data, function(item) {
+                    return {
+                        label: item.kurskod + " - " + item.namn,
+                        data: item
+                    }
+                }));
+            })
+            .fail(function( jqXHR, textStatus ) {
+                // Todo handle error here
+            });
+        },
+        select: function(event, ui){
+            coursefy.spawnCourse(ui.item.data);
+        }
     });
-    coursefy.data = original_data;
-    coursefy.initialize($(".studyplan"));
+
 });
