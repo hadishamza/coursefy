@@ -54,19 +54,11 @@ var coursefy = {
     },
 
     spawnCourse: function (data){
-        var fixed_data = {
-            code: data.kurskod,
-            level: data.nivå,
-            credits: data.poang,
-            name: data.namn,
-            period: null,
-            position: {
+        data.position = {
                 x: null,
                 y: null
-            },
-            extended: false
-        };
-        var $course = this.$course(fixed_data);
+            };
+        var $course = this.$course(data);
         $("#spawnCourse").html($course);
     },
 
@@ -422,7 +414,7 @@ $( document ).ready(function() {
             .done(function(data){
                 response($.map(data, function(item) {
                     return {
-                        label: item.kurskod + " - " + item.namn,
+                        label: item.code + " - " + item.name,
                         data: item
                     }
                 }));
