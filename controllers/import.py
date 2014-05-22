@@ -75,15 +75,30 @@ def insert(filnamn, prognamn, progkort, ar):
                 # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
             if (existerar_kurs != True or existerar_studie != True):
                 attributList = getinfoSelma(kurskod)
+                behorighet = None
+                examination = None
                 if attributList == []:
-                    attributList.append(namn)#row["name"])
+                    attributList.append(namn)
                     attributList.append("")
                     attributList.append("")
+                else:
+                    behorighet = attributList[6]
+                    examination = attributList[7]
                 id_niva = db.niva.insert(namn = attributList[2])
-                id_kursplan = db.kursplan.insert(namn = attributList[0], kurskod = kurskod, poang = attributList[1], niva = id_niva)
+                id_kursplan = db.kursplan.insert(
+                    namn = attributList[0],
+                    kurskod = kurskod,
+                    poang = attributList[1],
+                    niva = id_niva,
+                    behorighet = behorighet,
+                    examination = examination)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
+                db.kurstillfalle_studieplan.insert(
+                    studieplan = id_studieplan,
+                    kurstillfalle = id_kurstillfalle,
+                    startperiod = period,
+                    slutperiod = period)
 
 def updateKurs():
     #path = 'applications/coursefy/scripts/uuse/scraped/'
@@ -203,10 +218,13 @@ def getinfoSelma(kurskod):
     if gotdata:
         fordjukod2 = response['kurs']['huvudomradeFordjupningar'][1]['fordjupningskod']
         amne2 = response['kurs']['huvudomradeFordjupningar'][1]['huvudomrade']['benamning']
+
+    behorighet = response['behorighet']
+    examination = response['examination']
     # början på funktion för att kolla när selma senast var uppdaterad
     #try:
     #    senast_uppd = response['kurs'][]
-    returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2]
+    returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2, behorighet, examination]
 
     #printsats för lokal testning
     """

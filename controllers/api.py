@@ -71,6 +71,8 @@ def studyplan():
             course['period'] = row.startperiod
             course['extended'] = False
             course['name'] = kursplan.namn
+            course['examination'] = kursplan.examination
+            course['requirements'] = kursplan.behorighet
 
             if row.startperiod != row.slutperiod:
                 course['extended'] = True
