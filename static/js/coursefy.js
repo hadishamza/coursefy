@@ -64,7 +64,7 @@ var coursefy = {
                 x: null,
                 y: null
             },
-            dup: false
+            extended: false
         };
         var $course = this.$course(fixed_data);
         $("#spawnCourse").html($course);
@@ -121,9 +121,9 @@ var coursefy = {
         for (i = 0; i < num_rows; i++) {
             var k = 0;
             for (var period = start_period; period <= (start_period+3); period++) {
-                var dup;
+                var extended;
                 for(var j = 0; j < data_year.length; j++) {
-                    dup = false;
+                    extended = false;
                     var course = data_year[j];
                     var course_period = parseInt(course["period"]);
                     if (course_period === period) {
@@ -131,7 +131,7 @@ var coursefy = {
                         if (!course.position)
                             course.position = {x: k, y: i};
 
-                        if (course.dup){
+                        if (course.extended){
                             period++;
                             k++;
                         }
@@ -158,8 +158,8 @@ var coursefy = {
                     var $course = self.$course(course);
                     $td.html($course);
 
-                    self.drop_help($td, course.dup, false);
-                    if(course.dup) {
+                    self.drop_help($td, course.extended, false);
+                    if(course.extended) {
                         $course.find(".expandCourse").addClass("rotated");
                         $course.addClass("extend");
                     }
@@ -265,7 +265,7 @@ var coursefy = {
                 if(data[i].code == course_code){
                     occurrence++;
                     if(occurrence > 1){
-                        course.dup = true;
+                        course.extended = true;
                         course.credits = course.credits + " " + data[i].credits;
                         data.splice(i, 1);
                     }
@@ -281,14 +281,14 @@ var coursefy = {
         if($course.hasClass("extend")){ //From double to single
             $course.toggleClass("extend");
             $(this).toggleClass("rotated");
-            $course.data().course.dup = false;
+            $course.data().course.extended = false;
             $course.parent().next().data("free", true);
         }
         else{   // From single to double
             if($course.parent().next().data("free")){
                 $course.toggleClass("extend");
                 $(this).toggleClass("rotated");
-                $course.data().course.dup = true;
+                $course.data().course.extended = true;
                 $course.parent().next().data("free", false);
             }
             else{
@@ -303,20 +303,20 @@ var coursefy = {
         var parent = $(this).parent(".td_course");
         var course = $(this).data("course");
         $(this).css("z-index", "100").css("opacity", "0.7");
-        coursefy.drop_help(parent, course.dup, true);
+        coursefy.drop_help(parent, course.extended, true);
     },
 
     event_dragstop: function (event, ui){
         var parent = $(this).parent(".td_course");
         var course = $(this).data("course");
         $(this).css("z-index", "1").css("opacity", "1").removeClass("warning");
-        coursefy.drop_help(parent, course.dup, false);
+        coursefy.drop_help(parent, course.extended, false);
     },
 
     dropout_event: function (event, ui){
         var course_data = ui.draggable.data("course");
             $(this).removeClass("highlighted");
-            if(course_data.dup){
+            if(course_data.extended){
                 $(this).next().removeClass("highlighted");
             }
     },
@@ -324,7 +324,7 @@ var coursefy = {
     dropover_event: function (event, ui){
         var course_data = ui.draggable.data("course");
         $(this).addClass("highlighted");
-        if(course_data.dup){
+        if(course_data.extended){
             $(this).next().addClass("highlighted");
         }
         if(!$(this).data("free")){
@@ -333,7 +333,7 @@ var coursefy = {
         else{
             ui.draggable.removeClass("warning");
         }
-        if(course_data.dup && (($(this).data().x === 3) || !$(this).next().data("free"))){
+        if(course_data.extended && (($(this).data().x === 3) || !$(this).next().data("free"))){
             ui.draggable.addClass("warning");
         }
     },
@@ -350,7 +350,7 @@ var coursefy = {
 
     event_remove: function (){
         var course = $(this).parent();
-        coursefy.drop_help(course.parent(), course.data().course.dup, true);
+        coursefy.drop_help(course.parent(), course.data().course.extended, true);
         course.remove();
         coursefy.sync_data();
     },
@@ -364,17 +364,17 @@ var coursefy = {
         ui.draggable.removeClass("warning");
         $(this).removeClass("highlighted");
 
-        if(draggable_data.dup){
+        if(draggable_data.extended){
             $(this).next().removeClass("highlighted");
         }
 
         $element = ui.draggable.css("left", 0).css("top", 0);
-        if(data.free === true && !(draggable_data.dup === true && (data.x === 3 || !next_free))) {
+        if(data.free === true && !(draggable_data.extended === true && (data.x === 3 || !next_free))) {
             var table = $(this).parent().parent().parent()[0];
             var position = {x: data.x, y: data.y};
             $(this).append($element);
-            coursefy.drop_help($(this), draggable_data.dup, false);
-            coursefy.drop_help(parent, draggable_data.dup, true);
+            coursefy.drop_help($(this), draggable_data.extended, false);
+            coursefy.drop_help(parent, draggable_data.extended, true);
             draggable_data.position = position;
             draggable_data.period = table.getAttribute("data-year") + String(data.x+1);
             coursefy.sync_data();
@@ -384,9 +384,9 @@ var coursefy = {
     },
 
     /***** EVENTS END *****/
-    drop_help: function (target, dup, free) {
+    drop_help: function (target, extended, free) {
         target.data("free", free);
-        if (dup === true) {
+        if (extended === true) {
             target.next().data("free", free);
         }
     },
