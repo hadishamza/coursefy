@@ -68,8 +68,10 @@ def insert(filnamn, prognamn, progkort, ar):
                     attributList[1] = poang
                 elif attributList[2] == "":
                     attributList[2] = niva
-                else:
+
+                if (attributList[6])
                     behorighet = attributList[6]
+                if (attributList[7])
                     examination = attributList[7]
 
                 id_niva = db.niva.insert(namn = attributList[2])
