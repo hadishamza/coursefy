@@ -68,11 +68,9 @@ def insert(filnamn, prognamn, progkort, ar):
                     attributList[1] = poang
                 elif attributList[2] == "":
                     attributList[2] = niva
-
-                if (attributList[6])
-                    behorighet = attributList[6]
-                if (attributList[7])
-                    examination = attributList[7]
+                if (len(attributList) > 6):
+                        behorighet = attributList[6]
+                        examination = attributList[7]
 
                 id_niva = db.niva.insert(namn = attributList[2])
                 id_kursplan = db.kursplan.insert(
