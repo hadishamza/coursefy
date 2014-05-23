@@ -75,16 +75,13 @@ def insert(filnamn, prognamn, progkort, ar):
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
                 db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
-<<<<<<< HEAD
+                laggTillAmne(id_kursplan, attributList[3], attributList[2])
+                if(attributList[5] != ""):
+                    laggTillAmne(id_kursplan, attributList[5], attributList[4])
         for row in db(db.kursplan.id == existList[2]).select():
             row.update_record(poang = poang)
             break
 
-
-=======
-                laggTillAmne(id_kursplan, attributList[3], attributList[2])
-                if(attributList[5] != ""):
-                    laggTillAmne(id_kursplan, attributList[5], attributList[4])
 
 def laggTillAmne(id_kursplan, amne, fordjukod):
     id_omradesklassning = ""
@@ -100,7 +97,7 @@ def laggTillAmne(id_kursplan, amne, fordjukod):
     if(id_djup == ""):
         id_djup = db.djup.insert(namn = fordjukod) 
     db.omradesklassningar.insert(kursplan = id_kursplan, omradesklassning = id_omradesklassning, djup = id_djup)
->>>>>>> 07657d10b2194451507fd1b64cc15bf3ef05af14
+
 
 def existerarKurs(kurskod, progkort, period):
     existerar_kurs = False
