@@ -1,3 +1,45 @@
+/** Hood router BEGIN **/
+    var URL = window.location.pathname.split("/");
+    var last = URL[URL.length-1];
+    var second_last = URL[URL.length-2];
+    var original_data = [];
+
+    if (second_last == "new") {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/coursefy/api/studyplan/"+last
+        })
+        .done(function(data) {
+            coursefy.data = data;
+            coursefy.initialize($(".studyplan"));
+            return true;
+        })
+        .fail(function() {
+            return null;
+        });
+    }
+    else if (last.length == 36){ // UUID
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/coursefy/api/user_studyplan/"+last
+        })
+        .done(function(data) {
+            coursefy.data = data.value;
+            coursefy.uuid = last;
+            coursefy.initialize($(".studyplan"));
+            return true;
+        })
+        .fail(function() {
+            return null;
+        });
+    }
+    else {
+        window.location = "/coursefy/default/"
+    }
+    /** Hood router END **/
+
 var coursefy = {
     data: [],
     uuid: null,
@@ -419,45 +461,6 @@ var coursefy = {
 
 
 $( document ).ready(function() {
-
-    /** Hood router BEGIN **/
-    var URL = window.location.pathname.split("/");
-    var last = URL[URL.length-1];
-    var second_last = URL[URL.length-2];
-    var original_data = [];
-
-    if (second_last == "new") {
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "/coursefy/api/studyplan/"+last
-        })
-        .done(function(data) {
-            coursefy.data = data;
-            coursefy.initialize($(".studyplan"));
-            return true;
-        })
-        .fail(function() {
-            return null;
-        });
-    }
-    else if (last.length == 36){ // UUID
-        $.ajax({
-            type: "GET",
-            dataType: "json",
-            url: "/coursefy/api/user_studyplan/"+last
-        })
-        .done(function(data) {
-            coursefy.data = data.value;
-            coursefy.uuid = last;
-            coursefy.initialize($(".studyplan"));
-            return true;
-        })
-        .fail(function() {
-            return null;
-        });
-    }
-    /** Hood router END **/
 
     $(".dropdown").click(function(){
         $(this).next().toggle();
