@@ -1,4 +1,10 @@
 [{"credits": "(5)", "level": "G1N", "code": "1KB007", "period": "11", "name": "Grundl\u00e4ggande kemi"},
 {"credits": "(5) 10", "level": "G1N", "code": "1KB007", "period": "12", "name": "Grundl\u00e4ggande kemi "},
 {"credits": "(5)", "level": "G2E", "code": "1TE708", "period": "33", "name": "Sj\u00e4lvst\u00e4ndigt arbete i elektroteknik"},
-{"credits": "(10) 15", "level": "G2E", "code": "1TE708", "period": "34", "name": "Sj\u00e4lvst\u00e4ndigt arbete i elektroteknik"}]
+{"credits": "(10) 15", "level": "G2E", "code": "1TE708", "period": "34", "name": "Sj\u00e4lvst\u00e4ndigt arbete i elektroteknik"},
+{"credits": "(5)", "level": "G2F", "code": "1TE426", "period": "32", "name": "Datorst\u00f6dd byggprojektering och samordning, del 1"},
+{"credits": "(5)", "level": "G2F", "code": "1TE426", "period": "33", "name": "Datorst\u00f6dd byggprojektering och samordning, del 2"},
+{"credits": "(5)", "level": "GIF", "code": "1TE601", "period": "13", "name": "Byggnadsmekanik, "},
+{"credits": "5(10)", "level": "GIF", "code": "1TE601", "period": "14", "name": "Byggnadsmekanik, "},
+{"credits": "(5)", "level": "A1F", "code": "1TE700", "period": "51", "name": "Elkraftssystemanalys"},
+{"credits": "(5)", "level": "A1F", "code": "1TE700", "period": "52", "name": "Elkraftssystemanalys, del 2"}]
