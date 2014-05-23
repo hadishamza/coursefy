@@ -53,13 +53,16 @@ var coursefy = {
 
         $course.draggable({
             snap: false,
+            //cursorAt: {top: 25, left: 25},
             cursor: "move",
             revert: "invalid"
         }).on("dragstop", this.event_dragstop).on("dragstart", this.event_dragstart).on("click", this.event_click);
+        $course.on("mouseover", coursefy.mouseover_event)
+        .on("mouseleave", coursefy.mouseleave_event);
         $course.find(".removeCourse").on("click", this.event_remove);
         $course.find(".expandCourse").on("click", this.event_expand);
         $course.data("course", data);
-        $course.addClass(this.course_class(data.code));
+        $course.css("background-color",this.course_class(data.level));
         return $course;
     },
 
@@ -85,18 +88,36 @@ var coursefy = {
         }
     },
 
-    course_class: function (course_code) {
+    course_class: function (course_level) {
         var type_class;
-        switch(course_code.substring(1,3)) {
-            case "MS":
-            case "MA":
-                type_class = "math";
+        switch(course_level) {
+            case "G1N":
+                type_class = "#d0ebff";
                 break;
-            case "FE":
-                type_class = "fe";
+            case "G1F":
+                type_class = "#92d2ff";
+                break;
+            case "G2F":
+                type_class = "#5aabe5";
+                break;
+            case "G2E":
+                type_class = "#4685b2";
+                break;
+
+            case "A1N":
+                type_class = "#b7f3cc";
+                break;
+            case "A1F":
+                type_class = "#8cecad";
+                break;
+            case "A2F":
+                type_class = "#70e899";
+                break;
+            case "A2E":
+                type_class = "#59b97a";
                 break;
             default:
-                type_class = "tech";
+                type_class = "#FF9E8E";
                 break;
         }
 
@@ -376,6 +397,16 @@ var coursefy = {
         }
     },
 
+    mouseover_event: function(){
+        $(this).find(".removeCourse").css("visibility", "visible");
+        $(this).find(".expandCourse").css("visibility", "visible");
+    },
+
+    mouseleave_event: function(){
+        $(this).find(".removeCourse").css("visibility", "hidden");
+        $(this).find(".expandCourse").css("visibility", "hidden");
+    },
+
     /***** EVENTS END *****/
     drop_help: function (target, extended, free) {
         target.data("free", free);
@@ -482,6 +513,9 @@ $( document ).ready(function() {
         $(this).next().toggle();
         $(this).children("img").toggleClass("rotated");
     });
+    $(".course")
+    .on("mouseover", coursefy.mouseover_event)
+    .on("mouseleave", coursefy.mouseleave_event);
 
     $( ".search-course" ).autocomplete({
         minLength: 3,
