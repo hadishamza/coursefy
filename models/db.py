@@ -55,7 +55,7 @@ db.define_table('betygsskala',
 
 db.define_table('kursplan', 
                 Field('namn', 'string', length = 255), 
-                Field('poang', 'integer'), 
+                Field('poang', 'float'),#'integer'), 
                 Field('kurskod', 'string', length = 255), 
                 Field('beslutsdatum', 'date'), 
                 Field('behorighet', 'string', length = 255), 
