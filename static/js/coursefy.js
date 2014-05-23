@@ -1,24 +1,34 @@
 var coursefy = {
-    localdata: JSON.parse(localStorage.getItem("synced_data")),
     data: [],
+    uuid: null,
+    parent_id: 0,
     course_data: [],
     $studyplans: [],
 
     initialize: function($studyplans) {
         var self = this;
         this.$studyplans = $studyplans;
+        if (!self.uuid && !self.parent_id) {
+            self.manage_data(self.data);
+
+        }
+        else {
+            self.course_data = self.data;
+        }
+        console.log(self.data.length);
+        console.log(self.course_data.length);
         $studyplans.each(function(index, studyplan) {
-            if (!self.localdata) {
-                self.manage_data(self.data);
+            if (!self.uuid && !self.parent_id){
                 self.init_studyplan_pos(self.data, index+1);
+                console.log("no uuid");
             }
-            else {
-                self.course_data = self.localdata;
-            }
+
 
             self.init_grid($(studyplan), self.course_data, index+1)
             self.populate_studyplan($(studyplan), self.course_data, index+1);
         });
+        self.course_data = null
+        self.data = null
     },
 
     /***** DRAW METHODS BEGIN *****/
@@ -39,7 +49,7 @@ var coursefy = {
     },
 
     $course: function(data) {
-        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + data["name"] + "</div></div>");
+        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + data["name"] + " </div></div>");
 
         $course.draggable({
             snap: false,
@@ -118,7 +128,10 @@ var coursefy = {
     year_data: function (data, year){
         var data_year = [];
         data.forEach(function (course) {
-            var course_year = parseInt(course["period"].substring(0,1));
+            if (course["period"] == 0) {
+                console.log(course);
+            }
+            var course_year = parseInt(String(course["period"]).substring(0,1));
             if (course_year === year) {
                 data_year.push(course);
             }
@@ -159,6 +172,7 @@ var coursefy = {
 
     populate_studyplan: function ($studyplan, data, year) {
         var data_year = this.year_data(data, year);
+        console.log(data_year);
         var num_rows = this.find_greatest_y(data_year);
         var self = this;
         $studyplan.find("tbody > tr").each(function(y) {
@@ -240,8 +254,8 @@ var coursefy = {
         var max_rows = 0;
         var period_rows = 1;
         this.data.forEach(function (course) {
-            var course_period = parseInt(course["period"].substring(1,2));
-            var course_year = parseInt(course["period"].substring(0,1));
+            var course_period = parseInt(String(course["period"]).substring(1,2));
+            var course_year = parseInt(String(course["period"]).substring(0,1));
             if (year === course_year) {
                 if (course_period == prev_period) {
                     period_rows++;
@@ -269,20 +283,6 @@ var coursefy = {
         if (period_a < period_b) return -1;
         if (period_a > period_b) return 1;
         return 0;
-        });
-        data.forEach(function (course){
-            var occurrence = 0;
-            var course_code = course.code;
-            for(var i = 0; i < data.length; i++){
-                if(data[i].code == course_code){
-                    occurrence++;
-                    if(occurrence > 1){
-                        course.extended = true;
-                        course.credits = course.credits + " " + data[i].credits;
-                        data.splice(i, 1);
-                    }
-                }
-            }
         });
     },
 
@@ -417,18 +417,97 @@ var coursefy = {
 
     sync_data: function () {
         var d = [];
+        var self = this;
+        var post_data;
+        var base_url = "/coursefy/default/studyplan/";
         $(".course").each(function() {
             if($(this).data("course").period)
                 d.push($(this).data("course"));
+            else
+                console.log($(this).data("course"));
         });
+        console.log("data_synced: " + d.length);
         data = d;
-        localStorage.setItem("synced_data", JSON.stringify(d));
+
+        if (self.uuid == null) {
+            post_data = {"parent_id": this.parent_id, "user_studyplan": JSON.stringify(data)}
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: post_data,
+                url: "/coursefy/api/user_studyplan/"
+            })
+            .done(function(data) {
+                self.uuid = data.uuid;
+                window.history.pushState(null, null, base_url+self.uuid);
+                console.log("successfull POST");
+            })
+            .fail(function() {
+                console.log("damn homie not saved");
+            });
+        }
+        else {
+            post_data = {"key": self.uuid, "user_studyplan": JSON.stringify(data)}
+            $.ajax({
+                type: "PUT",
+                dataType: "json",
+                data: post_data,
+                url: "/coursefy/api/user_studyplan/"
+            })
+            .done(function(data) {
+                console.log("successfull PUT");
+            })
+            .fail(function() {
+                console.log("damn homie not PUT:ed");
+            });
+        }
     }
 }
 
+
 $( document ).ready(function() {
-    coursefy.data = original_data;
-    coursefy.initialize($(".studyplan"));
+
+    /** Hood router BEGIN **/
+    var URL = window.location.pathname.split("/");
+    var last = URL[URL.length-1];
+    var second_last = URL[URL.length-2];
+    var original_data = [];
+
+    if (second_last == "new") {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/coursefy/api/studyplan/"+last
+        })
+        .done(function(data) {
+            coursefy.data = data;
+            coursefy.initialize($(".studyplan"));
+            return true;
+        })
+        .fail(function() {
+            return null;
+        });
+    }
+    else if (last.length == 36){ // UUID
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "/coursefy/api/user_studyplan/"+last
+        })
+        .done(function(data) {
+            coursefy.data = data.value;
+            coursefy.parent_id = last;
+            coursefy.initialize($(".studyplan"));
+            return true;
+        })
+        .fail(function() {
+            return null;
+        });
+    }
+    else {
+        window.location = "/coursefy/default/"
+    }
+    /** Hood router END **/
 
     $(".dropdown").click(function(){
         $(this).next().toggle();

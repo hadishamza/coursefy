@@ -26,11 +26,12 @@ def user_studyplan():
             raise HTTP(404)
 
         else:
-            return studyplan
+            return {'value': json.loads(studyplan.value)}
 
-    def POST(id, parent_id, user_studyplan):
+    def POST(user_studyplan, parent_id):
         if is_json(user_studyplan):
-            parent = db(db.api_studieplan.key==parent_id).select().first()
+            if parent_id:
+                parent = db(db.api_studieplan.key==parent_id).select().first()
             if parent:
                 parent_id = parent['key']
             else:
@@ -42,17 +43,25 @@ def user_studyplan():
             else:
                 raise HTTP(500)
 
-    def PUT(id, user_studyplan):
+    def PUT(key, user_studyplan):
         if is_json(user_studyplan):
-            study = db(db.api_studieplan.key==id).select().first()
+            study = db(db.api_studieplan.key==key).select().first()
             if study:
-                study = db(db.api_studieplan.key==id).update(value=user_studyplan)
-                return study
+                study.update_record(value=user_studyplan)
+                return {'uuid': study.key}
+
             else:
                 raise HTTP(404)
         else:
             raise HTTP(400)
 
+    return locals()
+
+@request.restful()
+def studyplan_search():
+    def GET(name):
+        studyplans = db(db.studieplan.namn.contains(name)| db.studieplan.beskrivning.contains(name)).select(limitby=(0,5))
+        return studyplans.json()
     return locals()
 
 @request.restful()
