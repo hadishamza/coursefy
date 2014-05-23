@@ -124,13 +124,10 @@ def existerarKurs(kurskod, progkort, period):
     for row in db(db.kursplan.kurskod == kurskod).select():
         existerar_kurs = True
         tillf_id_kursplan = row.id
-        #print tillf_id_kursplan
         for row in db(db.kurstillfalle.kursplan == tillf_id_kursplan).select():
             tillf_id_kurstillfalle = row.id
-            #print tillf_id_kurstillfalle
             for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
                 tillf_studieplan = row.studieplan
-                #print tillf_studieplan
                 for row in db(db.studieplan.id == tillf_studieplan).select():
                     tillf_namn = row.namn
                     if tillf_namn == progkort:
