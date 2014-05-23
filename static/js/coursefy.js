@@ -1,6 +1,7 @@
 var coursefy = {
-    localdata: JSON.parse(localStorage.getItem("synced_data")),
     data: [],
+    uuid: null,
+    parent_id: 0,
     course_data: [],
     $studyplans: [],
 
@@ -8,12 +9,12 @@ var coursefy = {
         var self = this;
         this.$studyplans = $studyplans;
         $studyplans.each(function(index, studyplan) {
-            if (!self.localdata) {
+            if (!self.uuid) {
                 self.manage_data(self.data);
                 self.init_studyplan_pos(self.data, index+1);
             }
             else {
-                self.course_data = self.localdata;
+                self.course_data = self.data;
             }
 
             self.init_grid($(studyplan), self.course_data, index+1)
@@ -97,7 +98,7 @@ var coursefy = {
     year_data: function (data, year){
         var data_year = [];
         data.forEach(function (course) {
-            var course_year = parseInt(course["period"].substring(0,1));
+            var course_year = parseInt(String(course["period"]).substring(0,1));
             if (course_year === year) {
                 data_year.push(course);
             }
@@ -219,8 +220,8 @@ var coursefy = {
         var max_rows = 0;
         var period_rows = 1;
         this.data.forEach(function (course) {
-            var course_period = parseInt(course["period"].substring(1,2));
-            var course_year = parseInt(course["period"].substring(0,1));
+            var course_period = parseInt(String(course["period"]).substring(1,2));
+            var course_year = parseInt(String(course["period"]).substring(0,1));
             if (year === course_year) {
                 if (course_period == prev_period) {
                     period_rows++;
@@ -248,20 +249,6 @@ var coursefy = {
         if (period_a < period_b) return -1;
         if (period_a > period_b) return 1;
         return 0;
-        });
-        data.forEach(function (course){
-            var occurrence = 0;
-            var course_code = course.code;
-            for(var i = 0; i < data.length; i++){
-                if(data[i].code == course_code){
-                    occurrence++;
-                    if(occurrence > 1){
-                        course.extended = true;
-                        course.credits = course.credits + " " + data[i].credits;
-                        data.splice(i, 1);
-                    }
-                }
-            }
         });
     },
 
@@ -394,13 +381,44 @@ var coursefy = {
                 d.push($(this).data("course"));
         });
         data = d;
-        localStorage.setItem("synced_data", JSON.stringify(d));
+
+        if (self.uuid == null) {
+            post_data = {"parent_id": this.parent_id, "user_studyplan": JSON.stringify(data)}
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: post_data,
+                url: "/coursefy/api/user_studyplan/"
+            })
+            .done(function(data) {
+                self.uuid = data.uuid;
+                window.history.pushState(null, null, base_url+self.uuid);
+                console.log("successfull POST");
+            })
+            .fail(function() {
+                console.log("damn homie not saved");
+            });
+        }
+        else {
+            post_data = {"key": self.uuid, "user_studyplan": JSON.stringify(data)}
+            $.ajax({
+                type: "PUT",
+                dataType: "json",
+                data: post_data,
+                url: "/coursefy/api/user_studyplan/"
+            })
+            .done(function(data) {
+                console.log("successfull PUT");
+            })
+            .fail(function() {
+                console.log("damn homie not PUT:ed");
+            });
+        }
     }
 }
 
 
 $( document ).ready(function() {
-    coursefy.data = original_data;
 
     /** Hood router BEGIN **/
     var URL = window.location.pathname.split("/");
