@@ -1,26 +1,29 @@
 # -*- coding: utf-8 -*-
 import json, os
+import time
 from suds.client import Client
 
 def index():
+    start_time = time.time()
     #deleteKurs("1MA013")
     #insert("testjson.json", "Mol", "X", 2014)
-    #insert("x1415.json", "MolykularBioteknikC", "X", 2014)
+    insert("x1415.json", "MolykularBioteknikC", "X", 2014)
     insert("it1415.json", "InformationsteknologiC", "IT", 2014)
     insert("e1415.json", "ElektroteknikC", "E", 2014)
-    #insert("ei1415.json", "ElektroteknikH", "EI", 2014)
-    #insert("es1415.json", "EnergisystemC", "ES", 2014)
-    #insert("f1415.json", "TekniskfysikC", "F", 2014)
-    #insert("k1415.json", "KemiteknikC", "K", 2014)
-    #insert("mi1415.json", "MaskinteknikH", "MI", 2014)
-    #insert("b1415.json", "ByggteknikC", "B", 2014)
-    #insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
-    #insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
-    #insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
+    insert("ei1415.json", "ElektroteknikH", "EI", 2014)
+    insert("es1415.json", "EnergisystemC", "ES", 2014)
+    insert("f1415.json", "TekniskfysikC", "F", 2014)
+    insert("k1415.json", "KemiteknikC", "K", 2014)
+    insert("mi1415.json", "MaskinteknikH", "MI", 2014)
+    insert("b1415.json", "ByggteknikC", "B", 2014)
+    insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
+    insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
+    insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
     
     #message = getinfoSelma("1MA009")
     #message = dict(message = )    
     #return dict(message = message)
+    print time.time() - start_time, "seconds"
     print "Klar!!!"
 
 
@@ -36,36 +39,27 @@ def insert(filnamn, prognamn, progkort, ar):
 
         
         for row in json_data:
-            #poang = row["credits"]
             kurskod = row["code"] 
             period = row["period"]
             namn = row["name"]
-            #print namn
-            poang = row["credits"]
-            print poang + ":1" 
-            #print poang
+            poang = row["credits"] 
             iterator = 0
-            for c in poang:
-                iterator = iterator + 1
-                if c == ")":
-                    poang = poang[iterator:]
-            print poang + ":2"
+            if poang != None:
+                for c in poang:
+                    iterator = iterator + 1
+                    if c == ")":
+                        poang = poang[iterator:]
             niva = row["level"]
-            #print poang
-            #namn = row["name"]
             # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror
             if len(period) > 2:
                 period = 0
             existList = existerarKurs(kurskod, progkort, period)
-            print existList[0]
-            print existList[1]
                 # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
             if (existList[0] != True or existList[1] != True):
                 attributList = getinfoSelma(kurskod)
                 if attributList == []:
                     attributList.append(namn)
                     attributList.append(poang)
-                    print poang + ":3"
                     attributList.append(niva)
                     attributList.append("")
                     attributList.append("")
@@ -74,13 +68,10 @@ def insert(filnamn, prognamn, progkort, ar):
                     attributList[0] = name
                 elif attributList[1] == 0:
                     attributList[1] = poang
-                    print poang + ":4"
                 elif attributList[2] == "":
                     attributList[2] = niva
                 id_niva = db.niva.insert(namn = attributList[2])
-                #print attributList[1] + ":5.0"
                 id_kursplan = db.kursplan.insert(namn = attributList[0], kurskod = kurskod, poang = attributList[1], niva = id_niva)
-                #print attributList[1] + ":5"
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
                 db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
@@ -129,8 +120,6 @@ def existerarKurs(kurskod, progkort, period):
                 #print tillf_studieplan
                 for row in db(db.studieplan.id == tillf_studieplan).select():
                     tillf_namn = row.namn
-                    print tillf_namn
-                    print progkort
                     if tillf_namn == progkort:
                         existerar_studie = True
                         # Sätter om slutperioden för den existerande kurskoden (kursen)
