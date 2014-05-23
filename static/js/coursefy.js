@@ -1,5 +1,3 @@
-
-
 var coursefy = {
     data: [],
     uuid: null,
@@ -478,7 +476,7 @@ $( document ).ready(function() {
     else {
         window.location = "/coursefy/default/"
     }
-/** Hood router END **/
+    /** Hood router END **/
 
     $(".dropdown").click(function(){
         $(this).next().toggle();
