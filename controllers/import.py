@@ -9,7 +9,7 @@ def index():
     insert("it1415.json", "InformationsteknologiC", "IT", 2014)
     insert("e1415.json", "ElektroteknikC", "E", 2014)
     insert("ei1415.json", "ElektroteknikH", "EI", 2014)
-    insert("es1415.json", "EnergisystemC", "ES", 2014)
+    #insert("es1415.json", "EnergisystemC", "ES", 2014) aint nobody got time for that (kurs över 4 perioder)
     insert("f1415.json", "TekniskfysikC", "F", 2014)
     insert("k1415.json", "KemiteknikC", "K", 2014)
     insert("mi1415.json", "MaskinteknikH", "MI", 2014)
