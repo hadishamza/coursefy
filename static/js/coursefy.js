@@ -20,9 +20,7 @@ var coursefy = {
         $studyplans.each(function(index, studyplan) {
             if (!self.uuid && !self.parent_id){
                 self.init_studyplan_pos(self.data, index+1);
-                console.log("no uuid");
             }
-
 
             self.init_grid($(studyplan), self.course_data, index+1)
             self.populate_studyplan($(studyplan), self.course_data, index+1);
@@ -149,7 +147,6 @@ var coursefy = {
 
     populate_studyplan: function ($studyplan, data, year) {
         var data_year = this.year_data(data, year);
-        console.log(data_year);
         var num_rows = this.find_greatest_y(data_year);
         var self = this;
         $studyplan.find("tbody > tr").each(function(y) {
