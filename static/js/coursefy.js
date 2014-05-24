@@ -123,14 +123,12 @@ var coursefy = {
         var num_rows = this.find_rows_num(data_year, year);
         var start_period = 1+(year*10);
         var i;
-        for (i = 0; i < num_rows; i++) {
+        for (i = 0; i <= num_rows; i++) {
             var k = 0;
             for (var period = start_period; period <= (start_period+3); period++) {
-                var extended;
                 for(var j = 0; j < data_year.length; j++) {
-                    extended = false;
                     var course = data_year[j];
-                    var course_period = parseInt(course["period"]);
+                    var course_period = course["period"];
                     if (course_period === period) {
                         data_year.splice(j, 1);
                         if (!course.position)
