@@ -38,6 +38,7 @@ def insert(filnamn, prognamn, progkort, ar):
             period = row["period"]
             namn = row["name"]
             poang = row["credits"]
+            obl = row["obl"]
             iterator = 0
             if poang != None:
                 for c in poang:
@@ -85,6 +86,7 @@ def insert(filnamn, prognamn, progkort, ar):
 
                 db.kurstillfalle_studieplan.insert(
                     studieplan = id_studieplan,
+                    obligatorisk = obl,
                     kurstillfalle = id_kurstillfalle,
                     startperiod = period,
                     slutperiod = period)

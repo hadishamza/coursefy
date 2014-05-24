@@ -47,7 +47,14 @@ var coursefy = {
     },
 
     $course: function(data) {
-        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + data["name"] + " </div></div>");
+        var name;
+        if (data.obl) {
+            name = "<strong>" + data["name"] + "</strong>";
+        }
+        else {
+            name = data["name"];
+        }
+        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + name + " </div></div>");
 
         $course.draggable({
             snap: false,
