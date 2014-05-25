@@ -1,35 +1,35 @@
 {{extend 'layout.html'}}
 
 <script type="text/javascript">
-	$(document).ready(function() {
-	    $(".search-studyplan" ).autocomplete({
-		    source: function(request, response){
-		        $.ajax({
-		            type: "GET",
-		            dataType: "json",
-		            url: "http://127.0.0.1:8000/coursefy/api/studyplan_search/"+request.term,
-		            success: function(data){
-		            	console.log("success");
-		                response($.map(data, function(item) {
-		                    return {
-		                        label: item.namn + " "+ item.beskrivning,
-		                        data: item
-		                    }
-		                }));
-		            }
-		        });
-		    },
-		    select: function(event, ui){
-		        window.location = "http://127.0.0.1:8000/coursefy/default/studyplan/new/" + ui.item.data.id;
-		    }
-	    });
-	});
+    $(document).ready(function() {
+        $(".search-studyplan" ).autocomplete({
+            source: function(request, response){
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "http://127.0.0.1:8000/coursefy/api/studyplan_search/"+request.term,
+                    success: function(data){
+                        console.log("success");
+                        response($.map(data, function(item) {
+                            return {
+                                label: item.namn + " "+ item.beskrivning,
+                                data: item
+                            }
+                        }));
+                    }
+                });
+            },
+            select: function(event, ui){
+                window.location = "http://127.0.0.1:8000/coursefy/default/studyplan/new/" + ui.item.data.id;
+            }
+        });
+    });
 </script>
 
 <div class="jumbotron">
-	<div class="container">
-		<center><h1>Coursefy</h1></center>
-		<br />
-		  <input type="text" class="form-control search-studyplan" placeholder="Sök studieplan">
-	</div>
+    <div class="container">
+        <center><h1>Coursefy</h1></center>
+        <br />
+          <input type="text" class="form-control search-studyplan" placeholder="Sök studieplan">
+    </div>
 </div>
