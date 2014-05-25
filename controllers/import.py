@@ -5,18 +5,18 @@ from suds.client import Client
 
 def index():
     start_time = time.time()
-    insert("x1415.json", "MolykularBioteknikC", "X", 2014)
-    insert("it1415.json", "InformationsteknologiC", "IT", 2014)
-    insert("e1415.json", "ElektroteknikC", "E", 2014)
-    insert("ei1415.json", "ElektroteknikH", "EI", 2014)
-    #insert("es1415.json", "EnergisystemC", "ES", 2014) aint nobody got time for that (kurs över 4 perioder)
-    insert("f1415.json", "TekniskfysikC", "F", 2014)
-    insert("k1415.json", "KemiteknikC", "K", 2014)
-    insert("mi1415.json", "MaskinteknikH", "MI", 2014)
-    insert("b1415.json", "ByggteknikC", "B", 2014)
-    insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
-    insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
-    insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
+    insert("x1415.json", "Civilingenjörsprogrammet i Molekylär bioteknik 2014/2015", "X", 2014)
+    insert("it1415.json", "Civilingenjörsprogrammet i Informationsteknologi 2014/2015", "IT", 2014)
+    insert("e1415.json", "Civilingenjörsprogrammet i Elektroteknik 2014/2015", "E", 2014)
+    insert("ei1415.json", "Högskoleingenjörsprogrammet i Elektroteknik 2014/2015", "EI", 2014)
+    #insert("es1415.json", "Civilingenjörsprogrammet i EnergisystemC", "ES", 2014) aint nobody got time for that (kurs över 4 perioder)
+    insert("f1415.json", "Civilingenjörsprogrammet i Teknisk fysik 2014/2015", "F", 2014)
+    insert("k1415.json", "Civilingenjörsprogrammet i Kemiteknik 2014/2015", "K", 2014)
+    insert("mi1415.json", "Högskoleingenjörsprogrammet i Maskinteknik 2014/2015", "MI", 2014)
+    insert("b1415.json", "Högskoleingenjörsprogrammet i Byggteknik 2014/2015", "B", 2014)
+    insert("q1415.json", "Civilingenjörsprogrammet i Teknisk fysik med materialvetenskap 2014/2015", "Q", 2014)
+    insert("w1415.json", "Civilingenjörsprogrammet i Miljö- och vattenteknik 2014/2015", "W", 2014)
+    insert("sts1415.json", "Civilingenjörsprogrammet i System i teknik och samhälle 2014/2015", "STS", 2014)
 
     print time.time() - start_time, "seconds"
     print "Klar!!!"
