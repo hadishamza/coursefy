@@ -5,13 +5,11 @@ from suds.client import Client
 
 def index():
     start_time = time.time()
-    #deleteKurs("1MA013")
-    #insert("testjson.json", "Mol", "X", 2014)
     insert("x1415.json", "MolykularBioteknikC", "X", 2014)
     insert("it1415.json", "InformationsteknologiC", "IT", 2014)
     insert("e1415.json", "ElektroteknikC", "E", 2014)
     insert("ei1415.json", "ElektroteknikH", "EI", 2014)
-    insert("es1415.json", "EnergisystemC", "ES", 2014)
+    #insert("es1415.json", "EnergisystemC", "ES", 2014) aint nobody got time for that (kurs över 4 perioder)
     insert("f1415.json", "TekniskfysikC", "F", 2014)
     insert("k1415.json", "KemiteknikC", "K", 2014)
     insert("mi1415.json", "MaskinteknikH", "MI", 2014)
@@ -19,10 +17,7 @@ def index():
     insert("q1415.json", "TekniskfysikmedMaterialvetenskapC", "Q", 2014)
     insert("w1415.json", "MiljoVattenteknikC", "W", 2014)
     insert("sts1415.json", "SystemiteknikochSamhalleC", "STS", 2014)
-    
-    #message = getinfoSelma("1MA009")
-    #message = dict(message = )    
-    #return dict(message = message)
+
     print time.time() - start_time, "seconds"
     print "Klar!!!"
 
@@ -37,12 +32,13 @@ def insert(filnamn, prognamn, progkort, ar):
     with open(filnamn) as json_file:
         json_data = json.load(json_file)
 
-        
+
         for row in json_data:
-            kurskod = row["code"] 
+            kurskod = row["code"]
             period = row["period"]
             namn = row["name"]
-            poang = row["credits"] 
+            poang = row["credits"]
+            obl = row["obl"]
             iterator = 0
             if poang != None:
                 for c in poang:
@@ -53,10 +49,13 @@ def insert(filnamn, prognamn, progkort, ar):
             # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror
             if len(period) > 2:
                 period = 0
-            existList = existerarKurs(kurskod, progkort, period)
-                # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
+            existList = existerarKurs(id_studieplan, kurskod, progkort, period)
+
+            # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
             if (existList[0] != True or existList[1] != True):
                 attributList = getinfoSelma(kurskod)
+                behorighet = None
+                examination = None
                 if attributList == []:
                     attributList.append(namn)
                     attributList.append(poang)
@@ -70,11 +69,27 @@ def insert(filnamn, prognamn, progkort, ar):
                     attributList[1] = poang
                 elif attributList[2] == "":
                     attributList[2] = niva
+                if (len(attributList) > 6):
+                        behorighet = attributList[6]
+                        examination = attributList[7]
+
                 id_niva = db.niva.insert(namn = attributList[2])
-                id_kursplan = db.kursplan.insert(namn = attributList[0], kurskod = kurskod, poang = attributList[1], niva = id_niva)
+                id_kursplan = db.kursplan.insert(
+                    namn = attributList[0],
+                    kurskod = kurskod,
+                    poang = attributList[1],
+                    niva = id_niva,
+                    behorighet = behorighet,
+                    examination = examination)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                db.kurstillfalle_studieplan.insert(studieplan = id_studieplan, kurstillfalle = id_kurstillfalle, startperiod = period, slutperiod = period)
+
+                db.kurstillfalle_studieplan.insert(
+                    studieplan = id_studieplan,
+                    obligatorisk = obl,
+                    kurstillfalle = id_kurstillfalle,
+                    startperiod = period,
+                    slutperiod = period)
                 laggTillAmne(id_kursplan, attributList[3], attributList[2])
                 if(attributList[5] != ""):
                     laggTillAmne(id_kursplan, attributList[5], attributList[4])
@@ -91,53 +106,46 @@ def laggTillAmne(id_kursplan, amne, fordjukod):
     for row in db(db.omradesklassning.namn == amne).select():
         id_omradesklassning = row.id
         break
-    if(id_omradesklassning == ""): 
+    if(id_omradesklassning == ""):
         id_omradesklassning = db.omradesklassning.insert(namn = amne)
     for row in db(db.djup.namn == fordjukod).select():
         id_djup = row.id
         break
     if(id_djup == ""):
-        id_djup = db.djup.insert(namn = fordjukod) 
+        id_djup = db.djup.insert(namn = fordjukod)
     db.omradesklassningar.insert(kursplan = id_kursplan, omradesklassning = id_omradesklassning, djup = id_djup)
 
 
-def existerarKurs(kurskod, progkort, period):
+def existerarKurs(id_studieplan, kurskod, progkort, period):
     existerar_kurs = False
     existerar_studie = False
     tillf_id_kursplan = ""
     # check för att se om vi redan har skapat ett table för den här kurskoden, isf sätts "existerar" till true vilket indikerar att
     # det redan finns ett table. Att det finns flera objekt med samma kurskod beror på att kursen går över flera perioder.
-    
+
     for row in db(db.kursplan.kurskod == kurskod).select():
         existerar_kurs = True
         tillf_id_kursplan = row.id
-        #print tillf_id_kursplan
         for row in db(db.kurstillfalle.kursplan == tillf_id_kursplan).select():
-            tillf_id_kurstillfalle = row.id
-            #print tillf_id_kurstillfalle
-            for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
-                tillf_studieplan = row.studieplan
-                #print tillf_studieplan
-                for row in db(db.studieplan.id == tillf_studieplan).select():
-                    tillf_namn = row.namn
-                    if tillf_namn == progkort:
-                        existerar_studie = True
-                        # Sätter om slutperioden för den existerande kurskoden (kursen)
-                        for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
-                            row.update_record(slutperiod = period)
-                            break
-                break
-            break
-        break
+            kurstillfalle_id = row.id
+            for row in db((db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id) & (db.kurstillfalle_studieplan.studieplan == id_studieplan)).select():
+
+            # Sätter om slutperioden för den existerande kurskoden (kursen)
+                str_start_period = str(row.startperiod)
+                str_slut_period = str(period)
+                # Är vi i samma år? (MDI it)
+                if str_start_period[0] == str_slut_period[0]:
+                    existerar_studie = True
+                    row.update_record(slutperiod = period)
+                    break # just one
+                else:
+                    existerar_studie = False
+
     existList = [existerar_kurs, existerar_studie, tillf_id_kursplan]
     return existList
 
 def updateKurs():
-    #path = 'applications/coursefy/scripts/uuse/scraped/'
     filnamn = path + filnamn
-    #import time
-    #date = (time.strftime("%d/%m/%Y"))
-    #print date
     with open(filnamn) as json_file:
         json_data = json.load(json_file)
 
@@ -157,7 +165,7 @@ def deleteKurs(kurskod):
         break
     for row in db(db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id).select():
         kurstillfalle_studieplan_id = row.id
-        break 
+        break
     db(db.kurstillfalle_studieplan.id == kurstillfalle_id).delete()
     db(db.kurstillfalle.id == kurstillfalle_id).delete()
     db(db.perioder.id == period_id).delete()
@@ -186,7 +194,7 @@ def studieProgId(prognamn, progkort, ar):
                     studie_exists = False
                 break
         break
-    if prog_exists:    
+    if prog_exists:
         id_program = db.program.insert(namn = progkort, beskrivning = prognamn)
     if studie_exists:
         id_studieplan = db.studieplan.insert(namn = progkort, beskrivning = prognamn, program = id_program, ar = ar)
@@ -200,12 +208,13 @@ def getinfoSelma(kurskod):
     client.set_options(port="PlanTjanstHttpSoap11Endpoint")
    # print "kurskod: " + kurskod
     response = client.service.hamtaKursplanKurskod(kurskod=kurskod)
-    
+
     # check för om kursen inte finns i Selma
     namn = 1
     poang = 1
     fordjukod1 = 1
     amne1 = 1
+
 
     try:
         test = response['kurs']
@@ -247,12 +256,15 @@ def getinfoSelma(kurskod):
     except IndexError:
         gotdata = 0
     if gotdata:
-        fordjukod2 = response['kurs']['huvudomradeFordjupningar'][1]['fordjupningskod']                                            
+        fordjukod2 = response['kurs']['huvudomradeFordjupningar'][1]['fordjupningskod']
         amne2 = response['kurs']['huvudomradeFordjupningar'][1]['huvudomrade']['benamning']
+
+    behorighet = response['behorighet']
+    examination = response['examination']
     # början på funktion för att kolla när selma senast var uppdaterad
     #try:
     #    senast_uppd = response['kurs'][]
-    returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2]
+    returnlist = [namn, poang, fordjukod1, amne1, fordjukod2, amne2, behorighet, examination]
 
     #printsats för lokal testning
     """
@@ -323,37 +335,37 @@ insert("nvf1314.json", "FysikNM", "NVF", 2013)
 insert("nvf1415.json", "FysikNM", "NVF", 2014)
 insert("nvg1213.json", "GeovetenskapNM", "NVG", 2012)
 insert("nvg1314.json", "GeovetenskapNM", "NVG", 2013)
-insert("nvg1415.json", "GeovetenskapNM", "NVG", 2014) 
+insert("nvg1415.json", "GeovetenskapNM", "NVG", 2014)
 insert("1213.json", "HallbarUtvecklingNM", "", 2012)
 insert("1314.json", "HallbarUtvecklingNM", "", 2013)
 insert("1415.json", "HallbarUtvecklingNM", "", 2014)
 insert("nvk1213.json", "KemiNM", "NVK", 2012)
-insert("nvk1314.json", "KemiNM", "NVK", 2013) 
+insert("nvk1314.json", "KemiNM", "NVK", 2013)
 insert("nvk1415.json", "KemiNM", "NVK", 2014)
 insert("nvm1213.json", "MatematikNM", "NVM", 2012)
 insert("nvm1314.json", "MatematikNM", "NVM", 2013)
-insert("nvm1415.json", "MatematikNM", "NVM", 2014) 
+insert("nvm1415.json", "MatematikNM", "NVM", 2014)
 insert("1213.json", "TillampadberakningsvetenskapNM", "", 2012)
-insert("1314.json", "TillampadberakningsvetenskapNM", "", 2013) 
-insert("1415.json", "TillampadberakningsvetenskapNM", "", 2014) 
+insert("1314.json", "TillampadberakningsvetenskapNM", "", 2013)
+insert("1415.json", "TillampadberakningsvetenskapNM", "", 2014)
 insert("1213.json", "TillampadBioteknikNM", "", 2012)
 insert("1314.json", "TillampadBioteknikNM", "", 2013)
-insert("1415.json", "TillampadBioteknikNM", "", 2014) 
+insert("1415.json", "TillampadBioteknikNM", "", 2014)
 insert("1213.json", "BioinformationTM", "", 2012)
 insert("1314.json", "BioinformationTM", "", 2013)
 insert("1415.json", "BioinformationTM", "", 2014)
 insert("1213.json", "FornybarElgenereringTM", "", 2012)
 insert("1314.json", "FornybarElgenereringTM", "", 2013)
-insert("1415.json", "FornybarElgenereringTM", "", 2014) 
+insert("1415.json", "FornybarElgenereringTM", "", 2014)
 insert("1213.json", "InbyggdaSystemTM", "", 2012)
 insert("1314.json", "InbyggdaSystemTM", "", 2013)
-insert("1415.json", "InbyggdaSystemTM", "", 2014) 
+insert("1415.json", "InbyggdaSystemTM", "", 2014)
 insert("1213.json", "IndustriellLedningochInovationTM", "", 2012)
 insert("1314.json", "IndustriellLedningochInovationTM", "", 2013)
-insert("1415.json", "IndustriellLedningochInovationTM", "", 2014) 
+insert("1415.json", "IndustriellLedningochInovationTM", "", 2014)
 insert("1213.json", "MolekylarBioteknikTM", "", 2012)
 insert("1314.json", "MolekylarBioteknikTM", "", 2013)
-insert("1415.json", "MolekylarBioteknikTM", "", 2014) 
+insert("1415.json", "MolekylarBioteknikTM", "", 2014)
 insert("1213.json", "EnergiteknikTM", "", 2012)
 insert("1314.json", "EnergiteknikTM", "", 2013)
 insert("1415.json", "EnergiteknikTM", "", 2014)

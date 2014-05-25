@@ -13,4 +13,5 @@ class UuItem(Item):
     name = Field()
     credits = Field()
     level = Field()
-    
+    obl = Field()
+

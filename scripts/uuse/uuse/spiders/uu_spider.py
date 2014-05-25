@@ -26,12 +26,20 @@ class UuSpider(Spider):
             if code != [] and code[0] != u'\u00a0' and len(code[0]) == 6: # Is it really a course code?
                 period = period.replace(u'\u2013', "-") # unicode problems
                 periods = period.split("-")
+                is_obl = selrow.xpath('td[2]//strong//text()').extract()
+
                 row = UuItem()
                 row["period"] = period
                 row["code"] = self.empty_help(code)
                 row["name"] = self.empty_help(selrow.xpath('td[3]/p//text()').extract())
                 row["credits"] = self.empty_help(selrow.xpath('td[4]/p//text()').extract())
                 row["level"] = self.empty_help(selrow.xpath('td[5]/p//text()').extract())
+
+                if is_obl:
+                    row["obl"] = True
+                else:
+                    row["obl"] = False
+
                 data.append(row)
                 if len(periods) > 1:
                     row["period"] = periods[0]
