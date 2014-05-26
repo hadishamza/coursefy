@@ -70,16 +70,19 @@ td.highlighted {
     right: 10px;
     top: 100px;
 }
+.side-bar-wrap{
+    border: 1px solid grey;
+    width:100%;
+    margin-bottom: 10px;
+}
 .search-information{
     padding: 10px 0px 10px 10px;
-    border:2px blue solid;
     width: 100%;
     height:  auto;
     min-height: 100px;
 }
 .course-information{
     padding: 0px 0px 10px 10px;
-    border:2px green solid;
     width: 100%;
     height: auto;
     max-height: 300px;
