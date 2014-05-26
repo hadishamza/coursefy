@@ -105,6 +105,17 @@ td.highlighted {
     color: #3D453D;
     padding-left: 40px;
 }
+.search-course {
+    width:300px;
+}
+.ui-state-focus {
+    background:#dadada;
+    background-image:none !important;
+}
+.ui-autocomplete {
+    position: fixed;
+    width: 300px;
+}
 .rotated {
   transform: rotate(180deg);
   -ms-transform: rotate(180deg); /* IE 9 */
