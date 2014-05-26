@@ -116,6 +116,7 @@ td.highlighted {
     position: fixed;
     width: 300px;
 }
+strong{color:#333;}
 .rotated {
   transform: rotate(180deg);
   -ms-transform: rotate(180deg); /* IE 9 */

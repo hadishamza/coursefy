@@ -381,10 +381,10 @@ var coursefy = {
         $('.focused').removeClass("focused");
         $(this).addClass("focused");
         $(".course-information").find(".course_header").html("<a target='_blank' href=http://www.uu.se/utbildning/utbildningar/selma/kursplan/?kKod="+ course.code +">" + course.name + "</a>" );
-        $(".course-information").find(".course_hp").html("HP: "+ course.credits);
-        $(".course-information").find(".course_level").html("Nivå: " +course.level);
-        $(".course-information").find(".course_code").html("Kurskod: "+ course.code);
-        $(".course-information").find(".course_subjects").html("Huvudområde(n): "+ course.subjects);
+        $(".course-information").find(".course_hp").html("<strong>HP</strong>: "+ course.credits);
+        $(".course-information").find(".course_level").html("<strong>Nivå</strong>: " +course.level);
+        $(".course-information").find(".course_code").html("<strong>Kurskod</strong>: "+ course.code);
+        $(".course-information").find(".course_subjects").html("<strong>Huvudområde(n)</strong>: "+ course.subjects);
         $(".course-information").find(".course_requirements").html("<h4>Behörighet</h4> "+ course.requirements)
         $(".course-information").find(".course_examination").html("<h4>Examination</h4> "+ course.examination)
     },
