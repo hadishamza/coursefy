@@ -1,5 +1,6 @@
 var coursefy = {
     data: [],
+    name: "",
     uuid: null,
     parent_id: 0,
     course_data: [],
@@ -8,6 +9,7 @@ var coursefy = {
     initialize: function($studyplans) {
         var self = this;
         this.$studyplans = $studyplans;
+        $(".studyplan-name").html(this.name);
         if (!self.uuid && !self.parent_id) {
             self.manage_data(self.data);
 
@@ -444,15 +446,17 @@ var coursefy = {
         var d = [];
         var self = this;
         var post_data;
+        var name = $(".studyplan-name").html();
         var base_url = "/coursefy/default/studyplan/";
         $(".course").each(function() {
             if($(this).data("course").period)
                 d.push($(this).data("course"));
         });
-        data = d;
 
+        data = d
+        post_data = {"name": name, "user_studyplan": JSON.stringify(data)};
         if (self.uuid == null) {
-            post_data = {"parent_id": this.parent_id, "user_studyplan": JSON.stringify(data)};
+            post_data.parent_id = this.parent_id;
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -467,7 +471,7 @@ var coursefy = {
             });
         }
         else {
-            post_data = {"key": self.uuid, "user_studyplan": JSON.stringify(data)};
+            post_data.key = self.uuid;
             $.ajax({
                 type: "PUT",
                 dataType: "json",
@@ -497,8 +501,9 @@ $( document ).ready(function() {
             url: "/coursefy/api/studyplan/"+last
         })
         .done(function(data) {
-            coursefy.data = data;
-            years = coursefy.number_of_years(data);
+            coursefy.data = data.value;
+            coursefy.name = data.name;
+            years = coursefy.number_of_years(data.value);
             coursefy.table_structure(years);
             coursefy.initialize($(".studyplan"));
             return true;
@@ -515,6 +520,7 @@ $( document ).ready(function() {
         })
         .done(function(data) {
             coursefy.data = data.value;
+            coursefy.name = data.name;
             years = coursefy.number_of_years(data.value);
             coursefy.table_structure(years);
             coursefy.parent_id = last;

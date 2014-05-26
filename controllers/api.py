@@ -25,9 +25,9 @@ def user_studyplan():
             raise HTTP(404)
 
         else:
-            return {'value': json.loads(studyplan.value)}
+            return {'value': json.loads(studyplan.value), 'name': studyplan.name}
 
-    def POST(user_studyplan, parent_id):
+    def POST(user_studyplan, parent_id, name):
         if is_json(user_studyplan):
             if parent_id:
                 parent = db(db.api_studieplan.key==parent_id).select().first()
@@ -35,18 +35,18 @@ def user_studyplan():
                 parent_id = parent['key']
             else:
                 parent_id = None
-            studyplan_id = db.api_studieplan.insert(parent=parent, value=user_studyplan)
+            studyplan_id = db.api_studieplan.insert(parent=parent, value=user_studyplan, name=name)
 
             if studyplan_id:
                 return {'uuid': db.api_studieplan(studyplan_id).key}
             else:
                 raise HTTP(500)
 
-    def PUT(key, user_studyplan):
+    def PUT(key, user_studyplan, name):
         if is_json(user_studyplan):
             study = db(db.api_studieplan.key==key).select().first()
             if study:
-                study.update_record(value=user_studyplan)
+                study.update_record(value=user_studyplan, name=name)
                 return {'uuid': study.key}
 
             else:
@@ -87,8 +87,8 @@ def studyplan():
                 course['extended'] = True
 
             data.append(course)
-
-        return json.dumps(data)
+        ret = {'name': studyplan.beskrivning, 'value': data}
+        return json.dumps(ret)
     return locals()
 
 def course_help(kursplan):
