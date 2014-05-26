@@ -19,8 +19,6 @@ var coursefy = {
             if (!self.uuid && !self.parent_id){
                 self.init_studyplan_pos(self.data, index+1);
             }
-
-
             self.init_grid($(studyplan), self.course_data, index+1);
             self.populate_studyplan($(studyplan), self.course_data, index+1);
         });
@@ -46,7 +44,14 @@ var coursefy = {
     },
 
     $course: function(data) {
-        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + data["name"] + " </div></div>");
+        var name;
+        if (data.obl) {
+            name = "<strong>" + data["name"] + "</strong>";
+        }
+        else {
+            name = data["name"];
+        }
+        var $course = $("<div class='course'><div class='removeCourse'></div><div class='expandCourse'></div><div>" + data["code"] + "  " + data["level"] + " <strong>" + data["credits"] +"HP</strong> <br>" + name + " </div></div>");
 
         $course.draggable({
             snap: false,
@@ -156,14 +161,12 @@ var coursefy = {
         var num_rows = this.find_rows_num(data_year, year);
         var start_period = 1+(year*10);
         var i;
-        for (i = 0; i < num_rows; i++) {
+        for (i = 0; i <= num_rows; i++) {
             var k = 0;
             for (var period = start_period; period <= (start_period+3); period++) {
-                var extended;
                 for(var j = 0; j < data_year.length; j++) {
-                    extended = false;
                     var course = data_year[j];
-                    var course_period = parseInt(course["period"]);
+                    var course_period = course["period"];
                     if (course_period === period) {
                         data_year.splice(j, 1);
                         if (!course.position)

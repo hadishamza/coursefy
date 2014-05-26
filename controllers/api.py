@@ -81,6 +81,7 @@ def studyplan():
             kursplan = row.kurstillfalle.kursplan
             course = course_help(kursplan)
             course['period'] = row.startperiod
+            course['obl'] = row.obligatorisk
             course['extended'] = False
 
             if row.startperiod != row.slutperiod:

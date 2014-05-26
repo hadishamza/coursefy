@@ -9,7 +9,7 @@ def index():
     insert("it1415.json", "InformationsteknologiC", "IT", 2014)
     insert("e1415.json", "ElektroteknikC", "E", 2014)
     insert("ei1415.json", "ElektroteknikH", "EI", 2014)
-    insert("es1415.json", "EnergisystemC", "ES", 2014)
+    #insert("es1415.json", "EnergisystemC", "ES", 2014) aint nobody got time for that (kurs över 4 perioder)
     insert("f1415.json", "TekniskfysikC", "F", 2014)
     insert("k1415.json", "KemiteknikC", "K", 2014)
     insert("mi1415.json", "MaskinteknikH", "MI", 2014)
@@ -38,6 +38,7 @@ def insert(filnamn, prognamn, progkort, ar):
             period = row["period"]
             namn = row["name"]
             poang = row["credits"]
+            obl = row["obl"]
             iterator = 0
             if poang != None:
                 for c in poang:
@@ -48,7 +49,7 @@ def insert(filnamn, prognamn, progkort, ar):
             # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror
             if len(period) > 2:
                 period = 0
-            existList = existerarKurs(kurskod, progkort, period)
+            existList = existerarKurs(id_studieplan, kurskod, progkort, period)
 
             # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
             if (existList[0] != True or existList[1] != True):
@@ -68,9 +69,9 @@ def insert(filnamn, prognamn, progkort, ar):
                     attributList[1] = poang
                 elif attributList[2] == "":
                     attributList[2] = niva
-                else:
-                    behorighet = attributList[6]
-                    examination = attributList[7]
+                if (len(attributList) > 6):
+                        behorighet = attributList[6]
+                        examination = attributList[7]
 
                 id_niva = db.niva.insert(namn = attributList[2])
                 id_kursplan = db.kursplan.insert(
@@ -85,6 +86,7 @@ def insert(filnamn, prognamn, progkort, ar):
 
                 db.kurstillfalle_studieplan.insert(
                     studieplan = id_studieplan,
+                    obligatorisk = obl,
                     kurstillfalle = id_kurstillfalle,
                     startperiod = period,
                     slutperiod = period)
@@ -114,7 +116,7 @@ def laggTillAmne(id_kursplan, amne, fordjukod):
     db.omradesklassningar.insert(kursplan = id_kursplan, omradesklassning = id_omradesklassning, djup = id_djup)
 
 
-def existerarKurs(kurskod, progkort, period):
+def existerarKurs(id_studieplan, kurskod, progkort, period):
     existerar_kurs = False
     existerar_studie = False
     tillf_id_kursplan = ""
@@ -125,26 +127,20 @@ def existerarKurs(kurskod, progkort, period):
         existerar_kurs = True
         tillf_id_kursplan = row.id
         for row in db(db.kurstillfalle.kursplan == tillf_id_kursplan).select():
-            tillf_id_kurstillfalle = row.id
-            for row in db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select():
-                tillf_studieplan = row.studieplan
-                for row in db(db.studieplan.id == tillf_studieplan).select():
-                    tillf_namn = row.namn
-                    if tillf_namn == progkort:
+            kurstillfalle_id = row.id
+            for row in db((db.kurstillfalle_studieplan.kurstillfalle == kurstillfalle_id) & (db.kurstillfalle_studieplan.studieplan == id_studieplan)).select():
 
-                        # Sätter om slutperioden för den existerande kurskoden (kursen)
-                        kurstillfalle = db(db.kurstillfalle_studieplan.kurstillfalle == tillf_id_kurstillfalle).select().first()
-                        str_start_period = str(kurstillfalle.startperiod)
-                        str_slut_period = str(period)
-                        # Är vi i samma år? (MDI it)
-                        if str_start_period[0] == str_slut_period[0]:
-                            existerar_studie = True
-                            kurstillfalle.update_record(slutperiod = period)
-                        else:
-                            existerar_studie = False
-                break
-            break
-        break
+            # Sätter om slutperioden för den existerande kurskoden (kursen)
+                str_start_period = str(row.startperiod)
+                str_slut_period = str(period)
+                # Är vi i samma år? (MDI it)
+                if str_start_period[0] == str_slut_period[0]:
+                    existerar_studie = True
+                    row.update_record(slutperiod = period)
+                    break # just one
+                else:
+                    existerar_studie = False
+
     existList = [existerar_kurs, existerar_studie, tillf_id_kursplan]
     return existList
 
