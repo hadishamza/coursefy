@@ -21,7 +21,6 @@ def user_studyplan():
     response.view = 'generic.json'
     def GET(id):
         studyplan = db(db.api_studieplan.key==id).select().first()
-        print studyplan
         if not studyplan:
             raise HTTP(404)
 
@@ -94,13 +93,13 @@ def studyplan():
 
 def course_help(kursplan):
     course = {}
-    course['credits'] = kursplan.poang
-    course['level'] = kursplan.niva.namn
+    course['credits'] = kursplan.poang or ""
+    course['level'] = kursplan.niva.namn or ""
     course['code'] = kursplan.kurskod
     course['extended'] = False
     course['name'] = kursplan.namn
-    course['examination'] = kursplan.examination
-    course['requirements'] = kursplan.behorighet
+    course['examination'] = kursplan.examination or ""
+    course['requirements'] = kursplan.behorighet or ""
     return course
 
 def is_json(myjson):
