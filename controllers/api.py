@@ -97,9 +97,20 @@ def course_help(kursplan):
     course['level'] = kursplan.niva.namn or ""
     course['code'] = kursplan.kurskod
     course['extended'] = False
+    course['subjects'] = ""
     course['name'] = kursplan.namn
     course['examination'] = kursplan.examination or ""
     course['requirements'] = kursplan.behorighet or ""
+    kursplan_id = kursplan.id
+    first = True
+    for row in db(db.omradesklassningar.kursplan == kursplan_id).select():
+        if not first:
+            course['subjects'] += ", "
+        else:
+            first = False
+        course['subjects'] += row.omradesklassning.namn
+
+
     return course
 
 def is_json(myjson):
