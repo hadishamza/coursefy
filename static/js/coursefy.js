@@ -15,18 +15,15 @@ var coursefy = {
         else {
             self.course_data = self.data;
         }
-        console.log(self.data.length);
-        console.log(self.course_data.length);
         $studyplans.each(function(index, studyplan) {
             if (!self.uuid && !self.parent_id){
                 self.init_studyplan_pos(self.data, index+1);
             }
-
-            self.init_grid($(studyplan), self.course_data, index+1)
+            self.init_grid($(studyplan), self.course_data, index+1);
             self.populate_studyplan($(studyplan), self.course_data, index+1);
         });
-        self.course_data = null
-        self.data = null
+        self.course_data = null;
+        self.data = null;
     },
 
     /***** DRAW METHODS BEGIN *****/
@@ -58,13 +55,16 @@ var coursefy = {
 
         $course.draggable({
             snap: false,
+            //cursorAt: {top: 25, left: 25},
             cursor: "move",
             revert: "invalid"
         }).on("dragstop", this.event_dragstop).on("dragstart", this.event_dragstart).on("click", this.event_click);
+        $course.on("mouseover", coursefy.mouseover_event)
+        .on("mouseleave", coursefy.mouseleave_event);
         $course.find(".removeCourse").on("click", this.event_remove);
         $course.find(".expandCourse").on("click", this.event_expand);
         $course.data("course", data);
-        $course.addClass(this.course_class(data.code));
+        $course.css("background-color",this.course_class(data.level));
         return $course;
     },
 
@@ -90,30 +90,63 @@ var coursefy = {
         }
     },
 
-    course_class: function (course_code) {
+    course_class: function (course_level) {
         var type_class;
-        switch(course_code.substring(1,3)) {
-            case "MS":
-            case "MA":
-                type_class = "math";
+        switch(course_level) {
+            case "G1N":
+                type_class = "#d0ebff";
                 break;
-            case "FE":
-                type_class = "fe";
+            case "G1F":
+                type_class = "#92d2ff";
+                break;
+            case "G2F":
+                type_class = "#5aabe5";
+                break;
+            case "G2E":
+                type_class = "#4685b2";
+                break;
+
+            case "A1N":
+                type_class = "#b7f3cc";
+                break;
+            case "A1F":
+                type_class = "#8cecad";
+                break;
+            case "A2F":
+                type_class = "#70e899";
+                break;
+            case "A2E":
+                type_class = "#59b97a";
                 break;
             default:
-                type_class = "tech";
+                type_class = "#FF9E8E";
                 break;
         }
 
         return type_class;
     },
+
+    table_structure: function (years){
+        for(var i = 1; i <= years; i++){
+            $(".main-table").append("<h2>År "+ i +"</h2>");
+            $tableElem = $("<table data-year=" + i +" class='studyplan table table-bordered'>");
+            $(".main-table").append($tableElem);
+            $theadElem = $("<thead>");
+            $tableElem.append($theadElem);
+            $theadTrElem = $("<tr>");
+            $theadElem.append($theadTrElem);
+            $thElem = $("<th>Period 1</th><th>Period 2</th><th>Period 3</th><th>Period 4</th>")
+            $theadTrElem.append($thElem);
+            $tableElem.append("<tbody>");
+        }
+    },
+
     /***** DRAW METHODS END *****/
 
     year_data: function (data, year){
         var data_year = [];
         data.forEach(function (course) {
             if (course["period"] == 0) {
-                console.log(course);
             }
             var course_year = parseInt(String(course["period"]).substring(0,1));
             if (course_year === year) {
@@ -172,7 +205,7 @@ var coursefy = {
                         $course.addClass("extend");
                     }
                 }
-            })
+            });
         });
     },
 
@@ -192,8 +225,18 @@ var coursefy = {
             if (course.position.y > max) {
                 max = course.position.y;
             }
-        })
+        });
         return max + 1;
+    },
+
+    number_of_years: function (data) {
+        var max = 0;
+        data.forEach(function (course) {
+            year = Math.floor(course.period/10);
+            if (year > max)
+                max = year;
+        });
+        return max;
     },
 
     /***** TABLE HELPERS BEGIN *****/
@@ -339,8 +382,8 @@ var coursefy = {
         $(".course-information").find(".course_hp").html("HP: "+ course.credits);
         $(".course-information").find(".course_level").html("Nivå: " +course.level);
         $(".course-information").find(".course_code").html("Kurskod: "+ course.code);
-        $(".course-information").find(".course_requirements").html("Behörighet: "+ course.requirements)
-        $(".course-information").find(".course_examination").html("Examination: "+ course.examination)
+        $(".course-information").find(".course_requirements").html("<h4>Behörighet</h4> "+ course.requirements)
+        $(".course-information").find(".course_examination").html("<h4>Examination</h4> "+ course.examination)
     },
 
     event_remove: function (){
@@ -378,6 +421,16 @@ var coursefy = {
         }
     },
 
+    mouseover_event: function(){
+        $(this).find(".removeCourse").css("visibility", "visible");
+        $(this).find(".expandCourse").css("visibility", "visible");
+    },
+
+    mouseleave_event: function(){
+        $(this).find(".removeCourse").css("visibility", "hidden");
+        $(this).find(".expandCourse").css("visibility", "hidden");
+    },
+
     /***** EVENTS END *****/
     drop_help: function (target, extended, free) {
         target.data("free", free);
@@ -394,14 +447,11 @@ var coursefy = {
         $(".course").each(function() {
             if($(this).data("course").period)
                 d.push($(this).data("course"));
-            else
-                console.log($(this).data("course"));
         });
-        console.log("data_synced: " + d.length);
         data = d;
 
         if (self.uuid == null) {
-            post_data = {"parent_id": this.parent_id, "user_studyplan": JSON.stringify(data)}
+            post_data = {"parent_id": this.parent_id, "user_studyplan": JSON.stringify(data)};
             $.ajax({
                 type: "POST",
                 dataType: "json",
@@ -411,14 +461,12 @@ var coursefy = {
             .done(function(data) {
                 self.uuid = data.uuid;
                 window.history.pushState(null, null, base_url+self.uuid);
-                console.log("successfull POST");
             })
             .fail(function() {
-                console.log("damn homie not saved");
             });
         }
         else {
-            post_data = {"key": self.uuid, "user_studyplan": JSON.stringify(data)}
+            post_data = {"key": self.uuid, "user_studyplan": JSON.stringify(data)};
             $.ajax({
                 type: "PUT",
                 dataType: "json",
@@ -426,10 +474,8 @@ var coursefy = {
                 url: "/coursefy/api/user_studyplan/"
             })
             .done(function(data) {
-                console.log("successfull PUT");
             })
             .fail(function() {
-                console.log("damn homie not PUT:ed");
             });
         }
     }
@@ -437,12 +483,11 @@ var coursefy = {
 
 
 $( document ).ready(function() {
-
     /** Hood router BEGIN **/
     var URL = window.location.pathname.split("/");
     var last = URL[URL.length-1];
     var second_last = URL[URL.length-2];
-    var original_data = [];
+    var years = 0;
 
     if (second_last == "new") {
         $.ajax({
@@ -452,6 +497,8 @@ $( document ).ready(function() {
         })
         .done(function(data) {
             coursefy.data = data;
+            years = coursefy.number_of_years(data);
+            coursefy.table_structure(years);
             coursefy.initialize($(".studyplan"));
             return true;
         })
@@ -467,6 +514,8 @@ $( document ).ready(function() {
         })
         .done(function(data) {
             coursefy.data = data.value;
+            years = coursefy.number_of_years(data.value);
+            coursefy.table_structure(years);
             coursefy.parent_id = last;
             coursefy.initialize($(".studyplan"));
             return true;
@@ -484,6 +533,9 @@ $( document ).ready(function() {
         $(this).next().toggle();
         $(this).children("img").toggleClass("rotated");
     });
+    $(".course")
+    .on("mouseover", coursefy.mouseover_event)
+    .on("mouseleave", coursefy.mouseleave_event);
 
     $( ".search-course" ).autocomplete({
         minLength: 3,
@@ -509,5 +561,4 @@ $( document ).ready(function() {
             coursefy.spawnCourse(ui.item.data);
         }
     });
-
 });

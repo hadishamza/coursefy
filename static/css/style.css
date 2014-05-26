@@ -5,7 +5,7 @@
 
 td {
     width: 25%;
-    height: 50px;
+    height: 75px;
     padding:0px !important;
     font-family: Helvetica, Arial, Sans-serif;
     font-size: 14px;
@@ -42,6 +42,7 @@ td.highlighted {
 }
 .removeCourse{
     background-image: url('../images/cross-24.png');
+    visibility: hidden;
     background-size:12px 12px;
     background-position:center;
     background-repeat:no-repeat;
@@ -54,6 +55,7 @@ td.highlighted {
 
 .expandCourse{
     background-image: url('../images/arrow.png');
+    visibility: hidden;
     background-size:12px 12px;
     background-position:center;
     background-repeat:no-repeat;
@@ -68,25 +70,23 @@ td.highlighted {
     right: 10px;
     top: 100px;
 }
+.side-bar-wrap{
+    border: 1px solid grey;
+    width:100%;
+    margin-bottom: 10px;
+}
 .search-information{
     padding: 10px 0px 10px 10px;
-    border:2px blue solid;
     width: 100%;
     height:  auto;
     min-height: 100px;
 }
 .course-information{
     padding: 0px 0px 10px 10px;
-    border:2px green solid;
     width: 100%;
     height: auto;
-    min-height: 100px;
-}
-.warning-information{
-    padding: 10px 0px 10px 10px;
-    border:2px red solid;
-    width: 100%;
-    height:  auto;
+    max-height: 300px;
+    overflow: scroll;
     min-height: 100px;
 }
 .course-search{
@@ -95,8 +95,9 @@ td.highlighted {
 .course-data{
     background-color: #70E899;
 }
-.course-warning{
-    background-color: #E33636;
+#spawnCourse{
+    padding-top: 10px;
+    padding-right: 10px;
 }
 .banner{
     cursor: pointer;
