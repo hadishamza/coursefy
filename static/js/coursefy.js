@@ -382,6 +382,7 @@ var coursefy = {
         $(".course-information").find(".course_hp").html("HP: "+ course.credits);
         $(".course-information").find(".course_level").html("Nivå: " +course.level);
         $(".course-information").find(".course_code").html("Kurskod: "+ course.code);
+        $(".course-information").find(".course_subjects").html("Huvudområde(n): "+ course.subjects);
         $(".course-information").find(".course_requirements").html("<h4>Behörighet</h4> "+ course.requirements)
         $(".course-information").find(".course_examination").html("<h4>Examination</h4> "+ course.examination)
     },
