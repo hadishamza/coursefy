@@ -9,7 +9,7 @@ def index():
     insert("it1415.json", "Civilingenjörsprogrammet i Informationsteknologi 2014/2015", "IT", 2014)
     insert("e1415.json", "Civilingenjörsprogrammet i Elektroteknik 2014/2015", "E", 2014)
     insert("ei1415.json", "Högskoleingenjörsprogrammet i Elektroteknik 2014/2015", "EI", 2014)
-    #insert("es1415.json", "Civilingenjörsprogrammet i EnergisystemC", "ES", 2014) aint nobody got time for that (kurs över 4 perioder)
+    #insert("es1415.json", "Civilingenjörsprogrammet i EnergisystemC", "ES", 2014) #aint nobody got time for that (kurs över 4 perioder)
     insert("f1415.json", "Civilingenjörsprogrammet i Teknisk fysik 2014/2015", "F", 2014)
     insert("k1415.json", "Civilingenjörsprogrammet i Kemiteknik 2014/2015", "K", 2014)
     insert("mi1415.json", "Högskoleingenjörsprogrammet i Maskinteknik 2014/2015", "MI", 2014)
@@ -46,7 +46,7 @@ def insert(filnamn, prognamn, progkort, ar):
                     if c == ")":
                         poang = poang[iterator:]
             niva = row["level"]
-            # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror
+            # om "period" är längre än 2 antar jag att elementet innehåller chars eller för många siffror, alltså ignoreras den tills vidare
             if len(period) > 2:
                 period = 0
             existList = existerarKurs(id_studieplan, kurskod, progkort, period)
@@ -83,7 +83,7 @@ def insert(filnamn, prognamn, progkort, ar):
                     examination = examination)
                 id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
                 db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-
+                
                 db.kurstillfalle_studieplan.insert(
                     studieplan = id_studieplan,
                     obligatorisk = obl,
