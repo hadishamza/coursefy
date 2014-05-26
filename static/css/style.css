@@ -2,7 +2,19 @@
   padding-right: 15px;
   padding-left: 15px;
 }
-
+.legend {
+    position: fixed;
+}
+.legend-item {
+    height: 25px;
+    width: 25px;
+    display: inline-block
+}
+.legend-text {
+    display:inline-block;
+    position: relative;
+    bottom: 5px;
+}
 td {
     width: 25%;
     height: 75px;

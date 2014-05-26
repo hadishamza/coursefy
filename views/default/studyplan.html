@@ -5,10 +5,22 @@
 </script>
 <script src="{{=URL('static', 'js/coursefy.js')}}" type="text/javascript"></script>
 <div class="row">
-    <div class="col-md-1"></div>
+    <div class="container col-md-1">
+        <ul class="legend">
+            <li class="legend-item" style="background-color: #d0ebff;"></li> <p class="legend-text">G1N</p><br />
+            <li class="legend-item" style="background-color: #92d2ff;"></li> <p class="legend-text">G1F</p><br />
+            <li class="legend-item" style="background-color: #5aabe5;"></li> <p class="legend-text">G2F</p><br />
+            <li class="legend-item" style="background-color: #4685b2;"></li> <p class="legend-text">G2E</p><br />
+            <li class="legend-item" style="background-color: #b7f3cc;"></li> <p class="legend-text">A1N</p><br />
+            <li class="legend-item" style="background-color: #8cecad;"></li> <p class="legend-text">A1F</p><br />
+            <li class="legend-item" style="background-color: #70e899;"></li> <p class="legend-text">A2F</p><br />
+            <li class="legend-item" style="background-color: #59b97a;"></li> <p class="legend-text">A2E</p><br />
+            <strong title="Obligatoriska kurser är markerade med fetstil" style="cursor: help; border-bottom: 1px dashed #000;">
+                Obl. kurs</strong>
+        </ul>
+    </div>
     <div class="container col-md-8">
         <h1 class="studyplan-name"></h1>
-        <a href="/coursefy/default/studyplan/new/1">Reset</a>
         <div class="table-responsive main-table">
         </div>
     </div>
