@@ -50,9 +50,9 @@ def insert(filnamn, prognamn, progkort, ar):
             if len(period) > 2:
                 period = 0
             existList = existerarKurs(id_studieplan, kurskod, progkort, period)
-
+            id_kursplan = 0
             # if-sats om det inte redan finns ett table för samma kurskod (kurs). Då går vi in och hämta all info om kursen i Selma
-            if (existList[0] != True or existList[1] != True):
+            if (existList[0] != True):
                 attributList = getinfoSelma(kurskod)
                 behorighet = None
                 examination = None
@@ -81,23 +81,29 @@ def insert(filnamn, prognamn, progkort, ar):
                     niva = id_niva,
                     behorighet = behorighet,
                     examination = examination)
-                id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
-                db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
-                
-                db.kurstillfalle_studieplan.insert(
-                    studieplan = id_studieplan,
-                    obligatorisk = obl,
-                    kurstillfalle = id_kurstillfalle,
-                    startperiod = period,
-                    slutperiod = period)
                 laggTillAmne(id_kursplan, attributList[3], attributList[2])
                 if(attributList[5] != ""):
                     laggTillAmne(id_kursplan, attributList[5], attributList[4])
+
             else:
                 for row in db(db.kursplan.id == existList[2]).select():
                     if row.poang == None:
                         row.update_record(poang = poang)
                     break
+
+
+            if id_kursplan == 0:
+                id_kursplan = existList[2]
+            if existList[1] != True:
+                    id_kurstillfalle = db.kurstillfalle.insert(kursplan = id_kursplan)
+                    db.perioder.insert(kurstillfalle = id_kurstillfalle, period = period)
+
+                    db.kurstillfalle_studieplan.insert(
+                        studieplan = id_studieplan,
+                        obligatorisk = obl,
+                        kurstillfalle = id_kurstillfalle,
+                        startperiod = period,
+                        slutperiod = period)
 
 
 def laggTillAmne(id_kursplan, amne, fordjukod):
