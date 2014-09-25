@@ -550,7 +550,7 @@ $( document ).ready(function() {
             $.ajax({
                 type: "GET",
                 dataType: "json",
-                url: "http://127.0.0.1:8000/coursefy/api/courses/"+request.term
+                url: "/coursefy/api/courses/"+request.term
             })
             .done(function(data){
                 response($.map(data, function(item) {

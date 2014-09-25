@@ -12,7 +12,7 @@
                 $.ajax({
                     type: "GET",
                     dataType: "json",
-                    url: "http://127.0.0.1:8000/coursefy/api/studyplan_search/"+request.term,
+                    url: "/coursefy/api/studyplan_search/"+request.term,
                     success: function(data){
                         console.log("success");
                         response($.map(data, function(item) {
